@@ -317,5 +317,37 @@ main {
   }
 }
 
+/* ===== True Focus section ===== */
+.true-focus-section {
+  position: relative;
+  width: 100%;
+  background: var(--color-black);
+  padding: clamp(4rem, 10vw, 8rem) 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid rgba(0, 240, 255, 0.1);
+}
+
+.true-focus-section .focus-word {
+  color: var(--color-white);
+}
+
+.true-focus-section .focus-word.manual {
+  color: var(--color-white);
+}
+
+@media (max-width: 768px) {
+  .true-focus-section .focus-word {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .true-focus-section .focus-word {
+    font-size: 1.5rem;
+  }
+}
+
 
 

@@ -3,6 +3,7 @@ import ScrollVelocity from './components/ScrollVelocity/ScrollVelocity.jsx'
 import ScrollReveal from './components/ScrollReveal/ScrollReveal.jsx'
 import ScrollStack, { ScrollStackItem } from './components/ScrollStack/ScrollStack.jsx'
 import LogoLoop from './components/LogoLoop/LogoLoop.jsx'
+import TrueFocus from './components/TrueFocus/TrueFocus.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import './App.css'
 
@@ -239,6 +240,14 @@ function App() {
               </div>
             </div>
           </div>
+        </section>
+
+        <section className="true-focus-section" aria-label="True Focus">
+          <TrueFocus
+            sentence="True Focus"
+            manualMode={true}
+            borderColor="#00f0ff"
+          />
         </section>
       </main>
     </div>
