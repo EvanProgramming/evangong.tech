@@ -10,20 +10,21 @@ import './FlyingPostersSection.css';
  * window.__lenis) to pause page scrolling while the section is pinned.
  * While paused, wheel events drive the posters instead of the page.
  * Once all posters have been viewed (one full loop of the stack), we
- * resume Lenis and actively scroll past the section so the user can
- * continue. Scrolling back up re-pauses and rewinds the posters.
+ * force-scroll past the section with lenis.scrollTo({ force: true }) so
+ * the page resumes even if Lenis's wheel handling is still stopped.
  */
 export default function FlyingPostersSection({ items, ...props }) {
   const sectionRef = useRef(null);
   const postersRef = useRef(null);
   const lenisStoppedRef = useRef(false);
-  const viewedCompleteRef = useRef(false);
+  const scrollingOutRef = useRef(false);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
     const getInstance = () => postersRef.current?.getInstance?.();
+    const getLenis = () => (typeof window !== 'undefined' ? window.__lenis : null);
     const getMaxScroll = () => {
       const inst = getInstance();
       if (!inst || !inst.medias || !inst.medias[0]) return 0;
@@ -32,7 +33,7 @@ export default function FlyingPostersSection({ items, ...props }) {
 
     const stopLenis = () => {
       if (lenisStoppedRef.current) return;
-      const lenis = typeof window !== 'undefined' ? window.__lenis : null;
+      const lenis = getLenis();
       if (lenis && typeof lenis.stop === 'function') {
         lenis.stop();
         lenisStoppedRef.current = true;
@@ -40,22 +41,58 @@ export default function FlyingPostersSection({ items, ...props }) {
     };
     const startLenis = () => {
       if (!lenisStoppedRef.current) return;
-      const lenis = typeof window !== 'undefined' ? window.__lenis : null;
+      const lenis = getLenis();
       if (lenis && typeof lenis.start === 'function') {
         lenis.start();
         lenisStoppedRef.current = false;
       }
     };
 
+    const leavePinZoneDown = () => {
+      if (scrollingOutRef.current) return;
+      scrollingOutRef.current = true;
+      startLenis();
+      const lenis = getLenis();
+      const target = section.offsetTop + section.offsetHeight - window.innerHeight + 10;
+      if (lenis && typeof lenis.scrollTo === 'function') {
+        lenis.scrollTo(target, {
+          duration: 1,
+          force: true,
+          onComplete: () => { scrollingOutRef.current = false; }
+        });
+      } else {
+        window.scrollTo(0, target);
+        scrollingOutRef.current = false;
+      }
+    };
+    const leavePinZoneUp = () => {
+      if (scrollingOutRef.current) return;
+      scrollingOutRef.current = true;
+      startLenis();
+      const lenis = getLenis();
+      const target = Math.max(0, section.offsetTop - window.innerHeight - 10);
+      if (lenis && typeof lenis.scrollTo === 'function') {
+        lenis.scrollTo(target, {
+          duration: 1,
+          force: true,
+          onComplete: () => { scrollingOutRef.current = false; }
+        });
+      } else {
+        window.scrollTo(0, target);
+        scrollingOutRef.current = false;
+      }
+    };
+
     const onWheel = e => {
+      // If we're already animating out of the pin zone, let Lenis handle it.
+      if (scrollingOutRef.current) return;
+
       const rect = section.getBoundingClientRect();
       const vh = window.innerHeight;
       const inPinZone = rect.top <= 0 && rect.bottom > vh;
 
       if (!inPinZone) {
-        // Outside the pin zone: free the page scroll and reset state.
         startLenis();
-        viewedCompleteRef.current = false;
         return;
       }
 
@@ -66,40 +103,26 @@ export default function FlyingPostersSection({ items, ...props }) {
       const current = Math.abs(inst.scroll.current);
 
       if (e.deltaY > 0) {
-        // Scrolling down
-        if (viewedCompleteRef.current) {
-          // Already viewed all posters: let Lenis keep scrolling down.
-          return;
-        }
         if (current < max) {
           stopLenis();
           e.preventDefault();
           inst.onWheel(e);
           if (inst.scroll.target < -max) inst.scroll.target = -max;
         } else {
-          // Just finished viewing: resume Lenis and actively scroll
-          // past the section so the page doesn't get stuck.
-          viewedCompleteRef.current = true;
-          startLenis();
-          const lenis = typeof window !== 'undefined' ? window.__lenis : null;
-          if (lenis) {
-            const target = section.offsetTop + section.offsetHeight - vh + 10;
-            lenis.scrollTo(target, { duration: 1 });
-          }
+          // Viewed all posters: force-scroll past the section.
+          e.preventDefault();
+          leavePinZoneDown();
         }
       } else if (e.deltaY < 0) {
-        // Scrolling up
         if (current > 0.5) {
-          // Still posters to rewind: pause and hijack the wheel.
-          viewedCompleteRef.current = false;
           stopLenis();
           e.preventDefault();
           inst.onWheel(e);
           if (inst.scroll.target > 0) inst.scroll.target = 0;
         } else {
-          // Back at the top: resume Lenis so the page can scroll up.
-          viewedCompleteRef.current = false;
-          startLenis();
+          // Back at the top: force-scroll up out of the section.
+          e.preventDefault();
+          leavePinZoneUp();
         }
       }
     };
