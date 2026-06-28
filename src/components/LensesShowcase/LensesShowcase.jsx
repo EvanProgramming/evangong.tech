@@ -3,6 +3,8 @@ import BorderGlow from '../BorderGlow/BorderGlow.jsx';
 import FluidGlass from '../FluidGlass/FluidGlass.jsx';
 import ErrorBoundary from '../ErrorBoundary.jsx';
 
+import lensesPhoto from '/Photography/Chaoshan/BF32147D-89AC-46F1-BF67-C14D84E88B48_1_105_c.jpeg';
+
 import './LensesShowcase.css';
 
 export default function LensesShowcase() {
@@ -32,7 +34,7 @@ export default function LensesShowcase() {
         >
           <div className="lenses-fluid-inner">
             <ErrorBoundary>
-              <FluidGlass mode="lens" />
+              <FluidGlass mode="lens" image={lensesPhoto} />
             </ErrorBoundary>
           </div>
         </BorderGlow>
