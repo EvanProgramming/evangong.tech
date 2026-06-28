@@ -1,8 +1,7 @@
-import { useEffect } from 'react'
-import Lenis from 'lenis'
 import Hero from './components/Hero/Hero.jsx'
 import ScrollVelocity from './components/ScrollVelocity/ScrollVelocity.jsx'
 import ScrollReveal from './components/ScrollReveal/ScrollReveal.jsx'
+import ScrollStack, { ScrollStackItem } from './components/ScrollStack/ScrollStack.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import './App.css'
 
@@ -43,17 +42,6 @@ const menuItems = [
 ]
 
 function App() {
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    })
-    function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
-    requestAnimationFrame(raf)
-    return () => { lenis.destroy() }
-  }, [])
-
   return (
     <div className="app">
       <StaggeredMenu
@@ -97,6 +85,67 @@ function App() {
               {revealChildren}
             </ScrollReveal>
           </div>
+        </section>
+
+        <section className="scroll-stack-section" aria-label="Current projects">
+          <ScrollStack
+            useWindowScroll={true}
+            itemDistance={80}
+            itemScale={0.03}
+            itemStackDistance={30}
+            baseScale={0.85}
+            blurAmount={0}
+            className="scroll-stack-section__scroller"
+          >
+            <ScrollStackItem>
+              <div className="project-card">
+                <span className="project-card__index">01</span>
+                <div className="project-card__body">
+                  <h3 className="project-card__title">OpenKyrozen</h3>
+                  <p className="project-card__desc">A self-learning AI Agent that adapts and grows through autonomous exploration.</p>
+                </div>
+                <span className="project-card__tag">AI</span>
+              </div>
+            </ScrollStackItem>
+            <ScrollStackItem>
+              <div className="project-card">
+                <span className="project-card__index">02</span>
+                <div className="project-card__body">
+                  <h3 className="project-card__title">Sona</h3>
+                  <p className="project-card__desc">A Siri-like comprehensive personal assistant for your computer.</p>
+                </div>
+                <span className="project-card__tag">Assistant</span>
+              </div>
+            </ScrollStackItem>
+            <ScrollStackItem>
+              <div className="project-card">
+                <span className="project-card__index">03</span>
+                <div className="project-card__body">
+                  <h3 className="project-card__title">Anti-Fire Drone System</h3>
+                  <p className="project-card__desc">An autonomous fire-extinguishing drone system for rapid response.</p>
+                </div>
+                <span className="project-card__tag">Robotics</span>
+              </div>
+            </ScrollStackItem>
+            <ScrollStackItem>
+              <div className="project-card">
+                <span className="project-card__index">04</span>
+                <div className="project-card__body">
+                  <h3 className="project-card__title">Campus Studio</h3>
+                  <p className="project-card__desc">A work assignment platform for school photography studios.</p>
+                </div>
+                <span className="project-card__tag">Web</span>
+              </div>
+            </ScrollStackItem>
+            <ScrollStackItem itemClassName="project-card--cta">
+              <div className="project-card project-card--cta-inner">
+                <div className="project-card__body project-card__body--center">
+                  <h3 className="project-card__title project-card__title--cta">Open To Collaborate!</h3>
+                  <p className="project-card__desc">Have an idea? Let&apos;s build something tangible together.</p>
+                </div>
+              </div>
+            </ScrollStackItem>
+          </ScrollStack>
         </section>
       </main>
     </div>
