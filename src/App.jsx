@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
 import Hero from './components/Hero/Hero.jsx'
+import ScrollVelocity from './components/ScrollVelocity/ScrollVelocity.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import './App.css'
 
@@ -41,6 +42,23 @@ function App() {
       />
       <main>
         <Hero />
+        <section className="scroll-velocity-section" aria-label="Interests marquee">
+          <ScrollVelocity
+            texts={[
+              'Table Tennis',
+              'Programming',
+              'AI',
+              '3D Printing',
+              'Robot',
+              'Photography',
+            ]}
+            velocity={100}
+            className="scroll-velocity-text"
+            damping={50}
+            stiffness={400}
+            numCopies={6}
+          />
+        </section>
       </main>
     </div>
   )
