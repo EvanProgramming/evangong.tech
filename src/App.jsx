@@ -63,7 +63,7 @@ const programmingLogos = [
 const photographyLogos = [
   { src: si('sony'), alt: 'Sony', title: 'Sony', href: 'https://www.sony.com' },
   { src: si('nikon'), alt: 'Nikon', title: 'Nikon', href: 'https://www.nikon.com' },
-  { src: si('canon'), alt: 'Canon', title: 'Canon', href: 'https://www.canon.com' },
+  { node: txt('Canon'), title: 'Canon', href: 'https://www.canon.com' },
   { node: txt('Tamron'), title: 'Tamron', href: 'https://www.tamron.com' },
   { node: txt('Hasselblad'), title: 'Hasselblad', href: 'https://www.hasselblad.com' },
 ]
@@ -71,7 +71,7 @@ const photographyLogos = [
 const aiLogos = [
   { src: si('anthropic'), alt: 'Claude', title: 'Claude', href: 'https://claude.ai' },
   { node: txt('Openclaw'), title: 'Openclaw', href: '#' },
-  { src: si('openai'), alt: 'ChatGPT', title: 'ChatGPT', href: 'https://chat.openai.com' },
+  { node: txt('ChatGPT'), title: 'ChatGPT', href: 'https://chat.openai.com' },
   { src: si('googlegemini'), alt: 'Gemini', title: 'Gemini', href: 'https://gemini.google.com' },
   { node: txt('Grok'), title: 'Grok', href: 'https://x.ai' },
   { node: txt('Trae'), title: 'Trae', href: 'https://www.trae.ai' },
@@ -213,7 +213,7 @@ function App() {
                   direction="right"
                   logoHeight={36}
                   gap={48}
-                  hoverSpeed={20}
+                  hoverSpeed={-20}
                   scaleOnHover
                   fadeOut
                   fadeOutColor="#000000"
