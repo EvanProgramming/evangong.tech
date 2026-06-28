@@ -20,17 +20,8 @@ main {
 }
 
 .scroll-velocity-text {
-  color: var(--color-white);
   text-transform: uppercase;
   margin: 0 0.75rem;
-  background: linear-gradient(
-    180deg,
-    var(--color-cyan) 0%,
-    var(--color-white) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 2px 12px rgba(0, 240, 255, 0.15));
 }
 
