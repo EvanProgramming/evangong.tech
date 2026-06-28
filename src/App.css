@@ -110,7 +110,7 @@ main {
 }
 
 .scroll-stack-section .scroll-stack-inner {
-  padding: 10vh clamp(1.5rem, 5vw, 5rem) 60vh;
+  padding: 10vh clamp(1.5rem, 5vw, 5rem) 20vh;
   min-height: auto;
   max-width: 1200px;
   margin: 0 auto;
@@ -209,7 +209,7 @@ main {
 
 @media (max-width: 768px) {
   .scroll-stack-section .scroll-stack-inner {
-    padding: 6vh 1.25rem 50vh;
+    padding: 6vh 1.25rem 20vh;
   }
   .scroll-stack-section .scroll-stack-card {
     min-height: 18rem;
@@ -249,7 +249,7 @@ main {
   position: relative;
   width: 100%;
   background: var(--color-black);
-  padding: clamp(4rem, 10vw, 8rem) 0;
+  padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(4rem, 10vw, 8rem);
   border-top: 1px solid rgba(0, 240, 255, 0.1);
 }
 
