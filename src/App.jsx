@@ -45,12 +45,8 @@ function App() {
         <section className="scroll-velocity-section" aria-label="Interests marquee">
           <ScrollVelocity
             texts={[
-              'Table Tennis',
-              'Programming',
-              'AI',
-              '3D Printing',
-              'Robot',
-              'Photography',
+              <span style={{ color: 'var(--color-white)' }}>Table Tennis &nbsp;•&nbsp; Programming &nbsp;•&nbsp; AI</span>,
+              <span style={{ color: '#00f0ff' }}>3D Printing &nbsp;•&nbsp; Robot &nbsp;•&nbsp; Photography</span>,
             ]}
             velocity={100}
             className="scroll-velocity-text"
