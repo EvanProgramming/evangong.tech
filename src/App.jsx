@@ -258,15 +258,9 @@ function App() {
         </section>
 
         <ErrorBoundary>
-          <FlyingPosters
-            items={posterImages}
-            planeWidth={300}
-            planeHeight={400}
-            distortion={3}
-            scrollEase={0.05}
-            cameraFov={45}
-            cameraZ={20}
-          />
+          <div style={{ height: '600px', position: 'relative' }}>
+            <FlyingPosters items={posterImages} />
+          </div>
         </ErrorBoundary>
       </main>
     </div>

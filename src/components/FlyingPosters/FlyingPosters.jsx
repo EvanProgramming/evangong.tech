@@ -3,7 +3,6 @@ import { Renderer, Camera, Transform, Plane, Program, Mesh, Texture } from 'ogl'
 
 import './FlyingPosters.css';
 
-// ===== Official shaders (verbatim) =====
 const vertexShader = `
 precision highp float;
 
@@ -98,7 +97,6 @@ void main() {
 }
 `;
 
-// ===== Official utility functions =====
 function AutoBind(self, { include, exclude } = {}) {
   const getAllProperties = object => {
     const properties = new Set();
@@ -112,6 +110,7 @@ function AutoBind(self, { include, exclude } = {}) {
 
   const filter = key => {
     const match = pattern => (typeof pattern === 'string' ? key === pattern : pattern.test(key));
+
     if (include) return include.some(match);
     if (exclude) return !exclude.some(match);
     return true;
@@ -137,7 +136,6 @@ function map(num, min1, max1, min2, max2, round = false) {
   return round ? Math.round(num2) : num2;
 }
 
-// ===== Official Media class (verbatim) =====
 class Media {
   constructor({ gl, geometry, scene, screen, viewport, image, length, index, planeWidth, planeHeight, distortion }) {
     this.extra = 0;
@@ -246,10 +244,8 @@ class Media {
   }
 }
 
-// ===== Modified Canvas class — page-scroll-driven + upward direction =====
 class Canvas {
-  constructor({ section, container, canvas, items, planeWidth, planeHeight, distortion, scrollEase, cameraFov, cameraZ }) {
-    this.section = section;
+  constructor({ container, canvas, items, planeWidth, planeHeight, distortion, scrollEase, cameraFov, cameraZ }) {
     this.container = container;
     this.canvas = canvas;
     this.items = items;
@@ -264,9 +260,6 @@ class Canvas {
     };
     this.cameraFov = cameraFov;
     this.cameraZ = cameraZ;
-    this.rafId = null;
-    this.isVisible = false;
-    this.isDestroyed = false;
 
     AutoBind(this);
 
@@ -277,9 +270,9 @@ class Canvas {
 
     this.createGeometry();
     this.createMedias();
-    this.createPreloader();
-    this.startLoop();
+    this.update();
     this.addEventListeners();
+    this.createPreloader();
   }
 
   createRenderer() {
@@ -337,6 +330,10 @@ class Canvas {
       image.src = src;
       image.onload = () => {
         this.loaded += 1;
+        if (this.loaded === this.items.length) {
+          document.documentElement.classList.remove('loading');
+          document.documentElement.classList.add('loaded');
+        }
       };
     });
   }
@@ -365,54 +362,65 @@ class Canvas {
     }
   }
 
-  // Page-scroll-driven: compute progress from section position
-  // Direction reversed (negated) so posters float UP when scrolling DOWN
-  updateScrollTarget() {
-    const rect = this.section.getBoundingClientRect();
-    const scrollable = rect.height - window.innerHeight;
-    if (scrollable <= 0) {
-      this.scroll.target = 0;
-      return;
+  onTouchDown(e) {
+    this.isDown = true;
+    this.scroll.position = this.scroll.current;
+    this.start = e.touches ? e.touches[0].clientY : e.clientY;
+  }
+
+  onTouchMove(e) {
+    if (!this.isDown) return;
+    const y = e.touches ? e.touches[0].clientY : e.clientY;
+    const distance = (this.start - y) * 0.1;
+    this.scroll.target = this.scroll.position + distance;
+  }
+
+  onTouchUp() {
+    this.isDown = false;
+  }
+
+  onWheel(e) {
+    const speed = e.deltaY;
+    this.scroll.target += speed * 0.005;
+  }
+
+  update() {
+    this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
+
+    if (this.medias) {
+      this.medias.forEach(media => media.update(this.scroll));
     }
-    const progress = Math.max(0, Math.min(1, -rect.top / scrollable));
-    // Negate for upward float: scroll down → progress increases → target decreases → posters move up
-    this.scroll.target = -progress * 15;
-  }
-
-  startLoop() {
-    const loop = () => {
-      if (this.isDestroyed) return;
-
-      this.updateScrollTarget();
-      this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
-
-      if (this.medias) {
-        this.medias.forEach(media => media.update(this.scroll));
-      }
-      this.renderer.render({ scene: this.scene, camera: this.camera });
-      this.scroll.last = this.scroll.current;
-      this.rafId = requestAnimationFrame(loop);
-    };
-    this.rafId = requestAnimationFrame(loop);
-  }
-
-  setVisible(visible) {
-    this.isVisible = visible;
+    this.renderer.render({ scene: this.scene, camera: this.camera });
+    this.scroll.last = this.scroll.current;
+    requestAnimationFrame(this.update);
   }
 
   addEventListeners() {
     window.addEventListener('resize', this.onResize);
+    window.addEventListener('wheel', this.onWheel);
+    window.addEventListener('mousewheel', this.onWheel);
+
+    window.addEventListener('mousedown', this.onTouchDown);
+    window.addEventListener('mousemove', this.onTouchMove);
+    window.addEventListener('mouseup', this.onTouchUp);
+
+    window.addEventListener('touchstart', this.onTouchDown);
+    window.addEventListener('touchmove', this.onTouchMove);
+    window.addEventListener('touchend', this.onTouchUp);
   }
 
   destroy() {
-    this.isDestroyed = true;
-    if (this.rafId) cancelAnimationFrame(this.rafId);
     window.removeEventListener('resize', this.onResize);
-    // Force WebGL context loss to free GPU resources (Safe for StrictMode remount)
-    if (this.gl) {
-      const loseCtx = this.gl.getExtension('WEBGL_lose_context');
-      if (loseCtx) loseCtx.loseContext();
-    }
+    window.removeEventListener('wheel', this.onWheel);
+    window.removeEventListener('mousewheel', this.onWheel);
+
+    window.removeEventListener('mousedown', this.onTouchDown);
+    window.removeEventListener('mousemove', this.onTouchMove);
+    window.removeEventListener('mouseup', this.onTouchUp);
+
+    window.removeEventListener('touchstart', this.onTouchDown);
+    window.removeEventListener('touchmove', this.onTouchMove);
+    window.removeEventListener('touchend', this.onTouchUp);
   }
 }
 
@@ -427,17 +435,14 @@ export default function FlyingPosters({
   className,
   ...props
 }) {
-  const sectionRef = useRef(null);
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const instanceRef = useRef(null);
 
   useEffect(() => {
-    if (!sectionRef.current || !containerRef.current || !canvasRef.current) return;
-    if (!items.length) return;
+    if (!containerRef.current) return;
 
     instanceRef.current = new Canvas({
-      section: sectionRef.current,
       container: containerRef.current,
       canvas: canvasRef.current,
       items,
@@ -449,19 +454,7 @@ export default function FlyingPosters({
       cameraZ
     });
 
-    // Lazy rendering: only run RAF when section is in view
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (instanceRef.current) {
-          instanceRef.current.setVisible(entry.isIntersecting);
-        }
-      },
-      { rootMargin: '100px' }
-    );
-    observer.observe(sectionRef.current);
-
     return () => {
-      observer.disconnect();
       if (instanceRef.current) {
         instanceRef.current.destroy();
         instanceRef.current = null;
@@ -469,13 +462,34 @@ export default function FlyingPosters({
     };
   }, [items, planeWidth, planeHeight, distortion, scrollEase, cameraFov, cameraZ]);
 
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    const canvasEl = canvasRef.current;
+
+    const handleWheel = e => {
+      e.preventDefault();
+      if (instanceRef.current) {
+        instanceRef.current.onWheel(e);
+      }
+    };
+
+    const handleTouchMove = e => {
+      e.preventDefault();
+    };
+
+    canvasEl.addEventListener('wheel', handleWheel, { passive: false });
+    canvasEl.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+    return () => {
+      canvasEl.removeEventListener('wheel', handleWheel);
+      canvasEl.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, []);
+
   return (
-    <section ref={sectionRef} className={`posters-section ${className ?? ''}`} {...props}>
-      <div className="posters-sticky">
-        <div ref={containerRef} className="posters-container">
-          <canvas ref={canvasRef} className="posters-canvas" />
-        </div>
-      </div>
-    </section>
+    <div ref={containerRef} className={`posters-container ${className}`} {...props}>
+      <canvas ref={canvasRef} className="posters-canvas" />
+    </div>
   );
 }
