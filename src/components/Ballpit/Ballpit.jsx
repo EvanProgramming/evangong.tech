@@ -243,7 +243,20 @@ const Ballpit = ({ className = '', followCursor = true, ...props }) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    try { spheresInstanceRef.current = createBallpit(canvas, { followCursor, ...props }); } catch(e) { console.error("Ballpit error:", e); }
+    // Ensure canvas has non-zero dimensions before creating WebGL context
+    if (canvas.offsetWidth === 0 || canvas.offsetHeight === 0) {
+      console.warn("Ballpit: canvas has zero dimensions, delaying init");
+      const ro = new ResizeObserver(() => {
+        if (canvas.offsetWidth > 0 && canvas.offsetHeight > 0) {
+          ro.disconnect();
+          console.log("Ballpit: canvas resized, creating renderer");
+          try { spheresInstanceRef.current = createBallpit(canvas, { followCursor, ...props }); } catch(e) { console.error("Ballpit error:", e); }
+        }
+      });
+      ro.observe(canvas.parentElement || canvas);
+    } else {
+      try { spheresInstanceRef.current = createBallpit(canvas, { followCursor, ...props }); } catch(e) { console.error("Ballpit error:", e); }
+    }
     return () => { if (spheresInstanceRef.current) spheresInstanceRef.current.dispose(); };
   }, []);
 
