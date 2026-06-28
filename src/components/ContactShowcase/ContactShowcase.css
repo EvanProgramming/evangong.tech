@@ -1,0 +1,135 @@
+.contact-section {
+  position: relative;
+  width: 100%;
+  background: var(--color-black);
+  padding: clamp(5rem, 12vw, 10rem) clamp(1.5rem, 5vw, 4rem) clamp(5rem, 12vw, 10rem);
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 240, 255, 0.08);
+  box-sizing: border-box;
+}
+
+.contact-rays {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.contact-rays .side-rays-container {
+  z-index: 0;
+}
+
+.contact-grid {
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  min-height: 60vh;
+}
+
+.contact-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.contact-headline {
+  margin: 0;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+}
+
+.contact-subtext {
+  margin: 0;
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-white);
+  opacity: 0.85;
+  max-width: 48ch;
+}
+
+.contact-email-link {
+  display: inline-block;
+  text-decoration: none;
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin-top: 0.5rem;
+}
+
+.contact-email-link .shiny-text {
+  display: inline-block;
+}
+
+.contact-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.contact-button-link {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--color-white);
+}
+
+.contact-button-link .glass-surface {
+  cursor: pointer;
+}
+
+.contact-button-label {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-white);
+}
+
+.contact-right {
+  position: relative;
+  width: 100%;
+  height: clamp(300px, 45vw, 520px);
+}
+
+@media (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    min-height: auto;
+  }
+
+  .contact-right {
+    order: -1;
+    height: 280px;
+  }
+
+  .contact-left {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .contact-button-link {
+    width: 100%;
+  }
+
+  .contact-button-link .glass-surface {
+    width: 100%;
+  }
+}
