@@ -1,0 +1,8 @@
+.shuffle-text {
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.shuffle-text.shuffling {
+  color: var(--color-cyan);
+}
