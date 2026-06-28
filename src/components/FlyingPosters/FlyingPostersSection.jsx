@@ -24,8 +24,8 @@ export default function FlyingPostersSection({ items, ...props }) {
     const getMaxScroll = () => {
       const inst = getInstance();
       if (!inst || !inst.medias || !inst.medias[0]) return 0;
-      // Multiply by 10 so viewing all posters takes more wheel distance.
-      return (inst.medias[0].heightTotal || 0) * 10;
+      // Multiply by 100 so viewing all posters takes more wheel distance.
+      return (inst.medias[0].heightTotal || 0) * 100;
     };
 
     const onWheel = e => {
