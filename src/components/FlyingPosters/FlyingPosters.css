@@ -1,21 +1,3 @@
-.posters-section {
-  position: relative;
-  width: 100%;
-  height: 300vh;
-  background: var(--color-black);
-}
-
-.posters-sticky {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .posters-container {
   width: 100%;
   height: 100%;
@@ -28,16 +10,4 @@
   display: block;
   width: 100%;
   height: 100%;
-}
-
-@media (max-width: 768px) {
-  .posters-section {
-    height: 250vh;
-  }
-}
-
-@media (max-width: 480px) {
-  .posters-section {
-    height: 200vh;
-  }
 }
