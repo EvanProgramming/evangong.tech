@@ -6,15 +6,17 @@ import './FlyingPostersSection.css';
 /**
  * Scroll-pinned wrapper for FlyingPosters.
  *
- * While the section is pinned (sticky), wheel events drive the posters
- * instead of scrolling the page. Once all posters have been viewed
- * (one full loop of the stack), the page scroll is released so the user
- * can continue. Scrolling back up re-locks the section and rewinds the
- * posters before the page scroll resumes.
+ * Uses the global Lenis instance (created by ScrollStack and exposed on
+ * window.__lenis) to pause page scrolling while the section is pinned.
+ * While paused, wheel events drive the posters instead of the page.
+ * Once all posters have been viewed (one full loop of the stack), Lenis
+ * is resumed so the user can continue. Scrolling back up re-pauses and
+ * rewinds the posters before the page scroll resumes.
  */
 export default function FlyingPostersSection({ items, ...props }) {
   const sectionRef = useRef(null);
   const postersRef = useRef(null);
+  const lenisStoppedRef = useRef(false);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -24,8 +26,24 @@ export default function FlyingPostersSection({ items, ...props }) {
     const getMaxScroll = () => {
       const inst = getInstance();
       if (!inst || !inst.medias || !inst.medias[0]) return 0;
-      // Multiply by 100 so viewing all posters takes more wheel distance.
-      return (inst.medias[0].heightTotal || 0) * 100;
+      return inst.medias[0].heightTotal || 0;
+    };
+
+    const stopLenis = () => {
+      if (lenisStoppedRef.current) return;
+      const lenis = typeof window !== 'undefined' ? window.__lenis : null;
+      if (lenis && typeof lenis.stop === 'function') {
+        lenis.stop();
+        lenisStoppedRef.current = true;
+      }
+    };
+    const startLenis = () => {
+      if (!lenisStoppedRef.current) return;
+      const lenis = typeof window !== 'undefined' ? window.__lenis : null;
+      if (lenis && typeof lenis.start === 'function') {
+        lenis.start();
+        lenisStoppedRef.current = false;
+      }
     };
 
     const onWheel = e => {
@@ -34,7 +52,12 @@ export default function FlyingPostersSection({ items, ...props }) {
       // Pin zone: section top has reached viewport top, but the section
       // still has at least one viewport of height left below.
       const inPinZone = rect.top <= 0 && rect.bottom > vh;
-      if (!inPinZone) return;
+
+      if (!inPinZone) {
+        // Outside the pin zone: make sure page scroll is free.
+        startLenis();
+        return;
+      }
 
       const inst = getInstance();
       if (!inst) return;
@@ -45,28 +68,36 @@ export default function FlyingPostersSection({ items, ...props }) {
       if (e.deltaY > 0) {
         // Scrolling down
         if (current < max) {
-          // Still posters to reveal: hijack the wheel.
+          // Still posters to reveal: pause page scroll, hijack the wheel.
+          stopLenis();
           e.preventDefault();
           inst.onWheel(e);
-          // Clamp target so we don't overshoot past the end.
           if (inst.scroll.target < -max) inst.scroll.target = -max;
+        } else {
+          // All posters viewed -> resume page scroll.
+          startLenis();
         }
-        // else: all posters viewed -> release page scroll
       } else if (e.deltaY < 0) {
         // Scrolling up
         if (current > 0.5) {
-          // Still posters to rewind: hijack the wheel.
+          // Still posters to rewind: pause page scroll, hijack the wheel.
+          stopLenis();
           e.preventDefault();
           inst.onWheel(e);
-          // Clamp target so we don't rewind past the start.
           if (inst.scroll.target > 0) inst.scroll.target = 0;
+        } else {
+          // Back at the top -> resume page scroll upward.
+          startLenis();
         }
-        // else: back at the top -> release page scroll upward
       }
     };
 
     window.addEventListener('wheel', onWheel, { passive: false });
-    return () => window.removeEventListener('wheel', onWheel);
+    return () => {
+      window.removeEventListener('wheel', onWheel);
+      // Ensure we never leave Lenis stopped when unmounting.
+      startLenis();
+    };
   }, [items]);
 
   return (
