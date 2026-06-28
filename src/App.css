@@ -122,16 +122,20 @@ main {
   margin: 0 0 80px;
   padding: clamp(2rem, 4vw, 3.5rem);
   border-radius: 32px;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 240, 255, 0.04) 0%,
-    rgba(255, 255, 255, 0.02) 100%
-  );
-  border: 1px solid rgba(0, 240, 255, 0.18);
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(0, 240, 255, 0.05) inset;
+  border: none;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
   box-sizing: border-box;
+}
+
+/* Solid opaque card variants — alternating */
+.scroll-stack-section .scroll-stack-card.project-card--cyan {
+  background: #00f0ff;
+  color: #000000;
+}
+
+.scroll-stack-section .scroll-stack-card.project-card--white {
+  background: #ffffff;
+  color: #000000;
 }
 
 /* Project card layout */
@@ -147,7 +151,8 @@ main {
 .project-card__index {
   font-size: clamp(3rem, 6vw, 5rem);
   font-weight: 800;
-  color: rgba(0, 240, 255, 0.25);
+  color: currentColor;
+  opacity: 0.25;
   line-height: 1;
   flex-shrink: 0;
   font-variant-numeric: tabular-nums;
@@ -165,31 +170,24 @@ main {
   align-items: center;
   text-align: center;
   justify-content: center;
+  min-height: 14rem;
 }
 
 .project-card__title {
   margin: 0;
   font-size: clamp(2rem, 4vw, 3.25rem);
   font-weight: 700;
-  color: #00f0ff;
+  color: currentColor;
   letter-spacing: -0.02em;
   line-height: 1.1;
-}
-
-.project-card__title--cta {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  background: linear-gradient(90deg, #00f0ff 0%, #ffffff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .project-card__desc {
   margin: 0;
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   font-weight: 400;
-  color: var(--color-white);
-  opacity: 0.85;
+  color: currentColor;
+  opacity: 0.8;
   line-height: 1.5;
   max-width: 60ch;
 }
@@ -202,28 +200,11 @@ main {
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #00f0ff;
-  border: 1px solid rgba(0, 240, 255, 0.4);
+  color: currentColor;
+  border: 1px solid currentColor;
   border-radius: 999px;
-  background: rgba(0, 240, 255, 0.06);
-}
-
-/* CTA card (5th) — full cyan accent */
-.scroll-stack-section .scroll-stack-card.project-card--cta,
-.scroll-stack-section .project-card--cta-inner.scroll-stack-card {
-  background: linear-gradient(
-    135deg,
-    rgba(0, 240, 255, 0.12) 0%,
-    rgba(0, 240, 255, 0.04) 100%
-  );
-  border: 1px solid rgba(0, 240, 255, 0.5);
-  box-shadow:
-    0 20px 80px rgba(0, 240, 255, 0.15),
-    0 0 0 1px rgba(0, 240, 255, 0.1) inset;
-}
-
-.project-card--cta-inner .project-card__body {
-  min-height: 14rem;
+  background: transparent;
+  opacity: 0.7;
 }
 
 @media (max-width: 768px) {
