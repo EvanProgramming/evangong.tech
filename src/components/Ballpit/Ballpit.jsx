@@ -27,11 +27,7 @@ class _Three {
     else if (this.#e.id) this.canvas = document.getElementById(this.#e.id);
     else console.error('Three: Missing canvas or id parameter');
     this.canvas.style.display = 'block';
-    // Check WebGL availability using test canvas
-    const tc = document.createElement("canvas");
-    const tg = tc.getContext("webgl2") || tc.getContext("webgl");
-    if (!tg) throw new Error("WebGL not available");
-    this.renderer = new s({ canvas: this.canvas, ...(this.#e.rendererOptions ?? {}) });
+    this.renderer = new s({ canvas: this.canvas, powerPreference: 'high-performance', ...(this.#e.rendererOptions ?? {}) });
     this.renderer.outputColorSpace = n;
   }
   #g() {
@@ -111,7 +107,7 @@ class _Three {
     });
     this.scene.clear();
   }
-  dispose() { this.#y(); this.#z(); this.#c.dispose(); this.clear(); this.#t?.dispose(); this.renderer.dispose(); this.renderer.forceContextLoss(); this.isDisposed = true; }
+  dispose() { this.#y(); this.#z(); this.#c.dispose(); this.clear(); this.#t?.dispose(); this.renderer.dispose(); this.isDisposed = true; }
 }
 
 const b = new Map(), A = new r();
@@ -206,7 +202,7 @@ class W {
 }
 
 class Y extends c {
-  constructor(e) { super(e); this.uniforms = { thicknessDistortion: { value: 0.1 }, thicknessAmbient: { value: 0 }, thicknessAttenuation: { value: 0.1 }, thicknessPower: { value: 2 }, thicknessScale: { value: 10 } }; this.defines.USE_UV = ''; this.onBeforeCompile = e => { Object.assign(e.uniforms, this.uniforms); e.fragmentShader = '\n uniform float thicknessPower;\n uniform float thicknessScale;\n uniform float thicknessDistortion;\n uniform float thicknessAmbient;\n uniform float thicknessAttenuation;\n ' + e.fragmentShader; e.fragmentShader = e.fragmentShader.replace('void main() {', '\n void RE_Direct_Scattering(const in IncidentLight directLight, const in vec2 uv, const in vec3 geometryPosition, const in vec3 geometryNormal, const in vec3 geometryViewDir, const in vec3 geometryClearcoatNormal, inout ReflectedLight reflectedLight) {\n vec3 scatteringHalf = normalize(directLight.direction + (geometryNormal * thicknessDistortion));\n float scatteringDot = pow(saturate(dot(geometryViewDir, -scatteringHalf)), thicknessPower) * thicknessScale;\n #ifdef USE_COLOR\n vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * vColor;\n #else\n vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * diffuse;\n #endif\n reflectedLight.directDiffuse += scatteringIllu * thicknessAttenuation * directLight.color;\n }\n\n void main() {\n '); const t = h.lights_fragment_begin.replaceAll('RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );', '\n RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );\n RE_Direct_Scattering(directLight, vUv, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, reflectedLight);\n '); e.fragmentShader = e.fragmentShader.replace('#include <lights_fragment_begin>', t); if (this.onBeforeCompile2) this.onBeforeCompile2(e); }; }
+  constructor(e) { super(e); this.uniforms = { thicknessDistortion: { value: 0.1 }, thicknessAmbient: { value: 0 }, thicknessAttenuation: { value: 0.1 }, thicknessPower: { value: 2 }, thicknessScale: { value: 10 } }; this.defines.USE_UV = ''; this.onBeforeCompile = e => { Object.assign(e.uniforms, this.uniforms); e.fragmentShader = '\n uniform float thicknessPower;\n uniform float thicknessScale;\n uniform float thicknessDistortion;\n uniform float thicknessAmbient;\n uniform float thicknessAttenuation;\n ' + e.fragmentShader; e.fragmentShader = e.fragmentShader.replace('void main() {', '\n void RE_Direct_Scattering(const in IncidentLight directLight, const in vec2 uv, const in vec3 geometryPosition, const in vec3 geometryNormal, const in vec3 geometryViewDir, const in vec3 geometryClearcoatNormal, inout ReflectedLight reflectedLight) {\n vec3 scatteringHalf = normalize(directLight.direction + (geometryNormal * thicknessDistortion));\n float scatteringDot = pow(saturate(dot(geometryViewDir, -scatteringHalf)), thicknessPower) * thicknessScale;\n #ifdef USE_COLOR\n vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * vColor.rgb;\n #else\n vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * diffuse;\n #endif\n reflectedLight.directDiffuse += scatteringIllu * thicknessAttenuation * directLight.color;\n }\n\n void main() {\n '); const t = h.lights_fragment_begin.replaceAll('RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );', '\n RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );\n RE_Direct_Scattering(directLight, vUv, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, reflectedLight);\n '); e.fragmentShader = e.fragmentShader.replace('#include <lights_fragment_begin>', t); if (this.onBeforeCompile2) this.onBeforeCompile2(e); }; }
 }
 
 const X = { count: 200, colors: [0, 0, 0], ambientColor: 16777215, ambientIntensity: 1, lightIntensity: 200, materialParams: { metalness: 0.5, roughness: 0.5, clearcoat: 1, clearcoatRoughness: 0.15 }, minSize: 0.5, maxSize: 1, size0: 1, gravity: 0.5, friction: 0.9975, wallBounce: 0.95, maxVelocity: 0.15, maxX: 5, maxY: 5, maxZ: 2, controlSphere0: false, followCursor: true };
@@ -247,7 +243,7 @@ const Ballpit = ({ className = '', followCursor = true, ...props }) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    try { spheresInstanceRef.current = createBallpit(canvas, { followCursor, ...props }); } catch(e) { console.error("Ballpit error:", e); }
+    spheresInstanceRef.current = createBallpit(canvas, { followCursor, ...props });
     return () => { if (spheresInstanceRef.current) spheresInstanceRef.current.dispose(); };
   }, []);
 
