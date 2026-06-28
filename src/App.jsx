@@ -91,13 +91,13 @@ function App() {
           <ScrollStack
             useWindowScroll={true}
             itemDistance={80}
-            itemScale={0.03}
-            itemStackDistance={30}
-            baseScale={0.85}
+            itemScale={0.01}
+            itemStackDistance={0}
+            baseScale={0.95}
             blurAmount={0}
             className="scroll-stack-section__scroller"
           >
-            <ScrollStackItem>
+            <ScrollStackItem itemClassName="project-card--cyan">
               <div className="project-card">
                 <span className="project-card__index">01</span>
                 <div className="project-card__body">
@@ -107,7 +107,7 @@ function App() {
                 <span className="project-card__tag">AI</span>
               </div>
             </ScrollStackItem>
-            <ScrollStackItem>
+            <ScrollStackItem itemClassName="project-card--white">
               <div className="project-card">
                 <span className="project-card__index">02</span>
                 <div className="project-card__body">
@@ -117,7 +117,7 @@ function App() {
                 <span className="project-card__tag">Assistant</span>
               </div>
             </ScrollStackItem>
-            <ScrollStackItem>
+            <ScrollStackItem itemClassName="project-card--cyan">
               <div className="project-card">
                 <span className="project-card__index">03</span>
                 <div className="project-card__body">
@@ -127,7 +127,7 @@ function App() {
                 <span className="project-card__tag">Robotics</span>
               </div>
             </ScrollStackItem>
-            <ScrollStackItem>
+            <ScrollStackItem itemClassName="project-card--white">
               <div className="project-card">
                 <span className="project-card__index">04</span>
                 <div className="project-card__body">
@@ -137,10 +137,10 @@ function App() {
                 <span className="project-card__tag">Web</span>
               </div>
             </ScrollStackItem>
-            <ScrollStackItem itemClassName="project-card--cta">
-              <div className="project-card project-card--cta-inner">
+            <ScrollStackItem itemClassName="project-card--cyan">
+              <div className="project-card">
                 <div className="project-card__body project-card__body--center">
-                  <h3 className="project-card__title project-card__title--cta">Open To Collaborate!</h3>
+                  <h3 className="project-card__title">Open To Collaborate!</h3>
                   <p className="project-card__desc">Have an idea? Let&apos;s build something tangible together.</p>
                 </div>
               </div>
