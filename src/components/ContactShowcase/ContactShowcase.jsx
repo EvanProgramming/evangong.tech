@@ -44,7 +44,7 @@ export default function ContactShowcase() {
               href={`mailto:${EMAIL}`}
               aria-label="Get in touch via email"
             >
-              <GlassSurface>
+              <GlassSurface backgroundOpacity={0.12}>
                 <span className="contact-button-label">Get in touch</span>
               </GlassSurface>
             </a>
@@ -55,7 +55,7 @@ export default function ContactShowcase() {
               rel="noopener noreferrer"
               aria-label="Visit my GitHub profile"
             >
-              <GlassSurface>
+              <GlassSurface backgroundOpacity={0.12}>
                 <span className="contact-button-label">Github</span>
               </GlassSurface>
             </a>
