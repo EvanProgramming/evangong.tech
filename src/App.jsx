@@ -7,6 +7,7 @@ import TrueFocus from './components/TrueFocus/TrueFocus.jsx'
 import FlyingPostersSection from './components/FlyingPosters/FlyingPostersSection.jsx'
 import FlowingMenu from './components/FlowingMenu/FlowingMenu.jsx'
 import LensesShowcase from './components/LensesShowcase/LensesShowcase.jsx'
+import ContactShowcase from './components/ContactShowcase/ContactShowcase.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import './App.css'
@@ -281,6 +282,8 @@ function App() {
         </div>
 
         <LensesShowcase />
+
+        <ContactShowcase />
       </main>
     </div>
   )
