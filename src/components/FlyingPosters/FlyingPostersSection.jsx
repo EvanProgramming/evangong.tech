@@ -6,136 +6,48 @@ import './FlyingPostersSection.css';
 /**
  * Scroll-pinned wrapper for FlyingPosters.
  *
- * Uses the global Lenis instance (created by ScrollStack and exposed on
- * window.__lenis) to pause page scrolling while the section is pinned.
- * While paused, wheel events drive the posters instead of the page.
- * Once all posters have been viewed (one full loop of the stack), we
- * force-scroll past the section with lenis.scrollTo({ force: true }) so
- * the page resumes even if Lenis's wheel handling is still stopped.
+ * The wrapper is a tall section (height = scrollLength vh). An inner
+ * sticky container pins the posters at the center of the viewport while
+ * the page scrolls through the wrapper. A rAF loop maps the wrapper's
+ * scroll progress (0 -> 1) to the FlyingPosters internal scroll target,
+ * so the posters advance as the user scrolls and rewind when scrolling
+ * back up. No wheel hijacking and no Lenis manipulation are needed —
+ * the pin duration is controlled purely by the wrapper height.
+ *
+ * Adjust `scrollLength` (in vh) to make the pinned section longer or shorter.
  */
-export default function FlyingPostersSection({ items, ...props }) {
+export default function FlyingPostersSection({ items, scrollLength = 400, ...props }) {
   const sectionRef = useRef(null);
   const postersRef = useRef(null);
-  const lenisStoppedRef = useRef(false);
-  const scrollingOutRef = useRef(false);
+  const rafRef = useRef(0);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    const getInstance = () => postersRef.current?.getInstance?.();
-    const getLenis = () => (typeof window !== 'undefined' ? window.__lenis : null);
-    const getMaxScroll = () => {
-      const inst = getInstance();
-      if (!inst || !inst.medias || !inst.medias[0]) return 0;
-      return inst.medias[0].heightTotal || 0;
-    };
-
-    const stopLenis = () => {
-      if (lenisStoppedRef.current) return;
-      const lenis = getLenis();
-      if (lenis && typeof lenis.stop === 'function') {
-        lenis.stop();
-        lenisStoppedRef.current = true;
+    const update = () => {
+      const inst = postersRef.current?.getInstance?.();
+      if (inst && inst.medias && inst.medias[0]) {
+        const rect = section.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const scrollable = rect.height - vh;
+        const progress =
+          scrollable > 0 ? Math.min(Math.max(-rect.top / scrollable, 0), 1) : 0;
+        const max = inst.medias[0].heightTotal || 0;
+        inst.scroll.target = -progress * max;
       }
+      rafRef.current = requestAnimationFrame(update);
     };
-    const startLenis = () => {
-      if (!lenisStoppedRef.current) return;
-      const lenis = getLenis();
-      if (lenis && typeof lenis.start === 'function') {
-        lenis.start();
-        lenisStoppedRef.current = false;
-      }
-    };
-
-    const leavePinZoneDown = () => {
-      if (scrollingOutRef.current) return;
-      scrollingOutRef.current = true;
-      startLenis();
-      const lenis = getLenis();
-      const target = section.offsetTop + section.offsetHeight - window.innerHeight + 10;
-      if (lenis && typeof lenis.scrollTo === 'function') {
-        lenis.scrollTo(target, {
-          duration: 1,
-          force: true,
-          onComplete: () => { scrollingOutRef.current = false; }
-        });
-      } else {
-        window.scrollTo(0, target);
-        scrollingOutRef.current = false;
-      }
-    };
-    const leavePinZoneUp = () => {
-      if (scrollingOutRef.current) return;
-      scrollingOutRef.current = true;
-      startLenis();
-      const lenis = getLenis();
-      const target = Math.max(0, section.offsetTop - window.innerHeight - 10);
-      if (lenis && typeof lenis.scrollTo === 'function') {
-        lenis.scrollTo(target, {
-          duration: 1,
-          force: true,
-          onComplete: () => { scrollingOutRef.current = false; }
-        });
-      } else {
-        window.scrollTo(0, target);
-        scrollingOutRef.current = false;
-      }
-    };
-
-    const onWheel = e => {
-      // If we're already animating out of the pin zone, let Lenis handle it.
-      if (scrollingOutRef.current) return;
-
-      const rect = section.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const inPinZone = rect.top <= 0 && rect.bottom > vh;
-
-      if (!inPinZone) {
-        startLenis();
-        return;
-      }
-
-      const inst = getInstance();
-      if (!inst) return;
-
-      const max = getMaxScroll();
-      const current = Math.abs(inst.scroll.current);
-
-      if (e.deltaY > 0) {
-        if (current < max) {
-          stopLenis();
-          e.preventDefault();
-          inst.onWheel(e);
-          if (inst.scroll.target < -max) inst.scroll.target = -max;
-        } else {
-          // Viewed all posters: force-scroll past the section.
-          e.preventDefault();
-          leavePinZoneDown();
-        }
-      } else if (e.deltaY < 0) {
-        if (current > 0.5) {
-          stopLenis();
-          e.preventDefault();
-          inst.onWheel(e);
-          if (inst.scroll.target > 0) inst.scroll.target = 0;
-        } else {
-          // Back at the top: force-scroll up out of the section.
-          e.preventDefault();
-          leavePinZoneUp();
-        }
-      }
-    };
-
-    window.addEventListener('wheel', onWheel, { passive: false });
-    return () => {
-      window.removeEventListener('wheel', onWheel);
-      startLenis();
-    };
+    rafRef.current = requestAnimationFrame(update);
+    return () => cancelAnimationFrame(rafRef.current);
   }, [items]);
 
   return (
-    <section ref={sectionRef} className="posters-pin-section" style={{ height: '200vh' }}>
+    <section
+      ref={sectionRef}
+      className="posters-pin-section"
+      style={{ height: `${scrollLength}vh` }}
+    >
       <div className="posters-pin-sticky">
         <FlyingPosters ref={postersRef} items={items} disableWheel {...props} />
       </div>
