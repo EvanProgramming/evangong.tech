@@ -27,6 +27,10 @@ class _Three {
     else if (this.#e.id) this.canvas = document.getElementById(this.#e.id);
     else console.error('Three: Missing canvas or id parameter');
     this.canvas.style.display = 'block';
+    // Check WebGL availability using test canvas
+    const tc = document.createElement("canvas");
+    const tg = tc.getContext("webgl2") || tc.getContext("webgl");
+    if (!tg) throw new Error("WebGL not available");
     this.renderer = new s({ canvas: this.canvas, ...(this.#e.rendererOptions ?? {}) });
     this.renderer.outputColorSpace = n;
   }
@@ -243,20 +247,7 @@ const Ballpit = ({ className = '', followCursor = true, ...props }) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    // Ensure canvas has non-zero dimensions before creating WebGL context
-    if (canvas.offsetWidth === 0 || canvas.offsetHeight === 0) {
-      console.warn("Ballpit: canvas has zero dimensions, delaying init");
-      const ro = new ResizeObserver(() => {
-        if (canvas.offsetWidth > 0 && canvas.offsetHeight > 0) {
-          ro.disconnect();
-          console.log("Ballpit: canvas resized, creating renderer");
-          try { spheresInstanceRef.current = createBallpit(canvas, { followCursor, ...props }); } catch(e) { console.error("Ballpit error:", e); }
-        }
-      });
-      ro.observe(canvas.parentElement || canvas);
-    } else {
-      try { spheresInstanceRef.current = createBallpit(canvas, { followCursor, ...props }); } catch(e) { console.error("Ballpit error:", e); }
-    }
+    try { spheresInstanceRef.current = createBallpit(canvas, { followCursor, ...props }); } catch(e) { console.error("Ballpit error:", e); }
     return () => { if (spheresInstanceRef.current) spheresInstanceRef.current.dispose(); };
   }, []);
 
