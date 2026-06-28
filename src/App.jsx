@@ -4,7 +4,7 @@ import ScrollReveal from './components/ScrollReveal/ScrollReveal.jsx'
 import ScrollStack, { ScrollStackItem } from './components/ScrollStack/ScrollStack.jsx'
 import LogoLoop from './components/LogoLoop/LogoLoop.jsx'
 import TrueFocus from './components/TrueFocus/TrueFocus.jsx'
-import FlyingPosters from './components/FlyingPosters/FlyingPosters.jsx'
+import FlyingPostersSection from './components/FlyingPosters/FlyingPostersSection.jsx'
 import FlowingMenu from './components/FlowingMenu/FlowingMenu.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
@@ -272,9 +272,7 @@ function App() {
         </section>
 
         <ErrorBoundary>
-          <div style={{ height: '600px', position: 'relative' }}>
-            <FlyingPosters items={posterImages} />
-          </div>
+          <FlyingPostersSection items={posterImages} />
         </ErrorBoundary>
 
         <div style={{ height: '600px', position: 'relative' }}>

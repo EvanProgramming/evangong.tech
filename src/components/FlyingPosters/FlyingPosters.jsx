@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { Renderer, Camera, Transform, Plane, Program, Mesh, Texture } from 'ogl';
 
 import './FlyingPosters.css';
@@ -245,7 +245,7 @@ class Media {
 }
 
 class Canvas {
-  constructor({ container, canvas, items, planeWidth, planeHeight, distortion, scrollEase, cameraFov, cameraZ }) {
+  constructor({ container, canvas, items, planeWidth, planeHeight, distortion, scrollEase, cameraFov, cameraZ, enableWheel = true }) {
     this.container = container;
     this.canvas = canvas;
     this.items = items;
@@ -260,6 +260,7 @@ class Canvas {
     };
     this.cameraFov = cameraFov;
     this.cameraZ = cameraZ;
+    this.enableWheel = enableWheel;
 
     AutoBind(this);
 
@@ -399,6 +400,8 @@ class Canvas {
 
   addEventListeners() {
     window.addEventListener('resize', this.onResize);
+    if (!this.enableWheel) return;
+
     window.addEventListener('wheel', this.onWheel);
     window.addEventListener('mousewheel', this.onWheel);
 
@@ -413,6 +416,8 @@ class Canvas {
 
   destroy() {
     window.removeEventListener('resize', this.onResize);
+    if (!this.enableWheel) return;
+
     window.removeEventListener('wheel', this.onWheel);
     window.removeEventListener('mousewheel', this.onWheel);
 
@@ -426,7 +431,7 @@ class Canvas {
   }
 }
 
-export default function FlyingPosters({
+const FlyingPosters = forwardRef(function FlyingPosters({
   items = [],
   planeWidth = 320,
   planeHeight = 320,
@@ -434,12 +439,17 @@ export default function FlyingPosters({
   scrollEase = 0.01,
   cameraFov = 45,
   cameraZ = 20,
+  disableWheel = false,
   className,
   ...props
-}) {
+}, ref) {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const instanceRef = useRef(null);
+
+  useImperativeHandle(ref, () => ({
+    getInstance: () => instanceRef.current,
+  }), []);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -453,7 +463,8 @@ export default function FlyingPosters({
       distortion,
       scrollEase,
       cameraFov,
-      cameraZ
+      cameraZ,
+      enableWheel: !disableWheel
     });
 
     return () => {
@@ -462,9 +473,10 @@ export default function FlyingPosters({
         instanceRef.current = null;
       }
     };
-  }, [items, planeWidth, planeHeight, distortion, scrollEase, cameraFov, cameraZ]);
+  }, [items, planeWidth, planeHeight, distortion, scrollEase, cameraFov, cameraZ, disableWheel]);
 
   useEffect(() => {
+    if (disableWheel) return;
     if (!canvasRef.current) return;
 
     const canvasEl = canvasRef.current;
@@ -487,11 +499,13 @@ export default function FlyingPosters({
       canvasEl.removeEventListener('wheel', handleWheel);
       canvasEl.removeEventListener('touchmove', handleTouchMove);
     };
-  }, []);
+  }, [disableWheel]);
 
   return (
     <div ref={containerRef} className={`posters-container ${className}`} {...props}>
       <canvas ref={canvasRef} className="posters-canvas" />
     </div>
   );
-}
+});
+
+export default FlyingPosters;
