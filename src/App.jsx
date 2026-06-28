@@ -4,6 +4,8 @@ import ScrollReveal from './components/ScrollReveal/ScrollReveal.jsx'
 import ScrollStack, { ScrollStackItem } from './components/ScrollStack/ScrollStack.jsx'
 import LogoLoop from './components/LogoLoop/LogoLoop.jsx'
 import TrueFocus from './components/TrueFocus/TrueFocus.jsx'
+import FlyingPosters from './components/FlyingPosters/FlyingPosters.jsx'
+import ErrorBoundary from './components/ErrorBoundary.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import './App.css'
 
@@ -78,6 +80,11 @@ const aiLogos = [
   { node: txt('Trae'), title: 'Trae', href: 'https://www.trae.ai' },
   { src: si('cursor'), alt: 'Cursor', title: 'Cursor', href: 'https://cursor.sh' },
 ]
+
+// Photography images from /Photography/ folder
+const posterImages = Object.values(
+  import.meta.glob('/Photography/*.{jpeg,jpg,png}', { eager: true, query: '?url', import: 'default' })
+)
 
 function App() {
   return (
@@ -249,6 +256,18 @@ function App() {
             borderColor="#00f0ff"
           />
         </section>
+
+        <ErrorBoundary>
+          <FlyingPosters
+            items={posterImages}
+            planeWidth={300}
+            planeHeight={400}
+            distortion={3}
+            scrollEase={0.05}
+            cameraFov={45}
+            cameraZ={20}
+          />
+        </ErrorBoundary>
       </main>
     </div>
   )
