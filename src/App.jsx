@@ -5,9 +5,23 @@ import ScrollStack, { ScrollStackItem } from './components/ScrollStack/ScrollSta
 import LogoLoop from './components/LogoLoop/LogoLoop.jsx'
 import TrueFocus from './components/TrueFocus/TrueFocus.jsx'
 import FlyingPosters from './components/FlyingPosters/FlyingPosters.jsx'
+import FlowingMenu from './components/FlowingMenu/FlowingMenu.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import './App.css'
+
+// FlowingMenu images (specific photography picks from subfolders)
+import parisImg from '/Photography/Paris/IMG_1598.jpg'
+import chaoshanImg from '/Photography/Chaoshan/A395CF89-F602-44F6-97F0-747AD556F2C4_1_105_c.jpeg'
+import beijingImg from '/Photography/Beijing/we-o_rd35vfjgdnyzud3fw-china-7504392.jpg'
+import miscImg from '/Photography/Miscellaneous/639F42E1-5B22-40AE-BDF9-3974A03E2073_1_105_c.jpeg'
+
+const flowingMenuItems = [
+  { link: '#', text: 'Paris, France', image: parisImg },
+  { link: '#', text: 'Chaoshan, China', image: chaoshanImg },
+  { link: '#', text: 'Beijing, China', image: beijingImg },
+  { link: '#', text: 'Miscellaneous', image: miscImg },
+]
 
 // Pre-split the reveal text into .word spans so we can color keywords (#00f0ff)
 // differently from the body text (white). The ScrollReveal component passes
@@ -262,6 +276,10 @@ function App() {
             <FlyingPosters items={posterImages} />
           </div>
         </ErrorBoundary>
+
+        <div style={{ height: '600px', position: 'relative' }}>
+          <FlowingMenu items={flowingMenuItems} />
+        </div>
       </main>
     </div>
   )
