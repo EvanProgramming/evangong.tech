@@ -68,8 +68,8 @@ main {
 
 .scroll-reveal-container__text {
   margin: 0;
-  font-size: clamp(1.6rem, 4vw, 3rem);
-  line-height: 1.4;
+  font-size: clamp(1.25rem, 3vw, 2.25rem);
+  line-height: 1.5;
   font-weight: 600;
   letter-spacing: -0.01em;
   text-align: left;
@@ -80,15 +80,15 @@ main {
     padding: 3rem 1.25rem;
   }
   .scroll-reveal-container__text {
-    font-size: clamp(1.25rem, 5vw, 1.8rem);
-    line-height: 1.45;
+    font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+    line-height: 1.5;
   }
 }
 
 @media (max-width: 480px) {
   .scroll-reveal-container__text {
-    font-size: 1.15rem;
-    line-height: 1.5;
+    font-size: 1rem;
+    line-height: 1.55;
   }
 }
 
