@@ -1,0 +1,56 @@
+.lenses-section {
+  width: 100%;
+  padding: 10vh 0;
+  box-sizing: border-box;
+}
+
+.lenses-title {
+  position: relative;
+  width: 50%;
+  height: 220px;
+  margin: 0 auto 6vh auto;
+  padding: 0 5vw;
+}
+
+@media (max-width: 768px) {
+  .lenses-title {
+    width: 90%;
+    height: 140px;
+  }
+}
+
+.lenses-image-wrap {
+  position: relative;
+  width: 90%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.lenses-border-glow {
+  width: 100%;
+}
+
+.lenses-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: cover;
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+.lenses-fluid-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.lenses-fluid-overlay canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
