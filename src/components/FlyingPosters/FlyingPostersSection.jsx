@@ -9,14 +9,15 @@ import './FlyingPostersSection.css';
  * Uses the global Lenis instance (created by ScrollStack and exposed on
  * window.__lenis) to pause page scrolling while the section is pinned.
  * While paused, wheel events drive the posters instead of the page.
- * Once all posters have been viewed (one full loop of the stack), Lenis
- * is resumed so the user can continue. Scrolling back up re-pauses and
- * rewinds the posters before the page scroll resumes.
+ * Once all posters have been viewed (one full loop of the stack), we
+ * resume Lenis and actively scroll past the section so the user can
+ * continue. Scrolling back up re-pauses and rewinds the posters.
  */
 export default function FlyingPostersSection({ items, ...props }) {
   const sectionRef = useRef(null);
   const postersRef = useRef(null);
   const lenisStoppedRef = useRef(false);
+  const viewedCompleteRef = useRef(false);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -49,13 +50,12 @@ export default function FlyingPostersSection({ items, ...props }) {
     const onWheel = e => {
       const rect = section.getBoundingClientRect();
       const vh = window.innerHeight;
-      // Pin zone: section top has reached viewport top, but the section
-      // still has at least one viewport of height left below.
       const inPinZone = rect.top <= 0 && rect.bottom > vh;
 
       if (!inPinZone) {
-        // Outside the pin zone: make sure page scroll is free.
+        // Outside the pin zone: free the page scroll and reset state.
         startLenis();
+        viewedCompleteRef.current = false;
         return;
       }
 
@@ -67,26 +67,38 @@ export default function FlyingPostersSection({ items, ...props }) {
 
       if (e.deltaY > 0) {
         // Scrolling down
+        if (viewedCompleteRef.current) {
+          // Already viewed all posters: let Lenis keep scrolling down.
+          return;
+        }
         if (current < max) {
-          // Still posters to reveal: pause page scroll, hijack the wheel.
           stopLenis();
           e.preventDefault();
           inst.onWheel(e);
           if (inst.scroll.target < -max) inst.scroll.target = -max;
         } else {
-          // All posters viewed -> resume page scroll.
+          // Just finished viewing: resume Lenis and actively scroll
+          // past the section so the page doesn't get stuck.
+          viewedCompleteRef.current = true;
           startLenis();
+          const lenis = typeof window !== 'undefined' ? window.__lenis : null;
+          if (lenis) {
+            const target = section.offsetTop + section.offsetHeight - vh + 10;
+            lenis.scrollTo(target, { duration: 1 });
+          }
         }
       } else if (e.deltaY < 0) {
         // Scrolling up
         if (current > 0.5) {
-          // Still posters to rewind: pause page scroll, hijack the wheel.
+          // Still posters to rewind: pause and hijack the wheel.
+          viewedCompleteRef.current = false;
           stopLenis();
           e.preventDefault();
           inst.onWheel(e);
           if (inst.scroll.target > 0) inst.scroll.target = 0;
         } else {
-          // Back at the top -> resume page scroll upward.
+          // Back at the top: resume Lenis so the page can scroll up.
+          viewedCompleteRef.current = false;
           startLenis();
         }
       }
@@ -95,7 +107,6 @@ export default function FlyingPostersSection({ items, ...props }) {
     window.addEventListener('wheel', onWheel, { passive: false });
     return () => {
       window.removeEventListener('wheel', onWheel);
-      // Ensure we never leave Lenis stopped when unmounting.
       startLenis();
     };
   }, [items]);
