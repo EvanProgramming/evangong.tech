@@ -19,8 +19,7 @@
   }
 }
 
-.lenses-image-wrap {
-  position: relative;
+.lenses-fluid-wrap {
   width: 90%;
   max-width: 1400px;
   margin: 0 auto;
@@ -30,26 +29,15 @@
   width: 100%;
 }
 
-.lenses-image {
-  display: block;
+.lenses-fluid-inner {
+  position: relative;
   width: 100%;
-  height: auto;
-  max-height: 80vh;
-  object-fit: cover;
-  border-radius: 20px;
-  pointer-events: none;
-}
-
-.lenses-fluid-overlay {
-  position: absolute;
-  inset: 0;
+  height: 600px;
   border-radius: 20px;
   overflow: hidden;
-  pointer-events: none;
-  z-index: 5;
 }
 
-.lenses-fluid-overlay canvas {
+.lenses-fluid-inner canvas {
   display: block;
   width: 100% !important;
   height: 100% !important;
