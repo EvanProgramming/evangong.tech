@@ -1,5 +1,3 @@
-canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
+/* Ballpit canvas sizing is handled via inline style (width/height 100%) and
+   JS (display:block) in Ballpit.jsx. No global `canvas` rule here — it would
+   leak onto every other canvas (e.g. Lanyard) in the app. */

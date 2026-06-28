@@ -2,6 +2,9 @@ import Ballpit from '../Ballpit/Ballpit.jsx'
 import Shuffle from '../Shuffle/Shuffle.jsx'
 import RotatingText from '../RotatingText/RotatingText.jsx'
 import Lanyard from '../Lanyard/Lanyard.jsx'
+import GradualBlur from '../GradualBlur/GradualBlur.jsx'
+import GlassSurface from '../GlassSurface/GlassSurface.jsx'
+import ErrorBoundary from '../ErrorBoundary.jsx'
 import './Hero.css'
 
 export default function Hero() {
@@ -9,17 +12,21 @@ export default function Hero() {
     <section className="hero">
       {/* Ballpit background */}
       <div className="hero-ballpit">
-        <Ballpit
-          count={150}
-          gravity={0.5}
-          friction={0.9975}
-          wallBounce={0.9}
-          followCursor={true}
-          colors={[0x00f0ff, 0xffffff, 0x9c9c9c]}
-          minSize={0.5}
-          maxSize={1.5}
-          maxVelocity={0.12}
-        />
+        <ErrorBoundary>
+          <Ballpit
+            count={150}
+            gravity={0.5}
+            friction={0.9975}
+            wallBounce={0.9}
+            followCursor={true}
+            colors={[0x00f0ff, 0xffffff, 0x9c9c9c]}
+            ambientIntensity={0.4}
+            lightIntensity={80}
+            minSize={0.5}
+            maxSize={1.5}
+            maxVelocity={0.12}
+          />
+        </ErrorBoundary>
       </div>
 
       {/* Content overlay */}
@@ -55,23 +62,67 @@ export default function Hero() {
               mainClassName="rotating-subtitle"
             />
           </div>
+
+          <div className="hero-buttons">
+            <button type="button" className="hero-button">
+              <GlassSurface
+                width="100%"
+                height={56}
+                borderRadius={28}
+                backgroundOpacity={0.12}
+                saturation={1.6}
+                displace={1.5}
+                className="hero-button__glass"
+              >
+                <span className="hero-button__label">View Projects</span>
+              </GlassSurface>
+            </button>
+            <button type="button" className="hero-button">
+              <GlassSurface
+                width="100%"
+                height={56}
+                borderRadius={28}
+                backgroundOpacity={0.08}
+                saturation={1.4}
+                displace={1.5}
+                className="hero-button__glass"
+              >
+                <span className="hero-button__label">About me</span>
+              </GlassSurface>
+            </button>
+          </div>
         </div>
 
         {/* Right side - Lanyard with EvanGongIcon on card */}
         <div className="hero-lanyard-section">
           <div className="hero-lanyard-wrapper">
-            <Lanyard
-              position={[0, 0, 30]}
-              gravity={[0, -40, 0]}
-              fov={20}
-              frontImage="/assets/EvanGongIcon.png"
-              backImage="/assets/EvanGongIcon.png"
-              imageFit="cover"
-              lanyardWidth={1.2}
-            />
+            <ErrorBoundary>
+              <Lanyard
+                position={[0, 0, 25]}
+                gravity={[0, -40, 0]}
+                fov={20}
+                frontImage="/assets/EvanGongIcon.png"
+                backImage="/assets/EvanGongIcon.png"
+                imageFit="cover"
+                lanyardWidth={1.2}
+              />
+            </ErrorBoundary>
           </div>
         </div>
       </div>
+
+      {/* Gradual blur overlay anchored to the top of the screen */}
+      <GradualBlur
+        target="parent"
+        position="top"
+        height="6rem"
+        strength={2}
+        divCount={5}
+        curve="bezier"
+        exponential={true}
+        opacity={1}
+        zIndex={30}
+      />
     </section>
   )
 }
