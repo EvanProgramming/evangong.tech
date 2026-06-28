@@ -2,8 +2,36 @@ import { useEffect } from 'react'
 import Lenis from 'lenis'
 import Hero from './components/Hero/Hero.jsx'
 import ScrollVelocity from './components/ScrollVelocity/ScrollVelocity.jsx'
+import ScrollReveal from './components/ScrollReveal/ScrollReveal.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import './App.css'
+
+// Pre-split the reveal text into .word spans so we can color keywords (#00f0ff)
+// differently from the body text (white). The ScrollReveal component passes
+// non-string children through unchanged and still animates .word elements via GSAP.
+const REVEAL_KEYWORDS = ['physical', 'digital', 'robotic', '3D', 'prints', 'camera', 'tangible', 'tomorrow']
+
+function buildRevealChildren(text, keywords) {
+  return text.split(/(\s+)/).map((token, i) => {
+    if (/^\s+$/.test(token)) return token
+    const clean = token.toLowerCase().replace(/[^a-z0-9]/g, '')
+    const isKeyword = keywords.some(k => clean === k.toLowerCase())
+    return (
+      <span
+        key={i}
+        className="word"
+        style={{ color: isKeyword ? '#00f0ff' : 'var(--color-white)' }}
+      >
+        {token}
+      </span>
+    )
+  })
+}
+
+const revealChildren = buildRevealChildren(
+  "Bridging the physical and digital worlds. From robotic algorithms and 3D prints to the split-second frames of a camera, I design and build tangible experiences for tomorrow.",
+  REVEAL_KEYWORDS
+)
 
 const menuItems = [
   { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
@@ -54,6 +82,21 @@ function App() {
             stiffness={400}
             numCopies={6}
           />
+        </section>
+
+        <section className="scroll-reveal-section" aria-label="About statement">
+          <div className="scroll-reveal-container">
+            <ScrollReveal
+              baseOpacity={0}
+              enableBlur={true}
+              baseRotation={5}
+              blurStrength={10}
+              containerClassName="scroll-reveal-container__title"
+              textClassName="scroll-reveal-container__text"
+            >
+              {revealChildren}
+            </ScrollReveal>
+          </div>
         </section>
       </main>
     </div>
