@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import TextPressure from '../TextPressure/TextPressure.jsx';
 import BorderGlow from '../BorderGlow/BorderGlow.jsx';
 import FluidGlass from '../FluidGlass/FluidGlass.jsx';
@@ -6,9 +5,7 @@ import ErrorBoundary from '../ErrorBoundary.jsx';
 
 import './LensesShowcase.css';
 
-export default function LensesShowcase({ image, alt = 'Through the Lenses' }) {
-  const [hovered, setHovered] = useState(false);
-
+export default function LensesShowcase() {
   return (
     <section className="lenses-section" aria-label="Through the Lenses">
       <div className="lenses-title">
@@ -25,11 +22,7 @@ export default function LensesShowcase({ image, alt = 'Through the Lenses' }) {
         />
       </div>
 
-      <div
-        className="lenses-image-wrap"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
+      <div className="lenses-fluid-wrap">
         <BorderGlow
           backgroundColor="#000000"
           borderRadius={20}
@@ -37,16 +30,12 @@ export default function LensesShowcase({ image, alt = 'Through the Lenses' }) {
           colors={['#00f0ff', '#ffffff', '#00f0ff']}
           className="lenses-border-glow"
         >
-          <img src={image} alt={alt} className="lenses-image" />
-        </BorderGlow>
-
-        {hovered && (
-          <div className="lenses-fluid-overlay">
+          <div className="lenses-fluid-inner">
             <ErrorBoundary>
               <FluidGlass mode="lens" />
             </ErrorBoundary>
           </div>
-        )}
+        </BorderGlow>
       </div>
     </section>
   );
