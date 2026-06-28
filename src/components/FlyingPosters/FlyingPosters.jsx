@@ -372,7 +372,8 @@ class Canvas {
     if (!this.isDown) return;
     const y = e.touches ? e.touches[0].clientY : e.clientY;
     const distance = (this.start - y) * 0.1;
-    this.scroll.target = this.scroll.position + distance;
+    // Reverse direction so posters move from bottom to top
+    this.scroll.target = this.scroll.position - distance;
   }
 
   onTouchUp() {
@@ -381,7 +382,8 @@ class Canvas {
 
   onWheel(e) {
     const speed = e.deltaY;
-    this.scroll.target += speed * 0.005;
+    // Reverse direction so posters move from bottom to top
+    this.scroll.target -= speed * 0.005;
   }
 
   update() {
