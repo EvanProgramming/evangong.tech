@@ -206,6 +206,11 @@ const ScrollStack = ({
       animationFrameRef.current = requestAnimationFrame(raf);
 
       lenisRef.current = lenis;
+      // Expose the global Lenis instance so other sections (e.g. the
+      // pinned FlyingPosters) can pause/resume it while they hijack wheel.
+      if (typeof window !== 'undefined') {
+        window.__lenis = lenis;
+      }
       return lenis;
     } else {
       const scroller = scrollerRef.current;
@@ -278,6 +283,9 @@ const ScrollStack = ({
       }
       if (lenisRef.current) {
         lenisRef.current.destroy();
+      }
+      if (typeof window !== 'undefined') {
+        delete window.__lenis;
       }
       stackCompletedRef.current = false;
       cardsRef.current = [];
