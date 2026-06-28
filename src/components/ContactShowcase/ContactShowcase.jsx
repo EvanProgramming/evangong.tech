@@ -1,4 +1,4 @@
-import SideRays from '../SideRays/SideRays.jsx';
+import PixelBlast from '../PixelBlast/PixelBlast.jsx';
 import ASCIIText from '../ASCIIText/ASCIIText.jsx';
 import SplitText from '../SplitText/SplitText.jsx';
 import ShinyText from '../ShinyText/ShinyText.jsx';
@@ -14,7 +14,7 @@ export default function ContactShowcase() {
     <section className="contact-section" aria-label="Contact">
       <div className="contact-rays">
         <ErrorBoundary>
-          <SideRays />
+          <PixelBlast color="#00f0ff" />
         </ErrorBoundary>
       </div>
 
