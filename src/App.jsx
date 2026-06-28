@@ -2,6 +2,7 @@ import Hero from './components/Hero/Hero.jsx'
 import ScrollVelocity from './components/ScrollVelocity/ScrollVelocity.jsx'
 import ScrollReveal from './components/ScrollReveal/ScrollReveal.jsx'
 import ScrollStack, { ScrollStackItem } from './components/ScrollStack/ScrollStack.jsx'
+import LogoLoop from './components/LogoLoop/LogoLoop.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import './App.css'
 
@@ -39,6 +40,42 @@ const menuItems = [
   { label: 'Gallery', ariaLabel: 'View gallery', link: '/gallery' },
   { label: 'Blog', ariaLabel: 'Read my blog', link: '/blog' },
   { label: 'Awards', ariaLabel: 'View awards', link: '/awards' },
+]
+
+// Simple Icons CDN: returns SVG with the specified color
+const si = (slug) => `https://cdn.simpleicons.org/${slug}/ffffff`
+// Text fallback for brands not on Simple Icons
+const txt = (label) => <span className="logo-text">{label}</span>
+
+const programmingLogos = [
+  { src: si('vercel'), alt: 'Vercel', title: 'Vercel', href: 'https://vercel.com' },
+  { src: si('vite'), alt: 'Vite', title: 'Vite', href: 'https://vitejs.dev' },
+  { src: si('react'), alt: 'React', title: 'React', href: 'https://react.dev' },
+  { src: si('vuedotjs'), alt: 'Vue', title: 'Vue', href: 'https://vuejs.org' },
+  { src: si('python'), alt: 'Python', title: 'Python', href: 'https://python.org' },
+  { src: si('cplusplus'), alt: 'C++', title: 'C++', href: 'https://isocpp.org' },
+  { src: si('openjdk'), alt: 'Java', title: 'Java', href: 'https://www.java.com' },
+  { src: si('github'), alt: 'GitHub', title: 'GitHub', href: 'https://github.com' },
+  { node: txt('CIFAR'), title: 'CIFAR', href: 'https://www.cs.toronto.edu/~kriz/cifar.html' },
+  { src: si('c'), alt: 'C', title: 'C', href: 'https://en.wikipedia.org/wiki/C_(programming_language)' },
+]
+
+const photographyLogos = [
+  { src: si('sony'), alt: 'Sony', title: 'Sony', href: 'https://www.sony.com' },
+  { src: si('nikon'), alt: 'Nikon', title: 'Nikon', href: 'https://www.nikon.com' },
+  { src: si('canon'), alt: 'Canon', title: 'Canon', href: 'https://www.canon.com' },
+  { node: txt('Tamron'), title: 'Tamron', href: 'https://www.tamron.com' },
+  { node: txt('Hasselblad'), title: 'Hasselblad', href: 'https://www.hasselblad.com' },
+]
+
+const aiLogos = [
+  { src: si('anthropic'), alt: 'Claude', title: 'Claude', href: 'https://claude.ai' },
+  { node: txt('Openclaw'), title: 'Openclaw', href: '#' },
+  { src: si('openai'), alt: 'ChatGPT', title: 'ChatGPT', href: 'https://chat.openai.com' },
+  { src: si('googlegemini'), alt: 'Gemini', title: 'Gemini', href: 'https://gemini.google.com' },
+  { node: txt('Grok'), title: 'Grok', href: 'https://x.ai' },
+  { node: txt('Trae'), title: 'Trae', href: 'https://www.trae.ai' },
+  { src: si('cursor'), alt: 'Cursor', title: 'Cursor', href: 'https://cursor.sh' },
 ]
 
 function App() {
@@ -146,6 +183,62 @@ function App() {
               </div>
             </ScrollStackItem>
           </ScrollStack>
+        </section>
+
+        <section className="logo-loop-section" aria-label="Tools and brands">
+          <div className="logo-loop-section__inner">
+            <div className="logo-loop-row">
+              <span className="logo-loop-row__label">Programming</span>
+              <div className="logo-loop-row__track">
+                <LogoLoop
+                  logos={programmingLogos}
+                  speed={80}
+                  direction="left"
+                  logoHeight={36}
+                  gap={48}
+                  hoverSpeed={20}
+                  scaleOnHover
+                  fadeOut
+                  fadeOutColor="#000000"
+                  ariaLabel="Programming logos"
+                />
+              </div>
+            </div>
+            <div className="logo-loop-row">
+              <span className="logo-loop-row__label">Photography</span>
+              <div className="logo-loop-row__track">
+                <LogoLoop
+                  logos={photographyLogos}
+                  speed={70}
+                  direction="right"
+                  logoHeight={36}
+                  gap={48}
+                  hoverSpeed={20}
+                  scaleOnHover
+                  fadeOut
+                  fadeOutColor="#000000"
+                  ariaLabel="Photography logos"
+                />
+              </div>
+            </div>
+            <div className="logo-loop-row">
+              <span className="logo-loop-row__label">AI</span>
+              <div className="logo-loop-row__track">
+                <LogoLoop
+                  logos={aiLogos}
+                  speed={80}
+                  direction="left"
+                  logoHeight={36}
+                  gap={48}
+                  hoverSpeed={20}
+                  scaleOnHover
+                  fadeOut
+                  fadeOutColor="#000000"
+                  ariaLabel="AI logos"
+                />
+              </div>
+            </div>
+          </div>
         </section>
       </main>
     </div>
