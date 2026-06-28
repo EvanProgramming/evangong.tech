@@ -6,6 +6,7 @@ import LogoLoop from './components/LogoLoop/LogoLoop.jsx'
 import TrueFocus from './components/TrueFocus/TrueFocus.jsx'
 import FlyingPostersSection from './components/FlyingPosters/FlyingPostersSection.jsx'
 import FlowingMenu from './components/FlowingMenu/FlowingMenu.jsx'
+import LensesShowcase from './components/LensesShowcase/LensesShowcase.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import './App.css'
@@ -15,6 +16,7 @@ import parisImg from '/Photography/Paris/IMG_1598.jpg'
 import chaoshanImg from '/Photography/Chaoshan/A395CF89-F602-44F6-97F0-747AD556F2C4_1_105_c.jpeg'
 import beijingImg from '/Photography/Beijing/we-o_rd35vfjgdnyzud3fw-china-7504392.jpg'
 import miscImg from '/Photography/Miscellaneous/639F42E1-5B22-40AE-BDF9-3974A03E2073_1_105_c.jpeg'
+import lensesPhoto from '/Photography/Chaoshan/BF32147D-89AC-46F1-BF67-C14D84E88B48_1_105_c.jpeg'
 
 const flowingMenuItems = [
   { link: '#', text: 'Paris, France', image: parisImg },
@@ -278,6 +280,8 @@ function App() {
         <div style={{ height: '600px', position: 'relative' }}>
           <FlowingMenu items={flowingMenuItems} />
         </div>
+
+        <LensesShowcase image={lensesPhoto} />
       </main>
     </div>
   )
