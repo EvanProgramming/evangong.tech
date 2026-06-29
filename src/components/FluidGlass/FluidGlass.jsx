@@ -9,7 +9,6 @@ import {
   MeshTransmissionMaterial,
 } from '@react-three/drei';
 import { easing } from 'maath';
-import { useVisibilityPause } from '../_perf/useVisibilityPause.js';
 
 export default function FluidGlass({ mode = 'lens', image, lensProps = {}, barProps = {}, cubeProps = {} }) {
   const Wrapper = mode === 'bar' ? Bar : mode === 'cube' ? Cube : Lens;
@@ -24,23 +23,12 @@ export default function FluidGlass({ mode = 'lens', image, lensProps = {}, barPr
     ...modeProps
   } = rawOverrides;
 
-  // The visibility ref must sit on a real DOM element (the wrapper div), NOT
-  // on an R3F <group>. R3F refs resolve to three.js Object3D instances, which
-  // are not Elements and IntersectionObserver.observe() silently no-ops on
-  // them — leaving isVisible permanently false and the FBO never rendering
-  // (the "black background" symptom). Placing it on the wrapper div fixes that
-  // while keeping the off-screen render skip working as intended.
-  const wrapRef = useRef(null);
-  const isVisible = useVisibilityPause(wrapRef);
-
   return (
-    <div ref={wrapRef} style={{ width: '100%', height: '100%' }}>
-      <Canvas camera={{ position: [0, 0, 20], fov: 15 }} gl={{ alpha: true }} dpr={[1, 1.5]}>
-        <Wrapper modeProps={modeProps} image={image} isVisible={isVisible}>
-          <BackgroundImage image={image} />
-        </Wrapper>
-      </Canvas>
-    </div>
+    <Canvas camera={{ position: [0, 0, 20], fov: 15 }} gl={{ alpha: true }}>
+      <Wrapper modeProps={modeProps} image={image}>
+        <BackgroundImage image={image} />
+      </Wrapper>
+    </Canvas>
   );
 }
 
@@ -52,7 +40,6 @@ const ModeWrapper = memo(function ModeWrapper({
   followPointer = true,
   modeProps = {},
   image,
-  isVisible = true,
   ...props
 }) {
   const ref = useRef();
@@ -69,10 +56,6 @@ const ModeWrapper = memo(function ModeWrapper({
   }, [nodes, geometryKey]);
 
   useFrame((state, delta) => {
-    // Skip the manual FBO render + pointer-follow easing while the lens is
-    // off-screen. The r3F render loop itself still runs, but we avoid the
-    // expensive `gl.render(scene, camera)` into the buffer each frame.
-    if (!isVisible) return;
     const { gl, viewport, pointer, camera } = state;
     const v = viewport.getCurrentViewport(camera, [0, 0, 15]);
 
@@ -121,15 +104,15 @@ function BackgroundImage({ image }) {
   );
 }
 
-function Lens({ modeProps, image, isVisible, ...p }) {
-  return <ModeWrapper glb="/assets/3d/lens.glb" geometryKey="Cylinder" followPointer modeProps={modeProps} image={image} isVisible={isVisible} {...p} />;
+function Lens({ modeProps, image, ...p }) {
+  return <ModeWrapper glb="/assets/3d/lens.glb" geometryKey="Cylinder" followPointer modeProps={modeProps} image={image} {...p} />;
 }
 
-function Cube({ modeProps, image, isVisible, ...p }) {
-  return <ModeWrapper glb="/assets/3d/cube.glb" geometryKey="Cube" followPointer modeProps={modeProps} image={image} isVisible={isVisible} {...p} />;
+function Cube({ modeProps, image, ...p }) {
+  return <ModeWrapper glb="/assets/3d/cube.glb" geometryKey="Cube" followPointer modeProps={modeProps} image={image} {...p} />;
 }
 
-function Bar({ modeProps = {}, image, isVisible, ...p }) {
+function Bar({ modeProps = {}, image, ...p }) {
   const defaultMat = {
     transmission: 1,
     roughness: 0,
@@ -146,7 +129,6 @@ function Bar({ modeProps = {}, image, isVisible, ...p }) {
       geometryKey="Cube"
       lockToBottom
       followPointer={false}
-      isVisible={isVisible}
       modeProps={{ ...defaultMat, ...modeProps }}
       image={image}
       {...p}
