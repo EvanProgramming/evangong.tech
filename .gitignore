@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Lighthouse reports
+lighthouse-*.report.*
+
+# Trae IDE docs
+.trae/
+
+# Editor workspace files
+*.code-workspace

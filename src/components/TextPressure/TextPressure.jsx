@@ -162,8 +162,6 @@ const TextPressure = ({
   const styleElement = useMemo(() => {
     return (
       <style>{`
-        @import url('${fontUrl}');
-
         .flex {
           display: flex;
           justify-content: space-between;
