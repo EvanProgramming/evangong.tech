@@ -191,7 +191,7 @@ export default function StaggeredMenu({
       </div>
       <header className="staggered-menu-header" aria-label="Main navigation header">
         <div className="sm-logo" aria-label="Logo">
-          <img src={logoUrl || '/src/assets/logos/reactbits-gh-white.svg'} alt="Logo" className="sm-logo-img" draggable={false} width={110} height={24} />
+          <img src={logoUrl || '/src/assets/logos/reactbits-gh-white.svg'} alt="Logo" className="sm-logo-img" draggable={false} width={110} height={24} loading="eager" decoding="async" />
         </div>
         <button ref={toggleBtnRef} className="sm-toggle" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="staggered-menu-panel" onClick={toggleMenu} type="button">
           <span ref={textWrapRef} className="sm-toggle-textWrap" aria-hidden="true">

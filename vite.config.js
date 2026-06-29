@@ -1,8 +1,15 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { imagetools } from 'vite-imagetools'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    // Build-time image transforms via sharp. Query-driven: imports opt in with
+    // e.g. `?w=640&format=webp`. public/ is excluded by default (mirroring
+    // Vite), so images that need transforming must live under src/ or root.
+    imagetools()
+  ],
   assetsInclude: ['**/*.glb'],
   build: {
     target: 'es2020',

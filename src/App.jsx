@@ -21,11 +21,17 @@ const LensesShowcase = lazy(() => import('./components/LensesShowcase/LensesShow
 const ContactShowcase = lazy(() => import('./components/ContactShowcase/ContactShowcase.jsx'))
 const Footer = lazy(() => import('./components/Footer/Footer.jsx'))
 
-// FlowingMenu images (specific photography picks from subfolders)
-import parisImg from '/Photography/Paris/IMG_1598.jpg'
-import chaoshanImg from '/Photography/Chaoshan/A395CF89-F602-44F6-97F0-747AD556F2C4_1_105_c.jpeg'
-import beijingImg from '/Photography/Beijing/we-o_rd35vfjgdnyzud3fw-china-7504392.jpg'
-import miscImg from '/Photography/Miscellaneous/639F42E1-5B22-40AE-BDF9-3974A03E2073_1_105_c.jpeg'
+// EvanGongIcon: 1.3MB PNG -> 256px WebP for the StaggeredMenu nav logo.
+// (Hero and Footer import their own appropriately-sized variants.)
+import navLogoUrl from './assets/EvanGongIcon.png?w=256&format=webp'
+
+// FlowingMenu images (specific photography picks from subfolders).
+// Transformed to 1600px WebP at build time via vite-imagetools + sharp.
+// Originals ranged 152KB-3.6MB JPEG; WebP at 1600px lands ~80-200KB.
+import parisImg from '/Photography/Paris/IMG_1598.jpg?w=1600&format=webp'
+import chaoshanImg from '/Photography/Chaoshan/A395CF89-F602-44F6-97F0-747AD556F2C4_1_105_c.jpeg?w=1600&format=webp'
+import beijingImg from '/Photography/Beijing/we-o_rd35vfjgdnyzud3fw-china-7504392.jpg?w=1600&format=webp'
+import miscImg from '/Photography/Miscellaneous/639F42E1-5B22-40AE-BDF9-3974A03E2073_1_105_c.jpeg?w=1600&format=webp'
 
 const flowingMenuItems = [
   { link: '#', text: 'Paris, France', image: parisImg },
@@ -106,9 +112,16 @@ const aiLogos = [
   { src: si('cursor'), alt: 'Cursor', title: 'Cursor', href: 'https://cursor.sh' },
 ]
 
-// Photography images from /Photography/ folder
+// Photography images from /Photography/ folder.
+// FlyingPosters renders each plane at ~320px CSS * 2 dpr = 640px, so 640px
+// WebP is the right size. Originals ranged 136KB-6.3MB JPEG; 640px WebP
+// lands ~30-80KB. FlyingPosters receives URL strings (shape unchanged).
 const posterImages = Object.values(
-  import.meta.glob('/Photography/*.{jpeg,jpg,png}', { eager: true, query: '?url', import: 'default' })
+  import.meta.glob('/Photography/*.{jpeg,jpg,png}', {
+    eager: true,
+    query: { w: 640, format: 'webp' },
+    import: 'default'
+  })
 )
 
 function App() {
@@ -119,7 +132,7 @@ function App() {
         items={menuItems}
         displaySocials={false}
         displayItemNumbering={false}
-        logoUrl="/assets/EvanGongIcon.png"
+        logoUrl={navLogoUrl}
         menuButtonColor="#00f0ff"
         openMenuButtonColor="#00f0ff"
         changeMenuColorOnOpen={false}
