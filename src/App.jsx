@@ -111,6 +111,7 @@ function App() {
         items={menuItems}
         displaySocials={false}
         displayItemNumbering={false}
+        logoUrl="/assets/EvanGongIcon.png"
         menuButtonColor="#00f0ff"
         openMenuButtonColor="#00f0ff"
         changeMenuColorOnOpen={false}
