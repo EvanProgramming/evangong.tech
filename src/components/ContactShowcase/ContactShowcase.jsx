@@ -82,7 +82,7 @@ export default function ContactShowcase() {
             </a>
 
             <div className="contact-magnets">
-              <Magnet padding={50} disabled={false} magnetStrength={50}>
+              <Magnet padding={50} disabled={false} magnetStrength={2}>
                 <a
                   className="magnet-button"
                   href={`mailto:${EMAIL}`}
