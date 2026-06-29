@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useCallback } from 'react';
 import Lenis from 'lenis';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './ScrollStack.css';
 
 export const ScrollStackItem = ({ children, itemClassName = '' }) => (
@@ -198,6 +199,14 @@ const ScrollStack = ({
       });
 
       lenis.on('scroll', handleScroll);
+      // Bridge Lenis -> ScrollTrigger: without this, ScrollTrigger only hears
+      // the native `scroll` event fired by Lenis's internal scrollTo, which
+      // arrives out of phase with Lenis's smoothed position. The result is
+      // that scrub-driven animations (ScrollReveal rotate/opacity/blur,
+      // ScrollVelocity, etc.) stutter or sit at the wrong progress while the
+      // user scrolls. Routing Lenis's scroll callback to ScrollTrigger.update
+      // syncs every scrub tween to Lenis's interpolated scroll position.
+      lenis.on('scroll', ScrollTrigger.update);
 
       const raf = time => {
         lenis.raf(time);
@@ -235,6 +244,8 @@ const ScrollStack = ({
       });
 
       lenis.on('scroll', handleScroll);
+      // Same Lenis -> ScrollTrigger bridge as the window-scroll branch above.
+      lenis.on('scroll', ScrollTrigger.update);
 
       const raf = time => {
         lenis.raf(time);

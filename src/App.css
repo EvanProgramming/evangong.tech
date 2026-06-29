@@ -66,7 +66,14 @@ main {
   margin: 0;
 }
 
-.scroll-reveal-container__text {
+/* Use a descendant selector (specificity 0,2,0) so the project font size
+   stably wins over the component default `.scroll-reveal-text` (0,1,0) in
+   ScrollReveal.css. After Phase 2 lazy-loaded ScrollReveal, its CSS is injected
+   late (when the chunk loads), so a same-specificity rule would lose to it
+   purely on source order — which silently shrank the text from
+   clamp(3rem,7vw,6.5rem) to clamp(1.6rem,4vw,3rem). Descendant specificity
+   makes the result order-independent. */
+.scroll-reveal-container__title .scroll-reveal-container__text {
   margin: 0;
   font-size: clamp(3rem, 7vw, 6.5rem);
   line-height: 1.25;
@@ -80,7 +87,7 @@ main {
   .scroll-reveal-section {
     padding: 3rem 1.25rem;
   }
-  .scroll-reveal-container__text {
+  .scroll-reveal-container__title .scroll-reveal-container__text {
     font-size: clamp(2.2rem, 5vw, 3.2rem);
     line-height: 1.3;
     word-spacing: 0.3em;
@@ -88,7 +95,7 @@ main {
 }
 
 @media (max-width: 480px) {
-  .scroll-reveal-container__text {
+  .scroll-reveal-container__title .scroll-reveal-container__text {
     font-size: 2rem;
     line-height: 1.35;
     word-spacing: 0.25em;
