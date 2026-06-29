@@ -6,6 +6,7 @@ import ScrollStack, { ScrollStackItem } from './components/ScrollStack/ScrollSta
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import SectionFallback from './components/_perf/SectionFallback.jsx'
+import VisibilityMount from './components/_perf/VisibilityMount.jsx'
 import './App.css'
 
 // Lazy-load below-fold sections so their chunks (and their heavy deps) are
@@ -144,17 +145,19 @@ function App() {
         <Hero />
         <section className="scroll-velocity-section" aria-label="Interests marquee">
           <Suspense fallback={<SectionFallback minHeight={200} label="Loading interests marquee" />}>
-            <ScrollVelocity
-              texts={[
-                <span style={{ color: 'var(--color-white)' }}>Table Tennis &nbsp;•&nbsp; Programming &nbsp;•&nbsp; AI</span>,
-                <span style={{ color: '#00f0ff' }}>3D Printing &nbsp;•&nbsp; Robot &nbsp;•&nbsp; Photography</span>,
-              ]}
-              velocity={100}
-              className="scroll-velocity-text"
-              damping={50}
-              stiffness={400}
-              numCopies={6}
-            />
+            <VisibilityMount rootMargin="200px 0px">
+              <ScrollVelocity
+                texts={[
+                  <span style={{ color: 'var(--color-white)' }}>Table Tennis &nbsp;•&nbsp; Programming &nbsp;•&nbsp; AI</span>,
+                  <span style={{ color: '#00f0ff' }}>3D Printing &nbsp;•&nbsp; Robot &nbsp;•&nbsp; Photography</span>,
+                ]}
+                velocity={100}
+                className="scroll-velocity-text"
+                damping={50}
+                stiffness={400}
+                numCopies={6}
+              />
+            </VisibilityMount>
           </Suspense>
         </section>
 

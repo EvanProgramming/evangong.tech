@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import FlyingPosters from './FlyingPosters';
 
 import './FlyingPostersSection.css';
@@ -15,15 +15,35 @@ import './FlyingPostersSection.css';
  * the pin duration is controlled purely by the wrapper height.
  *
  * Adjust `scrollLength` (in vh) to make the pinned section longer or shorter.
+ *
+ * Perf: the scroll-progress rAF is gated by an IntersectionObserver — it only
+ * runs while the section is in (or near) the viewport. Off-screen, the rAF is
+ * cancelled, eliminating per-frame getBoundingClientRect layout reads.
  */
 export default function FlyingPostersSection({ items, scrollLength = 400, ...props }) {
   const sectionRef = useRef(null);
   const postersRef = useRef(null);
   const rafRef = useRef(0);
+  const [inView, setInView] = useState(false);
 
+  // Track visibility so we can stop the rAF when the section is off-screen.
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[entries.length - 1];
+        setInView(entry?.isIntersecting ?? false);
+      },
+      { root: null, rootMargin: '200px 0px', threshold: 0 }
+    );
+    io.observe(section);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || !inView) return;
 
     const update = () => {
       const inst = postersRef.current?.getInstance?.();
@@ -40,7 +60,7 @@ export default function FlyingPostersSection({ items, scrollLength = 400, ...pro
     };
     rafRef.current = requestAnimationFrame(update);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [items]);
+  }, [items, inView]);
 
   return (
     <section

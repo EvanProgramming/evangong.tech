@@ -12,8 +12,25 @@ function FlowingMenu({
   marqueeTextColor = '#120F17',
   borderColor = '#fff'
 }) {
+  const wrapRef = useRef(null);
+  const [inView, setInView] = useState(true);
+
+  // Pause every MenuItem's marquee tween while the whole menu is off-screen.
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        setInView(entries[entries.length - 1]?.isIntersecting ?? false);
+      },
+      { root: null, rootMargin: '100px 0px', threshold: 0 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <div className="menu-wrap" style={{ backgroundColor: bgColor }}>
+    <div className="menu-wrap" style={{ backgroundColor: bgColor }} ref={wrapRef}>
       <nav className="menu">
         {items.map((item, idx) => (
           <MenuItem
@@ -24,6 +41,7 @@ function FlowingMenu({
             marqueeBgColor={marqueeBgColor}
             marqueeTextColor={marqueeTextColor}
             borderColor={borderColor}
+            inView={inView}
           />
         ))}
       </nav>
@@ -31,7 +49,7 @@ function FlowingMenu({
   );
 }
 
-function MenuItem({ link, text, image, speed, textColor, marqueeBgColor, marqueeTextColor, borderColor }) {
+function MenuItem({ link, text, image, speed, textColor, marqueeBgColor, marqueeTextColor, borderColor, inView = true }) {
   const itemRef = useRef(null);
   const marqueeRef = useRef(null);
   const marqueeInnerRef = useRef(null);
@@ -95,6 +113,10 @@ function MenuItem({ link, text, image, speed, textColor, marqueeBgColor, marquee
         ease: 'none',
         repeat: -1
       });
+
+      // Respect the parent's visibility state on creation. If the menu was
+      // already off-screen when this tween was built, start it paused.
+      if (!inView) animationRef.current.pause();
     };
 
     // Small delay to ensure DOM is ready after repetitions update
@@ -106,7 +128,15 @@ function MenuItem({ link, text, image, speed, textColor, marqueeBgColor, marquee
         animationRef.current.kill();
       }
     };
-  }, [text, image, repetitions, speed]);
+  }, [text, image, repetitions, speed, inView]);
+
+  // Pause / resume the marquee loop when the menu scrolls in / out of view.
+  // We only play/pause (never rebuild) so the seam position is preserved.
+  useEffect(() => {
+    if (!animationRef.current) return;
+    if (inView) animationRef.current.play();
+    else animationRef.current.pause();
+  }, [inView]);
 
   const handleMouseEnter = ev => {
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;

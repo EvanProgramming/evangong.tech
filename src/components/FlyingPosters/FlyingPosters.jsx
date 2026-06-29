@@ -395,7 +395,7 @@ class Canvas {
     }
     this.renderer.render({ scene: this.scene, camera: this.camera });
     this.scroll.last = this.scroll.current;
-    requestAnimationFrame(this.update);
+    this.rafId = requestAnimationFrame(this.update);
   }
 
   addEventListeners() {
@@ -415,6 +415,10 @@ class Canvas {
   }
 
   destroy() {
+    // Cancel the render loop first so no more rAF callbacks fire after we
+    // start tearing down GL resources. Previously this was missing, leaking
+    // a rAF that kept rendering into a half-disposed renderer.
+    if (this.rafId) cancelAnimationFrame(this.rafId);
     window.removeEventListener('resize', this.onResize);
     if (!this.enableWheel) return;
 
