@@ -1,11 +1,12 @@
 /* eslint-disable react/no-unknown-property */
 import * as THREE from 'three';
-import { useRef, useState, useEffect, memo } from 'react';
+import { Suspense, useRef, useState, useEffect, memo } from 'react';
 import { Canvas, createPortal, useFrame, useThree } from '@react-three/fiber';
 import {
   useFBO,
   useGLTF,
   Image,
+  Preload,
   MeshTransmissionMaterial,
 } from '@react-three/drei';
 import { easing } from 'maath';
@@ -26,7 +27,10 @@ export default function FluidGlass({ mode = 'lens', image, lensProps = {}, barPr
   return (
     <Canvas camera={{ position: [0, 0, 20], fov: 15 }} gl={{ alpha: true }}>
       <Wrapper modeProps={modeProps} image={image}>
-        <BackgroundImage image={image} />
+        <Suspense fallback={null}>
+          <BackgroundImage image={image} />
+        </Suspense>
+        <Preload />
       </Wrapper>
     </Canvas>
   );
@@ -72,6 +76,13 @@ const ModeWrapper = memo(function ModeWrapper({
     gl.setRenderTarget(buffer);
     gl.render(scene, camera);
     gl.setRenderTarget(null);
+
+    // Background Color — sets the clear color used by gl.render() on the NEXT
+    // frame's FBO clear (and the main scene clear by r3f's render loop).
+    // Without this, the FBO is cleared to transparent (alpha 0), which causes
+    // MeshTransmissionMaterial to show its default white color instead of the
+    // background image. Using opaque black to match the project's dark theme.
+    gl.setClearColor(0x000000, 1);
   });
 
   const { scale, ior, thickness, anisotropy, chromaticAberration, ...extraMat } = modeProps;
