@@ -1,0 +1,35 @@
+.section-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: #000000;
+}
+
+.section-fallback__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00f0ff;
+  opacity: 0.4;
+  animation: section-fallback-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes section-fallback-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-fallback__dot {
+    animation: none;
+    opacity: 0.8;
+  }
+}
