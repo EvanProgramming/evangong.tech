@@ -8,6 +8,7 @@ import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import cardGLB from '/src/assets/lanyard/card.glb';
 import lanyard from '/src/assets/lanyard/lanyard.png';
 import * as THREE from 'three';
+import { useVisibilityPause } from '../_perf/useVisibilityPause.js';
 import './Lanyard.css';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
@@ -18,13 +19,15 @@ const BACK_UV_RECT = { x: 0.5, y: 0, w: 0.5, h: 0.757 };
 
 export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], fov = 20, transparent = true, frontImage = null, backImage = null, imageFit = 'cover', lanyardImage = null, lanyardWidth = 1 }) {
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
+  const wrapRef = useRef(null);
+  const isVisible = useVisibilityPause(wrapRef);
   useEffect(() => { const handleResize = () => setIsMobile(window.innerWidth < 768); window.addEventListener('resize', handleResize); return () => window.removeEventListener('resize', handleResize); }, []);
   return (
-    <div className="lanyard-wrapper">
+    <div className="lanyard-wrapper" ref={wrapRef}>
       <Canvas camera={{ position, fov }} dpr={[1, isMobile ? 1.5 : 2]} gl={{ alpha: transparent }} onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}>
         <ambientLight intensity={Math.PI} />
         <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
-          <Band isMobile={isMobile} frontImage={frontImage} backImage={backImage} imageFit={imageFit} lanyardImage={lanyardImage} lanyardWidth={lanyardWidth} />
+          <Band isMobile={isMobile} isVisible={isVisible} frontImage={frontImage} backImage={backImage} imageFit={imageFit} lanyardImage={lanyardImage} lanyardWidth={lanyardWidth} />
         </Physics>
         <Environment blur={0.75}>
           <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
@@ -37,7 +40,7 @@ export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], 
   );
 }
 
-function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, frontImage = null, backImage = null, imageFit = 'cover', lanyardImage = null, lanyardWidth = 1 }) {
+function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, isVisible = true, frontImage = null, backImage = null, imageFit = 'cover', lanyardImage = null, lanyardWidth = 1 }) {
   const band = useRef(), fixed = useRef(), j1 = useRef(), j2 = useRef(), j3 = useRef(), card = useRef();
   const vec = new THREE.Vector3(), ang = new THREE.Vector3(), rot = new THREE.Vector3(), dir = new THREE.Vector3();
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
@@ -46,8 +49,8 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, frontImage = null
   const frontTex = useTexture(frontImage || BLANK_PIXEL);
   const backTex = useTexture(backImage || BLANK_PIXEL);
 
+  const baseMap = materials.base.map;
   const cardMap = useMemo(() => {
-    const baseMap = materials.base.map;
     if (!frontImage && !backImage) return baseMap;
     const baseImg = baseMap.image; const W = baseImg.width; const H = baseImg.height;
     const canvas = document.createElement('canvas'); canvas.width = W; canvas.height = H;
@@ -66,7 +69,17 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, frontImage = null
     const composite = new THREE.CanvasTexture(canvas);
     composite.colorSpace = THREE.SRGBColorSpace; composite.flipY = baseMap.flipY; composite.anisotropy = 16; composite.needsUpdate = true;
     return composite;
-  }, [frontImage, backImage, imageFit, frontTex, backTex, materials.base.map]);
+  }, [frontImage, backImage, imageFit, frontTex, backTex, baseMap]);
+
+  // Dispose the composite CanvasTexture when it changes or on unmount. The
+  // base map is owned by useGLTF and must NOT be disposed here.
+  useEffect(() => {
+    return () => {
+      if (cardMap && cardMap !== baseMap) {
+        cardMap.dispose();
+      }
+    };
+  }, [cardMap, baseMap]);
 
   const [curve] = useState(() => new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()]));
   const [dragged, drag] = useState(false);
@@ -80,6 +93,10 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, frontImage = null
   useEffect(() => { if (hovered) { document.body.style.cursor = dragged ? 'grabbing' : 'grab'; return () => void (document.body.style.cursor = 'auto'); } }, [hovered, dragged]);
 
   useFrame((state, delta) => {
+    // Skip the physics follow + curve rebuild while off-screen. Dragging
+    // still works because the gate only affects the per-frame simulation
+    // update; pointer events on the card mesh remain active.
+    if (!isVisible) return;
     if (dragged) {
       vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
       dir.copy(vec).sub(state.camera.position).normalize(); vec.add(dir.multiplyScalar(state.camera.position.length()));

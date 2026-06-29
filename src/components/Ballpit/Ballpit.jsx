@@ -16,9 +16,18 @@ class _Three {
   render = this.#i; onBeforeRender = () => {}; onAfterRender = () => {}; onAfterResize = () => {};
   #s = false; #n = false; isDisposed = false; #o; #r; #a;
   #c = new e(); #h = { elapsed: 0, delta: 0 }; #l;
+  // Bound listener refs. Stored once so removeEventListener can find the
+  // same function reference that addEventListener registered. Without this,
+  // the inline .bind(this) calls in #g/#y create new functions each time
+  // and the original listeners leak (never removed).
+  #resizeBound; #visBound; #intersectBound;
 
   constructor(e) {
-    this.#e = { ...e }; this.#m(); this.#d(); this.#p(); this.resize(); this.#g();
+    this.#e = { ...e }; this.#m(); this.#d(); this.#p(); this.resize();
+    this.#resizeBound = this.#f.bind(this);
+    this.#visBound = this.#v.bind(this);
+    this.#intersectBound = this.#u.bind(this);
+    this.#g();
   }
   #m() { this.camera = new t(); this.cameraFov = this.camera.fov; }
   #d() { this.scene = new i(); }
@@ -32,17 +41,17 @@ class _Three {
   }
   #g() {
     if (!(this.#e.size instanceof Object)) {
-      window.addEventListener('resize', this.#f.bind(this));
+      window.addEventListener('resize', this.#resizeBound);
       if (this.#e.size === 'parent' && this.canvas.parentNode) {
-        this.#r = new ResizeObserver(this.#f.bind(this));
+        this.#r = new ResizeObserver(this.#resizeBound);
         this.#r.observe(this.canvas.parentNode);
       }
     }
-    this.#o = new IntersectionObserver(this.#u.bind(this), { root: null, rootMargin: '0px', threshold: 0 });
+    this.#o = new IntersectionObserver(this.#intersectBound, { root: null, rootMargin: '0px', threshold: 0 });
     this.#o.observe(this.canvas);
-    document.addEventListener('visibilitychange', this.#v.bind(this));
+    document.addEventListener('visibilitychange', this.#visBound);
   }
-  #y() { window.removeEventListener('resize', this.#f.bind(this)); this.#r?.disconnect(); this.#o?.disconnect(); document.removeEventListener('visibilitychange', this.#v.bind(this)); }
+  #y() { window.removeEventListener('resize', this.#resizeBound); this.#r?.disconnect(); this.#o?.disconnect(); document.removeEventListener('visibilitychange', this.#visBound); }
   #u(e) { this.#s = e[0].isIntersecting; this.#s ? this.#w() : this.#z(); }
   #v() { if (this.#s) { document.hidden ? this.#z() : this.#w(); } }
   #f() { if (this.#a) clearTimeout(this.#a); this.#a = setTimeout(this.resize.bind(this), 100); }

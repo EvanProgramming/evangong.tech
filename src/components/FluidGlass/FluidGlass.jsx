@@ -9,6 +9,7 @@ import {
   MeshTransmissionMaterial,
 } from '@react-three/drei';
 import { easing } from 'maath';
+import { useVisibilityPause } from '../_perf/useVisibilityPause.js';
 
 export default function FluidGlass({ mode = 'lens', image, lensProps = {}, barProps = {}, cubeProps = {} }) {
   const Wrapper = mode === 'bar' ? Bar : mode === 'cube' ? Cube : Lens;
@@ -24,7 +25,7 @@ export default function FluidGlass({ mode = 'lens', image, lensProps = {}, barPr
   } = rawOverrides;
 
   return (
-    <Canvas camera={{ position: [0, 0, 20], fov: 15 }} gl={{ alpha: true }}>
+    <Canvas camera={{ position: [0, 0, 20], fov: 15 }} gl={{ alpha: true }} dpr={[1, 1.5]}>
       <Wrapper modeProps={modeProps} image={image}>
         <BackgroundImage image={image} />
       </Wrapper>
@@ -43,6 +44,8 @@ const ModeWrapper = memo(function ModeWrapper({
   ...props
 }) {
   const ref = useRef();
+  const wrapRef = useRef(null);
+  const isVisible = useVisibilityPause(wrapRef);
   const { nodes } = useGLTF(glb);
   const buffer = useFBO();
   const { viewport: vp } = useThree();
@@ -56,6 +59,10 @@ const ModeWrapper = memo(function ModeWrapper({
   }, [nodes, geometryKey]);
 
   useFrame((state, delta) => {
+    // Skip the manual FBO render + pointer-follow easing while the lens is
+    // off-screen. The r3F render loop itself still runs, but we avoid the
+    // expensive `gl.render(scene, camera)` into the buffer each frame.
+    if (!isVisible) return;
     const { gl, viewport, pointer, camera } = state;
     const v = viewport.getCurrentViewport(camera, [0, 0, 15]);
 
@@ -77,7 +84,7 @@ const ModeWrapper = memo(function ModeWrapper({
   const { scale, ior, thickness, anisotropy, chromaticAberration, ...extraMat } = modeProps;
 
   return (
-    <>
+    <group ref={wrapRef}>
       {createPortal(children, scene)}
       <mesh scale={[vp.width, vp.height, 1]}>
         <planeGeometry />
@@ -93,7 +100,7 @@ const ModeWrapper = memo(function ModeWrapper({
           {...extraMat}
         />
       </mesh>
-    </>
+    </group>
   );
 });
 

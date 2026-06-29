@@ -5,6 +5,7 @@ import SplitText from '../SplitText/SplitText.jsx';
 import ShinyText from '../ShinyText/ShinyText.jsx';
 import Magnet from '../Magnet/Magnet.jsx';
 import ErrorBoundary from '../ErrorBoundary.jsx';
+import VisibilityMount from '../_perf/VisibilityMount.jsx';
 import './ContactShowcase.css';
 
 const EMAIL = 'evangonggyf@gmail.com';
@@ -55,9 +56,14 @@ export default function ContactShowcase() {
   return (
     <section className="contact-section" aria-label="Contact">
       <div className="contact-rays">
-        <ErrorBoundary>
-          <Hyperspeed effectOptions={hyperspeedOptions} />
-        </ErrorBoundary>
+        <VisibilityMount
+          style={{ position: 'absolute', inset: 0 }}
+          rootMargin="300px 0px"
+        >
+          <ErrorBoundary>
+            <Hyperspeed effectOptions={hyperspeedOptions} />
+          </ErrorBoundary>
+        </VisibilityMount>
       </div>
 
       <div className="contact-grid">
@@ -107,9 +113,14 @@ export default function ContactShowcase() {
         </div>
 
         <div className="contact-right">
-          <ErrorBoundary>
-            <ASCIIText text="Hey" enableWaves={true} asciiFontSize={8} />
-          </ErrorBoundary>
+          <VisibilityMount
+            style={{ position: 'absolute', inset: 0 }}
+            rootMargin="300px 0px"
+          >
+            <ErrorBoundary>
+              <ASCIIText text="Hey" enableWaves={true} asciiFontSize={8} />
+            </ErrorBoundary>
+          </VisibilityMount>
         </div>
       </div>
     </section>
