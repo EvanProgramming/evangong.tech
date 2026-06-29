@@ -15,7 +15,7 @@
   pointer-events: none;
 }
 
-.contact-rays .pixel-blast-container {
+.contact-rays #lights {
   z-index: 0;
 }
 
