@@ -492,6 +492,10 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
       }
 
       init() {
+        // Guard against React 19 StrictMode dev double-mount: the async
+        // loadAssets() promise may resolve after this instance was disposed
+        // (forceContextLoss), which would crash EffectComposer.addPass.
+        if (this.disposed) return;
         this.initPasses();
         const options = this.options;
         this.road.init();
@@ -1167,7 +1171,11 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
 
     const myApp = new App(container, options);
     appRef.current = myApp;
-    myApp.loadAssets().then(myApp.init);
+    myApp.loadAssets().then(() => {
+      // Skip init if the component was unmounted during async asset load
+      // (React 19 StrictMode dev double-mount disposes the first instance).
+      if (!myApp.disposed) myApp.init();
+    });
 
     return () => {
       if (appRef.current) {
