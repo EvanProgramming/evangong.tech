@@ -3,12 +3,11 @@ import Hyperspeed from '../Hyperspeed/Hyperspeed.jsx';
 import ASCIIText from '../ASCIIText/ASCIIText.jsx';
 import SplitText from '../SplitText/SplitText.jsx';
 import ShinyText from '../ShinyText/ShinyText.jsx';
+import Magnet from '../Magnet/Magnet.jsx';
 import ErrorBoundary from '../ErrorBoundary.jsx';
 import './ContactShowcase.css';
 
 const EMAIL = 'evangonggyf@gmail.com';
-// Preserved as interface for custom button implementation (removed buttons used this).
-// eslint-disable-next-line no-unused-vars
 const GITHUB_URL = 'https://github.com/EvanProgramming';
 
 export default function ContactShowcase() {
@@ -73,13 +72,38 @@ export default function ContactShowcase() {
             Open to collaborate. Feel free to reach out and email me for collaboration!
           </p>
 
-          <a
-            className="contact-email-link"
-            href={`mailto:${EMAIL}`}
-            aria-label={`Email ${EMAIL}`}
-          >
-            <ShinyText text={EMAIL} />
-          </a>
+          <div className="contact-actions">
+            <a
+              className="contact-email-link"
+              href={`mailto:${EMAIL}`}
+              aria-label={`Email ${EMAIL}`}
+            >
+              <ShinyText text={EMAIL} />
+            </a>
+
+            <div className="contact-magnets">
+              <Magnet padding={50} disabled={false} magnetStrength={50}>
+                <a
+                  className="magnet-button"
+                  href={`mailto:${EMAIL}`}
+                  aria-label={`Email ${EMAIL}`}
+                >
+                  Get in touch
+                </a>
+              </Magnet>
+              <Magnet disabled={true}>
+                <a
+                  className="magnet-button"
+                  href={GITHUB_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit GitHub profile"
+                >
+                  Github
+                </a>
+              </Magnet>
+            </div>
+          </div>
         </div>
 
         <div className="contact-right">
