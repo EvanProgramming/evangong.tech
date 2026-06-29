@@ -181,7 +181,7 @@ function App() {
         <section className="scroll-stack-section" aria-label="Current projects">
           <ScrollStack
             useWindowScroll={true}
-            itemDistance={32} // 间距 = 卡片高度(20rem=320px)的 10%
+            itemDistance={35} // 间距 = 卡片高度(min-height 22rem=352px)的 10%，依据官方文档 itemDistance 属性
             itemScale={0.01}
             itemStackDistance={0}
             baseScale={0.95}
