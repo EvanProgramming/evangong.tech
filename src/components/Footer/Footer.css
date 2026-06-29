@@ -1,6 +1,7 @@
 .footer {
   position: relative;
   width: 100%;
+  min-height: 33vh;
   background: var(--color-black);
   border-top: 1px solid rgba(0, 240, 255, 0.1);
   box-sizing: border-box;
@@ -10,18 +11,20 @@
 .footer__inner {
   max-width: 1400px;
   margin: 0 auto;
-  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem);
+  min-height: 33vh;
+  padding: clamp(5rem, 12vh, 10rem) clamp(1.5rem, 5vw, 4rem);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: clamp(1.5rem, 4vw, 3rem);
+  box-sizing: border-box;
 }
 
 /* ===== Logo (MetallicPaint canvas) ===== */
 .footer__logo {
   position: relative;
-  width: clamp(72px, 10vw, 120px);
-  height: clamp(72px, 10vw, 120px);
+  width: clamp(120px, 18vw, 200px);
+  height: clamp(120px, 18vw, 200px);
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -38,15 +41,15 @@
 .footer__socials {
   display: flex;
   align-items: center;
-  gap: clamp(0.75rem, 2vw, 1.25rem);
+  gap: clamp(1rem, 2.5vw, 1.75rem);
 }
 
 .footer__social-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(40px, 5vw, 52px);
-  height: clamp(40px, 5vw, 52px);
+  width: clamp(60px, 8vw, 84px);
+  height: clamp(60px, 8vw, 84px);
   color: var(--color-white);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 50%;
@@ -56,8 +59,7 @@
     color 0.25s ease,
     border-color 0.25s ease,
     background 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+    transform 0.25s ease;
 }
 
 .footer__social-link:hover,
@@ -66,7 +68,6 @@
   border-color: rgba(0, 240, 255, 0.6);
   background: rgba(0, 240, 255, 0.08);
   transform: translateY(-2px) scale(1.08);
-  box-shadow: 0 6px 20px rgba(0, 240, 255, 0.25);
   outline: none;
 }
 
@@ -87,22 +88,22 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    gap: 1.75rem;
+    gap: 2.5rem;
   }
 
   .footer__logo {
-    width: clamp(64px, 18vw, 96px);
-    height: clamp(64px, 18vw, 96px);
+    width: clamp(110px, 30vw, 160px);
+    height: clamp(110px, 30vw, 160px);
   }
 }
 
 @media (max-width: 480px) {
   .footer__social-link {
-    width: 42px;
-    height: 42px;
+    width: 56px;
+    height: 56px;
   }
 
   .footer__socials {
-    gap: 0.75rem;
+    gap: 1rem;
   }
 }
