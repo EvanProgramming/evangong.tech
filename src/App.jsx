@@ -1,17 +1,25 @@
+import { lazy, Suspense } from 'react'
 import Hero from './components/Hero/Hero.jsx'
-import ScrollVelocity from './components/ScrollVelocity/ScrollVelocity.jsx'
-import ScrollReveal from './components/ScrollReveal/ScrollReveal.jsx'
+// ScrollStack stays eager: it exposes a named export (ScrollStackItem) and is
+// composed of multiple children passed as props, which makes lazy wrapping awkward.
 import ScrollStack, { ScrollStackItem } from './components/ScrollStack/ScrollStack.jsx'
-import LogoLoop from './components/LogoLoop/LogoLoop.jsx'
-import TrueFocus from './components/TrueFocus/TrueFocus.jsx'
-import FlyingPostersSection from './components/FlyingPosters/FlyingPostersSection.jsx'
-import FlowingMenu from './components/FlowingMenu/FlowingMenu.jsx'
-import LensesShowcase from './components/LensesShowcase/LensesShowcase.jsx'
-import ContactShowcase from './components/ContactShowcase/ContactShowcase.jsx'
-import Footer from './components/Footer/Footer.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
+import SectionFallback from './components/_perf/SectionFallback.jsx'
 import './App.css'
+
+// Lazy-load below-fold sections so their chunks (and their heavy deps) are
+// fetched on demand rather than blocking first paint. Hero / StaggeredMenu /
+// ErrorBoundary stay eager (first-paint critical).
+const ScrollVelocity = lazy(() => import('./components/ScrollVelocity/ScrollVelocity.jsx'))
+const ScrollReveal = lazy(() => import('./components/ScrollReveal/ScrollReveal.jsx'))
+const LogoLoop = lazy(() => import('./components/LogoLoop/LogoLoop.jsx'))
+const TrueFocus = lazy(() => import('./components/TrueFocus/TrueFocus.jsx'))
+const FlyingPostersSection = lazy(() => import('./components/FlyingPosters/FlyingPostersSection.jsx'))
+const FlowingMenu = lazy(() => import('./components/FlowingMenu/FlowingMenu.jsx'))
+const LensesShowcase = lazy(() => import('./components/LensesShowcase/LensesShowcase.jsx'))
+const ContactShowcase = lazy(() => import('./components/ContactShowcase/ContactShowcase.jsx'))
+const Footer = lazy(() => import('./components/Footer/Footer.jsx'))
 
 // FlowingMenu images (specific photography picks from subfolders)
 import parisImg from '/Photography/Paris/IMG_1598.jpg'
@@ -122,31 +130,35 @@ function App() {
       <main>
         <Hero />
         <section className="scroll-velocity-section" aria-label="Interests marquee">
-          <ScrollVelocity
-            texts={[
-              <span style={{ color: 'var(--color-white)' }}>Table Tennis &nbsp;•&nbsp; Programming &nbsp;•&nbsp; AI</span>,
-              <span style={{ color: '#00f0ff' }}>3D Printing &nbsp;•&nbsp; Robot &nbsp;•&nbsp; Photography</span>,
-            ]}
-            velocity={100}
-            className="scroll-velocity-text"
-            damping={50}
-            stiffness={400}
-            numCopies={6}
-          />
+          <Suspense fallback={<SectionFallback minHeight={200} label="Loading interests marquee" />}>
+            <ScrollVelocity
+              texts={[
+                <span style={{ color: 'var(--color-white)' }}>Table Tennis &nbsp;•&nbsp; Programming &nbsp;•&nbsp; AI</span>,
+                <span style={{ color: '#00f0ff' }}>3D Printing &nbsp;•&nbsp; Robot &nbsp;•&nbsp; Photography</span>,
+              ]}
+              velocity={100}
+              className="scroll-velocity-text"
+              damping={50}
+              stiffness={400}
+              numCopies={6}
+            />
+          </Suspense>
         </section>
 
         <section className="scroll-reveal-section" aria-label="About statement">
           <div className="scroll-reveal-container">
-            <ScrollReveal
-              baseOpacity={0}
-              enableBlur={true}
-              baseRotation={5}
-              blurStrength={10}
-              containerClassName="scroll-reveal-container__title"
-              textClassName="scroll-reveal-container__text"
-            >
-              {revealChildren}
-            </ScrollReveal>
+            <Suspense fallback={<SectionFallback minHeight={400} label="Loading about statement" />}>
+              <ScrollReveal
+                baseOpacity={0}
+                enableBlur={true}
+                baseRotation={5}
+                blurStrength={10}
+                containerClassName="scroll-reveal-container__title"
+                textClassName="scroll-reveal-container__text"
+              >
+                {revealChildren}
+              </ScrollReveal>
+            </Suspense>
           </div>
         </section>
 
@@ -216,78 +228,96 @@ function App() {
             <div className="logo-loop-row">
               <span className="logo-loop-row__label">Programming</span>
               <div className="logo-loop-row__track">
-                <LogoLoop
-                  logos={programmingLogos}
-                  speed={80}
-                  direction="left"
-                  logoHeight={36}
-                  gap={48}
-                  hoverSpeed={20}
-                  scaleOnHover
-                  fadeOut
-                  fadeOutColor="#000000"
-                  ariaLabel="Programming logos"
-                />
+                <Suspense fallback={<SectionFallback minHeight={36} label="Loading programming logos" />}>
+                  <LogoLoop
+                    logos={programmingLogos}
+                    speed={80}
+                    direction="left"
+                    logoHeight={36}
+                    gap={48}
+                    hoverSpeed={20}
+                    scaleOnHover
+                    fadeOut
+                    fadeOutColor="#000000"
+                    ariaLabel="Programming logos"
+                  />
+                </Suspense>
               </div>
             </div>
             <div className="logo-loop-row">
               <span className="logo-loop-row__label">Photography</span>
               <div className="logo-loop-row__track">
-                <LogoLoop
-                  logos={photographyLogos}
-                  speed={70}
-                  direction="right"
-                  logoHeight={36}
-                  gap={48}
-                  hoverSpeed={-20}
-                  scaleOnHover
-                  fadeOut
-                  fadeOutColor="#000000"
-                  ariaLabel="Photography logos"
-                />
+                <Suspense fallback={<SectionFallback minHeight={36} label="Loading photography logos" />}>
+                  <LogoLoop
+                    logos={photographyLogos}
+                    speed={70}
+                    direction="right"
+                    logoHeight={36}
+                    gap={48}
+                    hoverSpeed={-20}
+                    scaleOnHover
+                    fadeOut
+                    fadeOutColor="#000000"
+                    ariaLabel="Photography logos"
+                  />
+                </Suspense>
               </div>
             </div>
             <div className="logo-loop-row">
               <span className="logo-loop-row__label">AI</span>
               <div className="logo-loop-row__track">
-                <LogoLoop
-                  logos={aiLogos}
-                  speed={80}
-                  direction="left"
-                  logoHeight={36}
-                  gap={48}
-                  hoverSpeed={20}
-                  scaleOnHover
-                  fadeOut
-                  fadeOutColor="#000000"
-                  ariaLabel="AI logos"
-                />
+                <Suspense fallback={<SectionFallback minHeight={36} label="Loading AI logos" />}>
+                  <LogoLoop
+                    logos={aiLogos}
+                    speed={80}
+                    direction="left"
+                    logoHeight={36}
+                    gap={48}
+                    hoverSpeed={20}
+                    scaleOnHover
+                    fadeOut
+                    fadeOutColor="#000000"
+                    ariaLabel="AI logos"
+                  />
+                </Suspense>
               </div>
             </div>
           </div>
         </section>
 
         <section className="true-focus-section" aria-label="True Focus">
-          <TrueFocus
-            sentence="True Focus"
-            manualMode={true}
-            borderColor="#00f0ff"
-          />
+          <Suspense fallback={<SectionFallback minHeight={200} label="Loading True Focus" />}>
+            <TrueFocus
+              sentence="True Focus"
+              manualMode={true}
+              borderColor="#00f0ff"
+            />
+          </Suspense>
         </section>
 
         <ErrorBoundary>
-          <FlyingPostersSection items={posterImages} />
+          <Suspense fallback={<SectionFallback minHeight={600} label="Loading Flying Posters" />}>
+            <FlyingPostersSection items={posterImages} />
+          </Suspense>
         </ErrorBoundary>
 
         <div style={{ height: '600px', position: 'relative' }}>
-          <FlowingMenu items={flowingMenuItems} />
+          <Suspense fallback={<SectionFallback minHeight={600} label="Loading Flowing Menu" />}>
+            <FlowingMenu items={flowingMenuItems} />
+          </Suspense>
         </div>
 
-        <LensesShowcase />
+        <Suspense fallback={<SectionFallback minHeight={700} label="Loading Lenses Showcase" />}>
+          <LensesShowcase />
+        </Suspense>
 
-        <ContactShowcase />
+        <Suspense fallback={<SectionFallback minHeight={700} label="Loading Contact" />}>
+          <ContactShowcase />
+        </Suspense>
 
-        <Footer />
+        <Suspense fallback={<SectionFallback minHeight={200} label="Loading Footer" />}>
+          <Footer />
+        </Suspense>
       </main>
     </div>
   )
