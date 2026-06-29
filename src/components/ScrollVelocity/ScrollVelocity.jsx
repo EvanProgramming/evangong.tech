@@ -14,12 +14,18 @@ function useElementWidth(ref) {
   const [width, setWidth] = useState(0);
 
   useLayoutEffect(() => {
-    function updateWidth() {
-      if (ref.current) {
-        setWidth(ref.current.offsetWidth);
-      }
-    }
+    if (!ref.current) return;
+    const updateWidth = () => setWidth(ref.current.offsetWidth);
     updateWidth();
+    // Use ResizeObserver (element-scoped) instead of window resize: avoids
+    // a global listener per VelocityText instance and fires only when the
+    // element's box actually changes (e.g. CSS layout shifts, font loads).
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(updateWidth);
+      ro.observe(ref.current);
+      return () => ro.disconnect();
+    }
+    // Fallback for very old browsers.
     window.addEventListener('resize', updateWidth);
     return () => window.removeEventListener('resize', updateWidth);
   }, [ref]);

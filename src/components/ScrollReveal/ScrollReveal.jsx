@@ -98,7 +98,13 @@ const ScrollReveal = ({
     }
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      // Only kill the ScrollTriggers this instance created (triggered by our
+      // own `el`). The previous `trigger.kill()` (no filter) killed every
+      // ScrollTrigger on the page, which broke other sections (SplitText,
+      // FlyingPosters, etc.) when ScrollReveal unmounted.
+      ScrollTrigger.getAll().forEach(st => {
+        if (st.trigger === el) st.kill();
+      });
     };
   }, [scrollContainerRef, enableBlur, baseRotation, baseOpacity, rotationEnd, wordAnimationEnd, blurStrength]);
 

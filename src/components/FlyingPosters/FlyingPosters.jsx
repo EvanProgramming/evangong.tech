@@ -340,27 +340,35 @@ class Canvas {
   }
 
   onResize() {
-    const rect = this.container.getBoundingClientRect();
-    this.screen = {
-      width: rect.width,
-      height: rect.height
-    };
+    // Debounce: window resize fires dozens of times during a drag. Coalesce
+    // into a single layout recalculation 100ms after the last event, the
+    // same pattern Ballpit uses (see Ballpit _Three#f). Without this, every
+    // resize tick triggers a getBoundingClientRect + setSize + perspective
+    // rebuild + per-media onResize.
+    if (this._resizeTimer) clearTimeout(this._resizeTimer);
+    this._resizeTimer = setTimeout(() => {
+      const rect = this.container.getBoundingClientRect();
+      this.screen = {
+        width: rect.width,
+        height: rect.height
+      };
 
-    this.renderer.setSize(this.screen.width, this.screen.height);
+      this.renderer.setSize(this.screen.width, this.screen.height);
 
-    this.camera.perspective({
-      aspect: this.gl.canvas.width / this.gl.canvas.height
-    });
+      this.camera.perspective({
+        aspect: this.gl.canvas.width / this.gl.canvas.height
+      });
 
-    const fov = (this.camera.fov * Math.PI) / 180;
-    const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
-    const width = height * this.camera.aspect;
+      const fov = (this.camera.fov * Math.PI) / 180;
+      const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
+      const width = height * this.camera.aspect;
 
-    this.viewport = { height, width };
+      this.viewport = { height, width };
 
-    if (this.medias) {
-      this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
-    }
+      if (this.medias) {
+        this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
+      }
+    }, 100);
   }
 
   onTouchDown(e) {
@@ -419,6 +427,7 @@ class Canvas {
     // start tearing down GL resources. Previously this was missing, leaking
     // a rAF that kept rendering into a half-disposed renderer.
     if (this.rafId) cancelAnimationFrame(this.rafId);
+    if (this._resizeTimer) { clearTimeout(this._resizeTimer); this._resizeTimer = null; }
     window.removeEventListener('resize', this.onResize);
     if (!this.enableWheel) return;
 
