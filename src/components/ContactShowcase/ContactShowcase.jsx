@@ -14,7 +14,11 @@ export default function ContactShowcase() {
     <section className="contact-section" aria-label="Contact">
       <div className="contact-rays">
         <ErrorBoundary>
-          <PixelBlast color="#00f0ff" />
+          <PixelBlast
+            color="#00f0ff"
+            patternDensity={1.6}
+            edgeFade={0.2}
+          />
         </ErrorBoundary>
       </div>
 
