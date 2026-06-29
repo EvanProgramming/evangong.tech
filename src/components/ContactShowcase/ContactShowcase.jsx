@@ -40,23 +40,39 @@ export default function ContactShowcase() {
 
           <div className="contact-buttons">
             <a
-              className="contact-button-link"
+              className="contact-button"
               href={`mailto:${EMAIL}`}
               aria-label="Get in touch via email"
             >
-              <GlassSurface backgroundOpacity={0.12}>
-                <span className="contact-button-label">Get in touch</span>
+              <GlassSurface
+                width="100%"
+                height={56}
+                borderRadius={28}
+                backgroundOpacity={0.12}
+                saturation={1.6}
+                displace={1.5}
+                className="contact-button__glass"
+              >
+                <span className="contact-button__label">Get in touch</span>
               </GlassSurface>
             </a>
             <a
-              className="contact-button-link"
+              className="contact-button"
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Visit my GitHub profile"
             >
-              <GlassSurface backgroundOpacity={0.12}>
-                <span className="contact-button-label">Github</span>
+              <GlassSurface
+                width="100%"
+                height={56}
+                borderRadius={28}
+                backgroundOpacity={0.08}
+                saturation={1.4}
+                displace={1.5}
+                className="contact-button__glass"
+              >
+                <span className="contact-button__label">Github</span>
               </GlassSurface>
             </a>
           </div>
