@@ -71,51 +71,6 @@
   display: inline-block;
 }
 
-/* ===== Glass Surface button group ===== */
-.contact-buttons {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
-}
-
-.contact-button {
-  flex: 0 1 auto;
-  min-width: 160px;
-  max-width: 220px;
-  text-decoration: none;
-  cursor: pointer;
-  outline-offset: 4px;
-  display: block;
-}
-
-.contact-button:focus-visible {
-  outline: 2px solid var(--color-cyan);
-}
-
-.contact-button__glass {
-  width: 100% !important;
-  height: 56px !important;
-}
-
-.contact-button__label {
-  font-family: inherit;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #ffffff;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
-  pointer-events: none;
-}
-
-.contact-button:hover .contact-button__glass {
-  filter: brightness(1.12);
-}
-
-.contact-button:active .contact-button__glass {
-  transform: scale(0.98);
-}
-
 .contact-right {
   position: relative;
   width: 100%;
@@ -136,22 +91,5 @@
 
   .contact-left {
     align-items: flex-start;
-  }
-
-  .contact-button {
-    flex: 1 1 auto;
-    min-width: 140px;
-  }
-}
-
-@media (max-width: 480px) {
-  .contact-buttons {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .contact-button {
-    width: 100%;
-    max-width: none;
   }
 }
