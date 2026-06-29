@@ -71,52 +71,6 @@
   display: inline-block;
 }
 
-.contact-buttons {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2.5rem;
-  flex-wrap: wrap;
-}
-
-.contact-button {
-  flex: 1 1 auto;
-  min-width: 160px;
-  max-width: 220px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  text-decoration: none;
-  outline-offset: 4px;
-}
-
-.contact-button:focus-visible {
-  outline: 2px solid var(--color-cyan);
-}
-
-.contact-button__glass {
-  width: 100% !important;
-  height: 56px !important;
-}
-
-.contact-button__label {
-  font-family: inherit;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--color-black);
-  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.25);
-  pointer-events: none;
-}
-
-.contact-button:hover .contact-button__glass {
-  filter: brightness(1.12);
-}
-
-.contact-button:active .contact-button__glass {
-  transform: scale(0.98);
-}
-
 .contact-right {
   position: relative;
   width: 100%;
@@ -137,19 +91,5 @@
 
   .contact-left {
     align-items: flex-start;
-  }
-}
-
-@media (max-width: 480px) {
-  .contact-buttons {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-
-  .contact-button {
-    width: 80%;
-    max-width: 220px;
-    min-width: 0;
   }
 }
