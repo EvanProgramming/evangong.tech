@@ -8,6 +8,7 @@ import FlyingPostersSection from './components/FlyingPosters/FlyingPostersSectio
 import FlowingMenu from './components/FlowingMenu/FlowingMenu.jsx'
 import LensesShowcase from './components/LensesShowcase/LensesShowcase.jsx'
 import ContactShowcase from './components/ContactShowcase/ContactShowcase.jsx'
+import Footer from './components/Footer/Footer.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import './App.css'
@@ -284,6 +285,8 @@ function App() {
         <LensesShowcase />
 
         <ContactShowcase />
+
+        <Footer />
       </main>
     </div>
   )
