@@ -14,12 +14,6 @@ const Magnet = ({
   const [isActive, setIsActive] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const magnetRef = useRef(null);
-  // Coalesce mousemove events into a single rAF callback per instance.
-  // Without this, every mousemove synchronously calls getBoundingClientRect
-  // (forced layout) and triggers a React re-render via setPosition/setIsActive.
-  // ContactShowcase mounts 2 instances, so the savings compound.
-  const rafRef = useRef(0);
-  const latestEventRef = useRef(null);
 
   useEffect(() => {
     if (disabled) {
@@ -28,40 +22,30 @@ const Magnet = ({
     }
 
     const handleMouseMove = e => {
-      latestEventRef.current = e;
-      if (rafRef.current) return; // a frame is already scheduled
-      rafRef.current = requestAnimationFrame(() => {
-        rafRef.current = 0;
-        const ev = latestEventRef.current;
-        if (!ev || !magnetRef.current) return;
+      if (!magnetRef.current) return;
 
-        const { left, top, width, height } = magnetRef.current.getBoundingClientRect();
-        const centerX = left + width / 2;
-        const centerY = top + height / 2;
+      const { left, top, width, height } = magnetRef.current.getBoundingClientRect();
+      const centerX = left + width / 2;
+      const centerY = top + height / 2;
 
-        const distX = Math.abs(centerX - ev.clientX);
-        const distY = Math.abs(centerY - ev.clientY);
+      const distX = Math.abs(centerX - e.clientX);
+      const distY = Math.abs(centerY - e.clientY);
 
-        if (distX < width / 2 + padding && distY < height / 2 + padding) {
-          setIsActive(true);
+      if (distX < width / 2 + padding && distY < height / 2 + padding) {
+        setIsActive(true);
 
-          const offsetX = (ev.clientX - centerX) / magnetStrength;
-          const offsetY = (ev.clientY - centerY) / magnetStrength;
-          setPosition({ x: offsetX, y: offsetY });
-        } else {
-          setIsActive(false);
-          setPosition({ x: 0, y: 0 });
-        }
-      });
+        const offsetX = (e.clientX - centerX) / magnetStrength;
+        const offsetY = (e.clientY - centerY) / magnetStrength;
+        setPosition({ x: offsetX, y: offsetY });
+      } else {
+        setIsActive(false);
+        setPosition({ x: 0, y: 0 });
+      }
     };
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-        rafRef.current = 0;
-      }
     };
   }, [padding, disabled, magnetStrength]);
 

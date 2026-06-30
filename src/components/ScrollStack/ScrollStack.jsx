@@ -1,6 +1,5 @@
 import { useLayoutEffect, useRef, useCallback } from 'react';
 import Lenis from 'lenis';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './ScrollStack.css';
 
 export const ScrollStackItem = ({ children, itemClassName = '' }) => (
@@ -64,25 +63,23 @@ const ScrollStack = ({
     element => {
       if (useWindowScroll) {
         const rect = element.getBoundingClientRect();
-        let offset = rect.top + window.scrollY;
-        // Break transform feedback loop: getBoundingClientRect returns the
-        // post-transform position, which includes this card's own previously-
-        // applied translateY. Reading it back here pollutes cardTop, producing
-        // the recurrence tY_n = C_n - tY_{n-1} (proven via runtime evidence:
-        // predicted vs actual tY matched with 0.00 error across 29 frames),
-        // causing the card to oscillate between two positions every frame.
-        // Subtracting the last applied translateY recovers the true (transform-
-        // immune) layout position. Safe because transform-origin is "top center"
-        // (originY=0) so scale does not shift rect.top, and rotationAmount
-        // defaults to 0 so rotation is a no-op on the top edge.
-        const idx = cardsRef.current.indexOf(element);
-        if (idx >= 0) {
-          const lastTransform = lastTransformsRef.current.get(idx);
-          if (lastTransform) {
-            offset -= lastTransform.translateY;
-          }
-        }
-        return offset;
+        // getBoundingClientRect().top returns the POST-transform position —
+        // it includes the card's own previously-applied translateY from the
+        // last frame. In useWindowScroll=true mode this creates a feedback
+        // loop: tY_n = C_n - tY_{n-1}, producing two-position oscillation
+        // every frame. Subtract the last applied translateY to recover the
+        // true layout position.
+        // Safe because transform-origin is "top center" (originY=0) so scale
+        // doesn't shift rect.top, and rotationAmount=0.
+        // Non-card elements (e.g. .scroll-stack-end) have no recorded
+        // transform, so skip the subtraction for them.
+        const cardIndex = element.classList?.contains('scroll-stack-card')
+          ? cardsRef.current.indexOf(element)
+          : -1;
+        const lastY = cardIndex >= 0
+          ? (lastTransformsRef.current.get(cardIndex)?.translateY ?? 0)
+          : 0;
+        return rect.top + window.scrollY - lastY;
       } else {
         return element.offsetTop;
       }
@@ -217,14 +214,6 @@ const ScrollStack = ({
       });
 
       lenis.on('scroll', handleScroll);
-      // Bridge Lenis -> ScrollTrigger: without this, ScrollTrigger only hears
-      // the native `scroll` event fired by Lenis's internal scrollTo, which
-      // arrives out of phase with Lenis's smoothed position. The result is
-      // that scrub-driven animations (ScrollReveal rotate/opacity/blur,
-      // ScrollVelocity, etc.) stutter or sit at the wrong progress while the
-      // user scrolls. Routing Lenis's scroll callback to ScrollTrigger.update
-      // syncs every scrub tween to Lenis's interpolated scroll position.
-      lenis.on('scroll', ScrollTrigger.update);
 
       const raf = time => {
         lenis.raf(time);
@@ -262,8 +251,6 @@ const ScrollStack = ({
       });
 
       lenis.on('scroll', handleScroll);
-      // Same Lenis -> ScrollTrigger bridge as the window-scroll branch above.
-      lenis.on('scroll', ScrollTrigger.update);
 
       const raf = time => {
         lenis.raf(time);

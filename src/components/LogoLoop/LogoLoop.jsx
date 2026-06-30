@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState, memo } from 'react';
-import { useVisibilityPause } from '../_perf/useVisibilityPause.js';
 import './LogoLoop.css';
 
 const ANIMATION_CONFIG = { SMOOTH_TAU: 0.25, MIN_COPIES: 2, COPY_HEADROOM: 2 };
@@ -57,7 +56,7 @@ const useImageLoader = (seqRef, onLoad, dependencies) => {
   }, [onLoad, seqRef, dependencies]);
 };
 
-const useAnimationLoop = (trackRef, targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, isVisible) => {
+const useAnimationLoop = (trackRef, targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical) => {
   const rafRef = useRef(null);
   const lastTimestampRef = useRef(null);
   const offsetRef = useRef(0);
@@ -66,10 +65,6 @@ const useAnimationLoop = (trackRef, targetVelocity, seqWidth, seqHeight, isHover
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
-    // Don't run the animation loop while off-screen: the rAF is cancelled by
-    // the effect cleanup when isVisible flips to false, and restarted when it
-    // flips back to true.
-    if (!isVisible) return;
 
     const seqSize = isVertical ? seqHeight : seqWidth;
 
@@ -117,7 +112,7 @@ const useAnimationLoop = (trackRef, targetVelocity, seqWidth, seqHeight, isHover
       }
       lastTimestampRef.current = null;
     };
-  }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, trackRef, isVisible]);
+  }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, trackRef]);
 };
 
 export const LogoLoop = memo(
@@ -197,9 +192,7 @@ export const LogoLoop = memo(
 
     useImageLoader(seqRef, updateDimensions, [logos, gap, logoHeight, isVertical]);
 
-    // Pause the marquee rAF when the logos are off-screen.
-    const isVisible = useVisibilityPause(containerRef);
-    useAnimationLoop(trackRef, targetVelocity, seqWidth, seqHeight, isHovered, effectiveHoverSpeed, isVertical, isVisible);
+    useAnimationLoop(trackRef, targetVelocity, seqWidth, seqHeight, isHovered, effectiveHoverSpeed, isVertical);
 
     const cssVariables = useMemo(
       () => ({

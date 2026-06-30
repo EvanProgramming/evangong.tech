@@ -267,12 +267,7 @@ class Canvas {
     this.createRenderer();
     this.createCamera();
     this.createScene();
-    // Synchronously initialize screen & viewport so createMedias() below has
-    // valid dimensions. The debounced onResize() is only for window resize
-    // events (coalescing rapid drag ticks); the initial layout must be
-    // computed eagerly, otherwise Media's constructor reads this.viewport
-    // before the 100ms timer fires → "Cannot read properties of undefined".
-    this.computeViewport();
+    this.onResize();
 
     this.createGeometry();
     this.createMedias();
@@ -344,10 +339,7 @@ class Canvas {
     });
   }
 
-  computeViewport() {
-    // Pure layout computation — no debounce, no side effects beyond setting
-    // this.screen / this.viewport. Called eagerly from the constructor so
-    // createMedias() has valid dimensions, and from the debounced onResize.
+  onResize() {
     const rect = this.container.getBoundingClientRect();
     this.screen = {
       width: rect.width,
@@ -365,21 +357,10 @@ class Canvas {
     const width = height * this.camera.aspect;
 
     this.viewport = { height, width };
-  }
 
-  onResize() {
-    // Debounce: window resize fires dozens of times during a drag. Coalesce
-    // into a single layout recalculation 100ms after the last event, the
-    // same pattern Ballpit uses (see Ballpit _Three#f). Without this, every
-    // resize tick triggers a getBoundingClientRect + setSize + perspective
-    // rebuild + per-media onResize.
-    if (this._resizeTimer) clearTimeout(this._resizeTimer);
-    this._resizeTimer = setTimeout(() => {
-      this.computeViewport();
-      if (this.medias) {
-        this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
-      }
-    }, 100);
+    if (this.medias) {
+      this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
+    }
   }
 
   onTouchDown(e) {
@@ -414,7 +395,7 @@ class Canvas {
     }
     this.renderer.render({ scene: this.scene, camera: this.camera });
     this.scroll.last = this.scroll.current;
-    this.rafId = requestAnimationFrame(this.update);
+    requestAnimationFrame(this.update);
   }
 
   addEventListeners() {
@@ -434,11 +415,6 @@ class Canvas {
   }
 
   destroy() {
-    // Cancel the render loop first so no more rAF callbacks fire after we
-    // start tearing down GL resources. Previously this was missing, leaking
-    // a rAF that kept rendering into a half-disposed renderer.
-    if (this.rafId) cancelAnimationFrame(this.rafId);
-    if (this._resizeTimer) { clearTimeout(this._resizeTimer); this._resizeTimer = null; }
     window.removeEventListener('resize', this.onResize);
     if (!this.enableWheel) return;
 

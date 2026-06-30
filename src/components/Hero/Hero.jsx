@@ -5,9 +5,6 @@ import Lanyard from '../Lanyard/Lanyard.jsx'
 import GradualBlur from '../GradualBlur/GradualBlur.jsx'
 import GlassSurface from '../GlassSurface/GlassSurface.jsx'
 import ErrorBoundary from '../ErrorBoundary.jsx'
-// 1.3MB PNG -> 512px WebP for the Lanyard card texture (drawn onto a canvas
-// via useTexture). WebP is supported everywhere WebGL 2.0 is.
-import iconUrl from '../../assets/EvanGongIcon.png?w=512&format=webp'
 import './Hero.css'
 
 export default function Hero() {
@@ -104,8 +101,8 @@ export default function Hero() {
                 position={[0, 0, 25]}
                 gravity={[0, -40, 0]}
                 fov={20}
-                frontImage={iconUrl}
-                backImage={iconUrl}
+                frontImage="/assets/EvanGongIcon.png"
+                backImage="/assets/EvanGongIcon.png"
                 imageFit="cover"
                 lanyardWidth={1.2}
               />
