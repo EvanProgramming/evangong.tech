@@ -5,7 +5,7 @@ import { Canvas, createPortal, useFrame, useThree } from '@react-three/fiber';
 import {
   useFBO,
   useGLTF,
-  Image,
+  useTexture,
   Preload,
   MeshTransmissionMaterial,
 } from '@react-three/drei';
@@ -110,8 +110,18 @@ const ModeWrapper = memo(function ModeWrapper({
 
 function BackgroundImage({ image }) {
   const viewport = useThree(s => s.viewport);
+  // Use useTexture + a plain meshBasicMaterial instead of drei <Image>.
+  // drei <Image> wraps the texture in a custom imageMaterial shader whose
+  // defaults render white when the texture is not yet uploaded or when the
+  // material hasn't been compiled inside the portaled scene. A plain
+  // meshBasicMaterial has no such fallback — it shows the texture directly
+  // (or nothing while suspended under <Suspense>).
+  const texture = useTexture(image);
   return (
-    <Image position={[0, 0, -1]} scale={[viewport.width, viewport.height, 1]} url={image} />
+    <mesh position={[0, 0, -1]} scale={[viewport.width, viewport.height, 1]}>
+      <planeGeometry />
+      <meshBasicMaterial map={texture} toneMapped={false} />
+    </mesh>
   );
 }
 
