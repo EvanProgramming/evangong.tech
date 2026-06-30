@@ -97,21 +97,8 @@ const ScrollReveal = ({
       );
     }
 
-    // ScrollReveal is lazy-loaded: by the time it mounts, the SectionFallback
-    // (min-height 400) has been swapped for the real text whose height differs.
-    // ScrollTrigger computed its start/end against the fallback height, so the
-    // scrub range is off. Refresh re-measures every trigger against the live
-    // layout so the reveal fires at the correct scroll position.
-    ScrollTrigger.refresh();
-
     return () => {
-      // Only kill the ScrollTriggers this instance created (triggered by our
-      // own `el`). The previous `trigger.kill()` (no filter) killed every
-      // ScrollTrigger on the page, which broke other sections (SplitText,
-      // FlyingPosters, etc.) when ScrollReveal unmounted.
-      ScrollTrigger.getAll().forEach(st => {
-        if (st.trigger === el) st.kill();
-      });
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, [scrollContainerRef, enableBlur, baseRotation, baseOpacity, rotationEnd, wordAnimationEnd, blurStrength]);
 

@@ -1,38 +1,23 @@
-import { lazy, Suspense } from 'react'
 import Hero from './components/Hero/Hero.jsx'
-// ScrollStack stays eager: it exposes a named export (ScrollStackItem) and is
-// composed of multiple children passed as props, which makes lazy wrapping awkward.
+import ScrollVelocity from './components/ScrollVelocity/ScrollVelocity.jsx'
+import ScrollReveal from './components/ScrollReveal/ScrollReveal.jsx'
 import ScrollStack, { ScrollStackItem } from './components/ScrollStack/ScrollStack.jsx'
+import LogoLoop from './components/LogoLoop/LogoLoop.jsx'
+import TrueFocus from './components/TrueFocus/TrueFocus.jsx'
+import FlyingPostersSection from './components/FlyingPosters/FlyingPostersSection.jsx'
+import FlowingMenu from './components/FlowingMenu/FlowingMenu.jsx'
+import LensesShowcase from './components/LensesShowcase/LensesShowcase.jsx'
+import ContactShowcase from './components/ContactShowcase/ContactShowcase.jsx'
+import Footer from './components/Footer/Footer.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
-import SectionFallback from './components/_perf/SectionFallback.jsx'
-import VisibilityMount from './components/_perf/VisibilityMount.jsx'
 import './App.css'
 
-// Lazy-load below-fold sections so their chunks (and their heavy deps) are
-// fetched on demand rather than blocking first paint. Hero / StaggeredMenu /
-// ErrorBoundary stay eager (first-paint critical).
-const ScrollVelocity = lazy(() => import('./components/ScrollVelocity/ScrollVelocity.jsx'))
-const ScrollReveal = lazy(() => import('./components/ScrollReveal/ScrollReveal.jsx'))
-const LogoLoop = lazy(() => import('./components/LogoLoop/LogoLoop.jsx'))
-const TrueFocus = lazy(() => import('./components/TrueFocus/TrueFocus.jsx'))
-const FlyingPostersSection = lazy(() => import('./components/FlyingPosters/FlyingPostersSection.jsx'))
-const FlowingMenu = lazy(() => import('./components/FlowingMenu/FlowingMenu.jsx'))
-const LensesShowcase = lazy(() => import('./components/LensesShowcase/LensesShowcase.jsx'))
-const ContactShowcase = lazy(() => import('./components/ContactShowcase/ContactShowcase.jsx'))
-const Footer = lazy(() => import('./components/Footer/Footer.jsx'))
-
-// EvanGongIcon: 1.3MB PNG -> 256px WebP for the StaggeredMenu nav logo.
-// (Hero and Footer import their own appropriately-sized variants.)
-import navLogoUrl from './assets/EvanGongIcon.png?w=256&format=webp'
-
-// FlowingMenu images (specific photography picks from subfolders).
-// Transformed to 1600px WebP at build time via vite-imagetools + sharp.
-// Originals ranged 152KB-3.6MB JPEG; WebP at 1600px lands ~80-200KB.
-import parisImg from '/Photography/Paris/IMG_1598.jpg?w=1600&format=webp'
-import chaoshanImg from '/Photography/Chaoshan/A395CF89-F602-44F6-97F0-747AD556F2C4_1_105_c.jpeg?w=1600&format=webp'
-import beijingImg from '/Photography/Beijing/we-o_rd35vfjgdnyzud3fw-china-7504392.jpg?w=1600&format=webp'
-import miscImg from '/Photography/Miscellaneous/639F42E1-5B22-40AE-BDF9-3974A03E2073_1_105_c.jpeg?w=1600&format=webp'
+// FlowingMenu images (specific photography picks from subfolders)
+import parisImg from '/Photography/Paris/IMG_1598.jpg'
+import chaoshanImg from '/Photography/Chaoshan/A395CF89-F602-44F6-97F0-747AD556F2C4_1_105_c.jpeg'
+import beijingImg from '/Photography/Beijing/we-o_rd35vfjgdnyzud3fw-china-7504392.jpg'
+import miscImg from '/Photography/Miscellaneous/639F42E1-5B22-40AE-BDF9-3974A03E2073_1_105_c.jpeg'
 
 const flowingMenuItems = [
   { link: '#', text: 'Paris, France', image: parisImg },
@@ -77,10 +62,9 @@ const menuItems = [
   { label: 'Awards', ariaLabel: 'View awards', link: '/awards' },
 ]
 
-// Simple Icons served locally from public/icons/ to avoid CDN availability
-// issues (cdn.simpleicons.org is unreachable in some browser networks even
-// though server-side curl succeeds — likely IPv6/DNS/proxy mismatch).
-// SVGs are pre-colored white (fill="#ffffff") to match the prior /ffffff CDN.
+// Simple Icons served locally from public/icons/ — cdn.simpleicons.org is
+// unreachable in the browser network (ERR_ABORTED) even though server-side
+// curl succeeds. SVGs are pre-colored white (fill="#ffffff").
 const si = (slug) => `/icons/${slug}.svg`
 // Text fallback for brands not on Simple Icons
 const txt = (label) => <span className="logo-text">{label}</span>
@@ -116,16 +100,9 @@ const aiLogos = [
   { src: si('cursor'), alt: 'Cursor', title: 'Cursor', href: 'https://cursor.sh' },
 ]
 
-// Photography images from /Photography/ folder.
-// FlyingPosters renders each plane at ~320px CSS * 2 dpr = 640px, so 640px
-// WebP is the right size. Originals ranged 136KB-6.3MB JPEG; 640px WebP
-// lands ~30-80KB. FlyingPosters receives URL strings (shape unchanged).
+// Photography images from /Photography/ folder
 const posterImages = Object.values(
-  import.meta.glob('/Photography/*.{jpeg,jpg,png}', {
-    eager: true,
-    query: { w: 640, format: 'webp' },
-    import: 'default'
-  })
+  import.meta.glob('/Photography/*.{jpeg,jpg,png}', { eager: true, query: '?url', import: 'default' })
 )
 
 function App() {
@@ -136,7 +113,7 @@ function App() {
         items={menuItems}
         displaySocials={false}
         displayItemNumbering={false}
-        logoUrl={navLogoUrl}
+        logoUrl="/assets/EvanGongIcon.png"
         menuButtonColor="#00f0ff"
         openMenuButtonColor="#00f0ff"
         changeMenuColorOnOpen={false}
@@ -147,37 +124,31 @@ function App() {
       <main>
         <Hero />
         <section className="scroll-velocity-section" aria-label="Interests marquee">
-          <Suspense fallback={<SectionFallback minHeight={200} label="Loading interests marquee" />}>
-            <VisibilityMount rootMargin="200px 0px">
-              <ScrollVelocity
-                texts={[
-                  <span style={{ color: 'var(--color-white)' }}>Table Tennis &nbsp;•&nbsp; Programming &nbsp;•&nbsp; AI</span>,
-                  <span style={{ color: '#00f0ff' }}>3D Printing &nbsp;•&nbsp; Robot &nbsp;•&nbsp; Photography</span>,
-                ]}
-                velocity={100}
-                className="scroll-velocity-text"
-                damping={50}
-                stiffness={400}
-                numCopies={6}
-              />
-            </VisibilityMount>
-          </Suspense>
+          <ScrollVelocity
+            texts={[
+              <span style={{ color: 'var(--color-white)' }}>Table Tennis &nbsp;•&nbsp; Programming &nbsp;•&nbsp; AI</span>,
+              <span style={{ color: '#00f0ff' }}>3D Printing &nbsp;•&nbsp; Robot &nbsp;•&nbsp; Photography</span>,
+            ]}
+            velocity={100}
+            className="scroll-velocity-text"
+            damping={50}
+            stiffness={400}
+            numCopies={6}
+          />
         </section>
 
         <section className="scroll-reveal-section" aria-label="About statement">
           <div className="scroll-reveal-container">
-            <Suspense fallback={<SectionFallback minHeight={400} label="Loading about statement" />}>
-              <ScrollReveal
-                baseOpacity={0}
-                enableBlur={true}
-                baseRotation={5}
-                blurStrength={10}
-                containerClassName="scroll-reveal-container__title"
-                textClassName="scroll-reveal-container__text"
-              >
-                {revealChildren}
-              </ScrollReveal>
-            </Suspense>
+            <ScrollReveal
+              baseOpacity={0}
+              enableBlur={true}
+              baseRotation={5}
+              blurStrength={10}
+              containerClassName="scroll-reveal-container__title"
+              textClassName="scroll-reveal-container__text"
+            >
+              {revealChildren}
+            </ScrollReveal>
           </div>
         </section>
 
@@ -247,96 +218,78 @@ function App() {
             <div className="logo-loop-row">
               <span className="logo-loop-row__label">Programming</span>
               <div className="logo-loop-row__track">
-                <Suspense fallback={<SectionFallback minHeight={36} label="Loading programming logos" />}>
-                  <LogoLoop
-                    logos={programmingLogos}
-                    speed={80}
-                    direction="left"
-                    logoHeight={36}
-                    gap={48}
-                    hoverSpeed={20}
-                    scaleOnHover
-                    fadeOut
-                    fadeOutColor="#000000"
-                    ariaLabel="Programming logos"
-                  />
-                </Suspense>
+                <LogoLoop
+                  logos={programmingLogos}
+                  speed={80}
+                  direction="left"
+                  logoHeight={36}
+                  gap={48}
+                  hoverSpeed={20}
+                  scaleOnHover
+                  fadeOut
+                  fadeOutColor="#000000"
+                  ariaLabel="Programming logos"
+                />
               </div>
             </div>
             <div className="logo-loop-row">
               <span className="logo-loop-row__label">Photography</span>
               <div className="logo-loop-row__track">
-                <Suspense fallback={<SectionFallback minHeight={36} label="Loading photography logos" />}>
-                  <LogoLoop
-                    logos={photographyLogos}
-                    speed={70}
-                    direction="right"
-                    logoHeight={36}
-                    gap={48}
-                    hoverSpeed={-20}
-                    scaleOnHover
-                    fadeOut
-                    fadeOutColor="#000000"
-                    ariaLabel="Photography logos"
-                  />
-                </Suspense>
+                <LogoLoop
+                  logos={photographyLogos}
+                  speed={70}
+                  direction="right"
+                  logoHeight={36}
+                  gap={48}
+                  hoverSpeed={-20}
+                  scaleOnHover
+                  fadeOut
+                  fadeOutColor="#000000"
+                  ariaLabel="Photography logos"
+                />
               </div>
             </div>
             <div className="logo-loop-row">
               <span className="logo-loop-row__label">AI</span>
               <div className="logo-loop-row__track">
-                <Suspense fallback={<SectionFallback minHeight={36} label="Loading AI logos" />}>
-                  <LogoLoop
-                    logos={aiLogos}
-                    speed={80}
-                    direction="left"
-                    logoHeight={36}
-                    gap={48}
-                    hoverSpeed={20}
-                    scaleOnHover
-                    fadeOut
-                    fadeOutColor="#000000"
-                    ariaLabel="AI logos"
-                  />
-                </Suspense>
+                <LogoLoop
+                  logos={aiLogos}
+                  speed={80}
+                  direction="left"
+                  logoHeight={36}
+                  gap={48}
+                  hoverSpeed={20}
+                  scaleOnHover
+                  fadeOut
+                  fadeOutColor="#000000"
+                  ariaLabel="AI logos"
+                />
               </div>
             </div>
           </div>
         </section>
 
         <section className="true-focus-section" aria-label="True Focus">
-          <Suspense fallback={<SectionFallback minHeight={200} label="Loading True Focus" />}>
-            <TrueFocus
-              sentence="True Focus"
-              manualMode={true}
-              borderColor="#00f0ff"
-            />
-          </Suspense>
+          <TrueFocus
+            sentence="True Focus"
+            manualMode={true}
+            borderColor="#00f0ff"
+          />
         </section>
 
         <ErrorBoundary>
-          <Suspense fallback={<SectionFallback minHeight={600} label="Loading Flying Posters" />}>
-            <FlyingPostersSection items={posterImages} />
-          </Suspense>
+          <FlyingPostersSection items={posterImages} />
         </ErrorBoundary>
 
         <div style={{ height: '600px', position: 'relative' }}>
-          <Suspense fallback={<SectionFallback minHeight={600} label="Loading Flowing Menu" />}>
-            <FlowingMenu items={flowingMenuItems} />
-          </Suspense>
+          <FlowingMenu items={flowingMenuItems} />
         </div>
 
-        <Suspense fallback={<SectionFallback minHeight={700} label="Loading Lenses Showcase" />}>
-          <LensesShowcase />
-        </Suspense>
+        <LensesShowcase />
 
-        <Suspense fallback={<SectionFallback minHeight={700} label="Loading Contact" />}>
-          <ContactShowcase />
-        </Suspense>
+        <ContactShowcase />
 
-        <Suspense fallback={<SectionFallback minHeight={200} label="Loading Footer" />}>
-          <Footer />
-        </Suspense>
+        <Footer />
       </main>
     </div>
   )

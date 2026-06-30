@@ -77,11 +77,9 @@ const ModeWrapper = memo(function ModeWrapper({
     gl.render(scene, camera);
     gl.setRenderTarget(null);
 
-    // Background Color — sets the clear color used by gl.render() on the NEXT
-    // frame's FBO clear (and the main scene clear by r3f's render loop).
-    // Without this, the FBO is cleared to transparent (alpha 0), which causes
-    // MeshTransmissionMaterial to show its default white color instead of the
-    // background image. Using opaque black to match the project's dark theme.
+    // Without setClearColor the FBO is cleared to transparent (alpha 0),
+    // and MeshTransmissionMaterial falls back to its default white color.
+    // Opaque black matches the project's dark theme.
     gl.setClearColor(0x000000, 1);
   });
 
@@ -111,11 +109,9 @@ const ModeWrapper = memo(function ModeWrapper({
 function BackgroundImage({ image }) {
   const viewport = useThree(s => s.viewport);
   // Use useTexture + a plain meshBasicMaterial instead of drei <Image>.
-  // drei <Image> wraps the texture in a custom imageMaterial shader whose
-  // defaults render white when the texture is not yet uploaded or when the
-  // material hasn't been compiled inside the portaled scene. A plain
-  // meshBasicMaterial has no such fallback — it shows the texture directly
-  // (or nothing while suspended under <Suspense>).
+  // drei <Image>'s custom imageMaterial shader falls back to white when
+  // the texture isn't uploaded or the material hasn't compiled inside the
+  // portaled scene. meshBasicMaterial shows the texture directly.
   const texture = useTexture(image);
   return (
     <mesh position={[0, 0, -1]} scale={[viewport.width, viewport.height, 1]}>

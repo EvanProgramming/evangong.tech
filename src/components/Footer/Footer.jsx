@@ -1,8 +1,9 @@
 import MetallicPaint from '../MetallicPaint/MetallicPaint.jsx';
 import ErrorBoundary from '../ErrorBoundary.jsx';
-// 1.3MB PNG -> 256px WebP for the MetallicPaint footer logo texture.
-import LOGO_SRC from '../../assets/EvanGongIcon.png?w=256&format=webp';
 import './Footer.css';
+
+// Logo image served from the public folder
+const LOGO_SRC = '/assets/EvanGongIcon.png';
 
 // Social links — open in a new tab with safe rel attributes
 const SOCIALS = [
