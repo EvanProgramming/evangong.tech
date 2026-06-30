@@ -267,7 +267,12 @@ class Canvas {
     this.createRenderer();
     this.createCamera();
     this.createScene();
-    this.onResize();
+    // Synchronously initialize screen & viewport so createMedias() below has
+    // valid dimensions. The debounced onResize() is only for window resize
+    // events (coalescing rapid drag ticks); the initial layout must be
+    // computed eagerly, otherwise Media's constructor reads this.viewport
+    // before the 100ms timer fires → "Cannot read properties of undefined".
+    this.computeViewport();
 
     this.createGeometry();
     this.createMedias();
@@ -339,6 +344,29 @@ class Canvas {
     });
   }
 
+  computeViewport() {
+    // Pure layout computation — no debounce, no side effects beyond setting
+    // this.screen / this.viewport. Called eagerly from the constructor so
+    // createMedias() has valid dimensions, and from the debounced onResize.
+    const rect = this.container.getBoundingClientRect();
+    this.screen = {
+      width: rect.width,
+      height: rect.height
+    };
+
+    this.renderer.setSize(this.screen.width, this.screen.height);
+
+    this.camera.perspective({
+      aspect: this.gl.canvas.width / this.gl.canvas.height
+    });
+
+    const fov = (this.camera.fov * Math.PI) / 180;
+    const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
+    const width = height * this.camera.aspect;
+
+    this.viewport = { height, width };
+  }
+
   onResize() {
     // Debounce: window resize fires dozens of times during a drag. Coalesce
     // into a single layout recalculation 100ms after the last event, the
@@ -347,24 +375,7 @@ class Canvas {
     // rebuild + per-media onResize.
     if (this._resizeTimer) clearTimeout(this._resizeTimer);
     this._resizeTimer = setTimeout(() => {
-      const rect = this.container.getBoundingClientRect();
-      this.screen = {
-        width: rect.width,
-        height: rect.height
-      };
-
-      this.renderer.setSize(this.screen.width, this.screen.height);
-
-      this.camera.perspective({
-        aspect: this.gl.canvas.width / this.gl.canvas.height
-      });
-
-      const fov = (this.camera.fov * Math.PI) / 180;
-      const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
-      const width = height * this.camera.aspect;
-
-      this.viewport = { height, width };
-
+      this.computeViewport();
       if (this.medias) {
         this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
       }

@@ -77,8 +77,11 @@ const menuItems = [
   { label: 'Awards', ariaLabel: 'View awards', link: '/awards' },
 ]
 
-// Simple Icons CDN: returns SVG with the specified color
-const si = (slug) => `https://cdn.simpleicons.org/${slug}/ffffff`
+// Simple Icons served locally from public/icons/ to avoid CDN availability
+// issues (cdn.simpleicons.org is unreachable in some browser networks even
+// though server-side curl succeeds — likely IPv6/DNS/proxy mismatch).
+// SVGs are pre-colored white (fill="#ffffff") to match the prior /ffffff CDN.
+const si = (slug) => `/icons/${slug}.svg`
 // Text fallback for brands not on Simple Icons
 const txt = (label) => <span className="logo-text">{label}</span>
 
@@ -181,7 +184,7 @@ function App() {
         <section className="scroll-stack-section" aria-label="Current projects">
           <ScrollStack
             useWindowScroll={true}
-            itemDistance={35} // 间距 = 卡片高度(min-height 22rem=352px)的 10%，依据官方文档 itemDistance 属性
+            itemDistance={80}
             itemScale={0.01}
             itemStackDistance={0}
             baseScale={0.95}
