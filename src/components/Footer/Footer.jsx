@@ -1,5 +1,3 @@
-import MetallicPaint from '../MetallicPaint/MetallicPaint.jsx';
-import ErrorBoundary from '../ErrorBoundary.jsx';
 import './Footer.css';
 
 // Logo image served from the public folder
@@ -29,31 +27,12 @@ export default function Footer() {
     <footer className="footer" aria-label="Site footer">
       <div className="footer__inner">
         <div className="footer__logo">
-          <ErrorBoundary>
-            <MetallicPaint
-              imageSrc={LOGO_SRC}
-              seed={42}
-              scale={4}
-              patternSharpness={1}
-              noiseScale={0.5}
-              speed={0.3}
-              liquid={0.75}
-              mouseAnimation={false}
-              brightness={2}
-              contrast={0.5}
-              refraction={0.01}
-              blur={0.015}
-              chromaticSpread={2}
-              fresnel={1}
-              angle={0}
-              waveAmplitude={1}
-              distortion={1}
-              contour={0.2}
-              lightColor="#ffffff"
-              darkColor="#000000"
-              tintColor="#00f0ff"
-            />
-          </ErrorBoundary>
+          <img
+            src={LOGO_SRC}
+            alt="Evan Gong"
+            className="footer__logo-img"
+            draggable={false}
+          />
         </div>
 
         <nav className="footer__socials" aria-label="Social media links">
