@@ -32,11 +32,9 @@
   filter: drop-shadow(0 4px 24px rgba(0, 240, 255, 0.18));
 }
 
-.footer__logo-img {
-  display: block;
+.footer__logo .paint-container {
   width: 100%;
   height: 100%;
-  object-fit: contain;
 }
 
 /* ===== Social icons ===== */
