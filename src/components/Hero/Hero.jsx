@@ -5,6 +5,7 @@ import Lanyard from '../Lanyard/Lanyard.jsx'
 import GradualBlur from '../GradualBlur/GradualBlur.jsx'
 import GlassSurface from '../GlassSurface/GlassSurface.jsx'
 import ErrorBoundary from '../ErrorBoundary.jsx'
+import evanGongIcon from '../../assets/EvanGongIcon.png'
 import './Hero.css'
 
 export default function Hero() {
@@ -101,8 +102,8 @@ export default function Hero() {
                 position={[0, 0, 25]}
                 gravity={[0, -40, 0]}
                 fov={20}
-                frontImage="/assets/EvanGongIcon.png"
-                backImage="/assets/EvanGongIcon.png"
+                frontImage={evanGongIcon}
+                backImage={evanGongIcon}
                 imageFit="cover"
                 lanyardWidth={1.2}
               />
