@@ -1,9 +1,7 @@
 import MetallicPaint from '../MetallicPaint/MetallicPaint.jsx';
 import ErrorBoundary from '../ErrorBoundary.jsx';
+import logoSrc from '../../assets/EvanGongIcon.png';
 import './Footer.css';
-
-// Logo image served from the public folder
-const LOGO_SRC = '/assets/EvanGongIcon.png';
 
 // Social links — open in a new tab with safe rel attributes
 const SOCIALS = [
@@ -31,7 +29,7 @@ export default function Footer() {
         <div className="footer__logo">
           <ErrorBoundary>
             <MetallicPaint
-              imageSrc={LOGO_SRC}
+              imageSrc={logoSrc}
               seed={42}
               scale={4}
               patternSharpness={1}

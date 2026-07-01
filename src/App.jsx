@@ -9,6 +9,7 @@ import FlowingMenu from './components/FlowingMenu/FlowingMenu.jsx'
 import LensesShowcase from './components/LensesShowcase/LensesShowcase.jsx'
 import ContactShowcase from './components/ContactShowcase/ContactShowcase.jsx'
 import Footer from './components/Footer/Footer.jsx'
+import logoUrl from './assets/EvanGongIcon.png'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import './App.css'
@@ -113,7 +114,7 @@ function App() {
         items={menuItems}
         displaySocials={false}
         displayItemNumbering={false}
-        logoUrl="/assets/EvanGongIcon.png"
+        logoUrl={logoUrl}
         menuButtonColor="#00f0ff"
         openMenuButtonColor="#00f0ff"
         changeMenuColorOnOpen={false}
