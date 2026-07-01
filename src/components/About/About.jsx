@@ -150,7 +150,7 @@ export default function About() {
           text={FALLING_TEXT}
           highlightWords={FALLING_HIGHLIGHTS}
           highlightClass="highlighted"
-          trigger="scroll"
+          trigger="hover"
           backgroundColor="transparent"
           wireframes={false}
           gravity={0.56}
