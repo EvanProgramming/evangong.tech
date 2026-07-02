@@ -9,21 +9,27 @@
   overflow-x: hidden;
 }
 
-/* CircularText — fixed decorative ring under the nav logo (top-left).
+/* CircularText — fixed decorative ring, bottom-left corner.
    pointer-events:none so it never blocks content interaction; the default
-   spin animation still plays (hover speedUp is sacrificed for non-blocking). */
+   spin animation still plays (hover speedUp is sacrificed for non-blocking).
+   Ring sized to ~half the official 200px (width/height 100px) with a smaller
+   font-size so the 35 chars no longer overlap (circumference / char count). */
 .about-circular {
   position: fixed;
-  top: 5.5rem;
+  bottom: 2.5rem;
   left: 2rem;
   z-index: 5;
   pointer-events: none;
-  transform: scale(0.55);
-  transform-origin: top left;
 }
 
 .about-circular .circular-text {
-  color: var(--color-cyan);
+  width: 100px;
+  height: 100px;
+  color: #ffffff;
+}
+
+.about-circular .circular-text span {
+  font-size: 10px;
 }
 
 /* ===== Top-centered Shuffle title ===== */
@@ -120,9 +126,17 @@
   }
 
   .about-circular {
-    transform: scale(0.4);
-    top: 5rem;
+    bottom: 1.5rem;
     left: 1rem;
+  }
+
+  .about-circular .circular-text {
+    width: 80px;
+    height: 80px;
+  }
+
+  .about-circular .circular-text span {
+    font-size: 8px;
   }
 
   .about-intro {
