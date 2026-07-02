@@ -91,33 +91,41 @@ function Layout() {
     })
   }, [])
 
-  // Phase 'out': wait for the blur-out animation to fully settle, then fire
-  // navigate(). The pathname change below advances the state machine to the
-  // reveal phase.
+  // Phase 'out': once the blur-out animation settles, fire navigate() and
+  // advance to 'reveal' on the next frame. The navigated route commits while
+  // the overlay is still fully blurred (masking the DOM swap), then the blur
+  // clears. Advancing to 'reveal' HERE (not in the pathname effect) keeps the
+  // menu-driven path deterministic regardless of pathname-effect timing —
+  // previously the reveal depended on the pathname effect firing after
+  // navigate(), and if it didn't run the overlay stayed stuck at blur 28.
   useEffect(() => {
     if (phase !== 'out') return
+    let raf
     const t = setTimeout(() => {
       const fn = pendingNavRef.current
       pendingNavRef.current = null
       if (fn) fn()
+      // Defer one frame so React commits the new route (new DOM) while the
+      // overlay remains at blur 28, then we drop it to start the reveal.
+      raf = requestAnimationFrame(() => setPhase('reveal'))
     }, TRANSITION_MS)
-    return () => clearTimeout(t)
+    return () => {
+      clearTimeout(t)
+      if (raf) cancelAnimationFrame(raf)
+    }
   }, [phase])
 
-  // On pathname change (after navigate, or browser back/forward), advance to
-  // the reveal phase. First mount is skipped so the initial render is clean.
+  // Browser back/forward: pathname changed with no prior blur-out, so the
+  // overlay is idle (blur 0). Snap it to blurry to mask the freshly-mounted
+  // page, then the reveal-prepare phase animates it back to clear. First mount
+  // is skipped so the initial render is clean. Menu-driven nav (phase==='out')
+  // is left untouched here — it advances via the timeout above.
   useEffect(() => {
     if (isFirstMount.current) {
       isFirstMount.current = false
       return
     }
-    setPhase((prev) => {
-      // Menu-driven nav: overlay already at blur 28 → reveal directly.
-      if (prev === 'out') return 'reveal'
-      // Browser back/forward: overlay is idle (blur 0) → snap to blurry first.
-      if (prev === 'idle') return 'reveal-prepare'
-      return prev
-    })
+    setPhase((prev) => (prev === 'idle' ? 'reveal-prepare' : prev))
   }, [pathname])
 
   // Phase 'reveal-prepare': wait one paint so the snap-to-blurry state is
