@@ -1,0 +1,254 @@
+/* ===== Projects page ===== */
+
+.projects-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  padding: clamp(6rem, 14vw, 10rem) clamp(1.5rem, 5vw, 4rem) clamp(4rem, 10vw, 8rem);
+  background: var(--color-black);
+  color: var(--color-white);
+  /* Clip the nowrap GlitchText on narrow screens without affecting vertical flow */
+  overflow-x: clip;
+}
+
+/* ===== Title ===== */
+.projects-title {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+/* GlitchText overrides: left-aligned, sized as a section title (official
+   centers it at clamp(2rem,10vw,8rem)). */
+.projects-title .glitch {
+  margin: 0;
+  text-align: left;
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  cursor: default;
+}
+
+/* ===== List ===== */
+.projects-list {
+  max-width: 1400px;
+  margin: 0 auto;
+  border-top: 1px solid rgba(0, 240, 255, 0.15);
+}
+
+/* ===== Project row ===== */
+.project-row {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1rem, 2vw, 1.5rem);
+  border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+  background: transparent;
+  color: var(--color-white);
+  transition: background 0.5s ease-in-out, color 0.5s ease-in-out,
+    border-color 0.5s ease-in-out;
+  outline: none;
+}
+
+/* Meta column — index + year, small, dimmed via opacity so it inverts with the row */
+.project-row__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 0 0 auto;
+  width: clamp(2.75rem, 6vw, 4.5rem);
+  padding-top: 0.45rem;
+  color: inherit;
+  opacity: 0.55;
+  transition: opacity 0.5s ease-in-out;
+}
+.project-row__index {
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+.project-row__year {
+  font-size: clamp(0.7rem, 1vw, 0.8rem);
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+  line-height: 1;
+}
+
+/* Main column */
+.project-row__main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.project-row__name {
+  margin: 0;
+  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: #00f0ff;
+  transition: color 0.5s ease-in-out;
+}
+
+/* ===== Expandable details — grid 0fr→1fr for smooth auto-height ===== */
+.project-row__details {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s ease-in-out;
+}
+.project-row__details-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ScrambledText overrides — official .text-block is monospace/centered/margin 7vw */
+.project-row .text-block {
+  margin: 0;
+  max-width: 62ch;
+  font-family: inherit;
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  color: inherit;
+  line-height: 1.65;
+  padding-top: clamp(0.85rem, 1.6vw, 1.2rem);
+}
+.project-row .text-block p {
+  margin: 0;
+}
+
+/* ===== Tech stack ===== */
+.project-row__tech {
+  list-style: none;
+  margin: 0;
+  padding: clamp(0.9rem, 1.6vw, 1.25rem) 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.55rem, 1.1vw, 0.85rem);
+}
+.project-row__tech-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  text-decoration: none;
+  color: inherit;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 999px;
+  transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out,
+    color 0.3s ease-in-out;
+}
+.project-row__tech-link:hover,
+.project-row__tech-link:focus-visible {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: rgba(0, 240, 255, 0.6);
+}
+.project-row__tech-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+  transition: filter 0.5s ease-in-out;
+}
+/* Fallback text badge for techs without a local SVG (e.g. ROS) */
+.project-row__tech-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  line-height: 1;
+}
+.project-row__tech-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* ===== Text button (GitHub / demo) ===== */
+.project-row__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: clamp(1rem, 1.8vw, 1.4rem);
+  text-decoration: none;
+  color: inherit;
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+.project-row__link span {
+  transition: transform 0.3s ease-in-out;
+}
+.project-row__link:hover,
+.project-row__link:focus-visible {
+  color: #00f0ff;
+}
+.project-row__link:hover span,
+.project-row__link:focus-visible span {
+  transform: translateX(4px);
+}
+
+/* ===== Desktop hover/focus: expand + invert (white bg, black text) ===== */
+@media (min-width: 769px) {
+  .project-row:hover,
+  .project-row:focus-within {
+    background: var(--color-white);
+    color: var(--color-black);
+    border-color: rgba(0, 240, 255, 0.35);
+  }
+  .project-row:hover .project-row__name,
+  .project-row:focus-within .project-row__name {
+    color: var(--color-black);
+  }
+  .project-row:hover .project-row__meta,
+  .project-row:focus-within .project-row__meta {
+    opacity: 0.7;
+  }
+  .project-row:hover .project-row__details,
+  .project-row:focus-within .project-row__details {
+    grid-template-rows: 1fr;
+  }
+  /* White SVG icons must invert to stay visible on the white background */
+  .project-row:hover .project-row__tech-icon,
+  .project-row:focus-within .project-row__tech-icon {
+    filter: invert(1);
+  }
+}
+
+/* ===== Mobile: always expanded, no inversion ===== */
+@media (max-width: 768px) {
+  .projects-title .glitch {
+    font-size: clamp(1.5rem, 7vw, 2.25rem);
+  }
+  .project-row {
+    gap: 0.85rem;
+  }
+  .project-row__meta {
+    width: 2.5rem;
+  }
+  .project-row__details {
+    grid-template-rows: 1fr; /* always expanded on touch */
+  }
+  .project-row .text-block {
+    max-width: 100%;
+  }
+}
+
+/* ===== Reduced motion: instant expand/collapse ===== */
+@media (prefers-reduced-motion: reduce) {
+  .project-row,
+  .project-row__details,
+  .project-row__name,
+  .project-row__tech-icon,
+  .project-row__tech-link,
+  .project-row__link,
+  .project-row__link span {
+    transition-duration: 0.01ms;
+  }
+}

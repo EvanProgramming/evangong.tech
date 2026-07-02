@@ -4,6 +4,7 @@ import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import Home from './components/Home/Home.jsx'
 import About from './components/About/About.jsx'
+import Projects from './components/Projects/Projects.jsx'
 import logoUrl from './assets/EvanGongIcon.png'
 import './App.css'
 
@@ -80,6 +81,7 @@ function Layout() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
           {/* Unimplemented routes fall back to Home for now */}
           <Route path="*" element={<Home />} />
         </Routes>
