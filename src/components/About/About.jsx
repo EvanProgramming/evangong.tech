@@ -4,6 +4,7 @@ import CircularText from '../CircularText/CircularText.jsx'
 import Shuffle from '../Shuffle/Shuffle.jsx'
 import MetallicPaint from '../MetallicPaint/MetallicPaint.jsx'
 import FallingText from '../FallingText/FallingText.jsx'
+import Skills from '../Skills/Skills.jsx'
 import ErrorBoundary from '../ErrorBoundary.jsx'
 import evanGongIcon from '../../assets/EvanGongIcon.png'
 import './About.css'
@@ -159,6 +160,8 @@ export default function About() {
           className="about-falling__inner"
         />
       </div>
+
+      <Skills />
     </section>
   )
 }
