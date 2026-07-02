@@ -9,9 +9,11 @@
      document structure intact and uniformly blurs every layer on screen.
 
    Timing & easing:
-     420ms with cubic-bezier(0.4, 0, 0.2, 1) — the Material standard easing,
+     1000ms with cubic-bezier(0.4, 0, 0.2, 1) — the Material standard easing,
      a non-linear curve that satisfies the ease-in-out requirement and feels
-     natural for both blur-out (accelerate) and blur-in (decelerate).
+     natural for both blur-out (accelerate) and blur-in (decelerate). The
+     overlay holds at full blur between the two phases while the next page's
+     resources finish loading (driven by App.jsx's waitForImagesReady).
 
    Performance:
      will-change: backdrop-filter hints the compositor; the overlay is purely
@@ -25,18 +27,19 @@
   -webkit-backdrop-filter: blur(0px);
   background: rgba(0, 0, 0, 0);
   transition:
-    backdrop-filter 420ms cubic-bezier(0.4, 0, 0.2, 1),
-    -webkit-backdrop-filter 420ms cubic-bezier(0.4, 0, 0.2, 1),
-    background 420ms cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter 1000ms cubic-bezier(0.4, 0, 0.2, 1),
+    -webkit-backdrop-filter 1000ms cubic-bezier(0.4, 0, 0.2, 1),
+    background 1000ms cubic-bezier(0.4, 0, 0.2, 1);
   will-change: backdrop-filter;
 }
 
-/* Blurry state: max blur + dark tint. pointer-events:auto blocks interaction
-   during the transition to prevent double-firing navigation. */
+/* Blurry state: stronger blur radius (50px) for a more pronounced, fully
+   unrecognizable effect. pointer-events:auto blocks interaction during the
+   transition to prevent double-firing navigation. */
 .page-transition--active {
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  background: rgba(0, 0, 0, 0.55);
   pointer-events: auto;
 }
 

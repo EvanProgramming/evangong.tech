@@ -17,19 +17,61 @@ const menuItems = [
   { label: 'Awards', ariaLabel: 'View awards', link: '/awards' },
 ]
 
-// Transition duration (ms). Must match the transition-duration in
-// PageTransition.css (420ms) plus a small safety margin so the blur-out
-// animation fully settles before navigate() swaps the DOM.
-const TRANSITION_MS = 430
+// Transition phase duration (ms). Matches the transition-duration in
+// PageTransition.css (1000ms) — the blur-out animation must fully settle
+// before navigate() swaps the DOM.
+const TRANSITION_MS = 1000
+
+// Safety-net timeout: if a page's images stall (slow CDN, broken src), we
+// still lift the overlay rather than lock the user on a blurred frame.
+const IMAGE_LOAD_TIMEOUT = 8000
+
+// Wait for every non-lazy <img> inside `container` to finish loading, then
+// resolve after a double-rAF so the rendered frame is committed before the
+// blur lifts. This keeps the overlay fully blurred until the next page's
+// resources (HTML/CSS/JS are cached after first load; images are the variable
+// cost) are actually painted, matching the "don't reveal until rendered"
+// requirement. Lazy images are skipped so off-screen content can't block the
+// transition.
+function waitForImagesReady(container, timeout = IMAGE_LOAD_TIMEOUT) {
+  return new Promise((resolve) => {
+    const settle = () => requestAnimationFrame(() => requestAnimationFrame(resolve))
+    if (!container) return settle()
+    const imgs = Array.from(container.querySelectorAll('img'))
+    const pending = imgs.filter((img) => {
+      if (img.loading === 'lazy') return false
+      return !img.complete || img.naturalWidth === 0
+    })
+    if (pending.length === 0) return settle()
+
+    let remaining = pending.length
+    let done = false
+    const finish = () => {
+      if (done) return
+      done = true
+      settle()
+    }
+    pending.forEach((img) => {
+      const onDone = () => {
+        remaining -= 1
+        if (remaining === 0) finish()
+      }
+      img.addEventListener('load', onDone, { once: true })
+      img.addEventListener('error', onDone, { once: true })
+    })
+    // Safety net: never let a stuck image block the reveal indefinitely.
+    setTimeout(finish, timeout)
+  })
+}
 
 // StaggeredMenu renders menu items as <a href={link}> (official React Bits
 // implementation — left untouched). To enable client-side routing without
 // modifying the official component source, we intercept clicks on
 // `.sm-panel-item` at the document level (capture phase): preventDefault the
 // default full-page navigation, trigger the blur-out transition, and once the
-// page is fully blurred, navigate() — then the blur-in reveal runs. We also
-// close the open menu by simulating a toggle click (the menu only auto-closes
-// on full-page navigation in the original design).
+// page is fully blurred + the next page's resources are loaded, navigate and
+// reveal. We also close the open menu by simulating a toggle click (the menu
+// only auto-closes on full-page navigation in the original design).
 function useClientSideNav(triggerTransition) {
   const navigate = useNavigate()
   const { pathname } = useLocation()
@@ -71,13 +113,13 @@ function useClientSideNav(triggerTransition) {
 function Layout() {
   // Transition phase state machine:
   //   'idle'           → no overlay, normal interaction
-  //   'out'            → blur 0→28 transition (old page fading out)
-  //   'reveal-prepare' → instantly snap to blur 28 (no transition) to mask the
-  //                      freshly-mounted page; used for browser back/forward
-  //                      where there was no prior blur-out phase.
-  //   'reveal'         → blur 28→0 transition (new page fading in)
+  //   'out'            → blur 0→50 transition (old page fading out, 1s)
+  //   'reveal-prepare' → overlay held at full blur 50 (no transition) while
+  //                      the new page's resources load; once ready → 'reveal'
+  //   'reveal'         → blur 50→0 transition (new page fading in, 1s)
   const [phase, setPhase] = useState('idle')
   const pendingNavRef = useRef(null)
+  const mainRef = useRef(null)
   const { pathname } = useLocation()
   const isFirstMount = useRef(true)
 
@@ -91,35 +133,48 @@ function Layout() {
     })
   }, [])
 
-  // Phase 'out': once the blur-out animation settles, fire navigate() and
-  // advance to 'reveal' on the next frame. The navigated route commits while
-  // the overlay is still fully blurred (masking the DOM swap), then the blur
-  // clears. Advancing to 'reveal' HERE (not in the pathname effect) keeps the
-  // menu-driven path deterministic regardless of pathname-effect timing —
-  // previously the reveal depended on the pathname effect firing after
-  // navigate(), and if it didn't run the overlay stayed stuck at blur 28.
+  // Phase 'out': wait for the 1s blur-out to settle, then fire navigate() and
+  // advance to 'reveal-prepare'. The overlay is already at full blur (50px),
+  // so the DOM swap is masked; it stays blurred until resources finish.
   useEffect(() => {
     if (phase !== 'out') return
-    let raf
     const t = setTimeout(() => {
       const fn = pendingNavRef.current
       pendingNavRef.current = null
       if (fn) fn()
-      // Defer one frame so React commits the new route (new DOM) while the
-      // overlay remains at blur 28, then we drop it to start the reveal.
-      raf = requestAnimationFrame(() => setPhase('reveal'))
+      setPhase('reveal-prepare')
     }, TRANSITION_MS)
+    return () => clearTimeout(t)
+  }, [phase])
+
+  // Phase 'reveal-prepare': overlay is fully blurry. Wait for the new page's
+  // images to load (and a double-rAF so the rendered frame commits), then
+  // advance to 'reveal'. The double rAF also guarantees the snap-to-blurry
+  // frame is painted before the scan begins. Covers both menu-driven nav
+  // (enters here from 'out') and browser back/forward (enters from pathname
+  // effect below).
+  useEffect(() => {
+    if (phase !== 'reveal-prepare') return
+    let cancelled = false
+    const raf1 = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (cancelled) return
+        waitForImagesReady(mainRef.current).then(() => {
+          if (!cancelled) setPhase('reveal')
+        })
+      })
+    })
     return () => {
-      clearTimeout(t)
-      if (raf) cancelAnimationFrame(raf)
+      cancelled = true
+      cancelAnimationFrame(raf1)
     }
   }, [phase])
 
   // Browser back/forward: pathname changed with no prior blur-out, so the
-  // overlay is idle (blur 0). Snap it to blurry to mask the freshly-mounted
-  // page, then the reveal-prepare phase animates it back to clear. First mount
-  // is skipped so the initial render is clean. Menu-driven nav (phase==='out')
-  // is left untouched here — it advances via the timeout above.
+  // overlay is idle (blur 0). Snap it to blurry via 'reveal-prepare', which
+  // then waits for resources and reveals. First mount is skipped so the
+  // initial render is clean. Menu-driven nav (phase==='out' or
+  // 'reveal-prepare') is left untouched here.
   useEffect(() => {
     if (isFirstMount.current) {
       isFirstMount.current = false
@@ -128,22 +183,7 @@ function Layout() {
     setPhase((prev) => (prev === 'idle' ? 'reveal-prepare' : prev))
   }, [pathname])
 
-  // Phase 'reveal-prepare': wait one paint so the snap-to-blurry state is
-  // committed, then advance to 'reveal' to animate blur 28→0. Double rAF
-  // guarantees the prepare frame is painted before the transition starts.
-  useEffect(() => {
-    if (phase !== 'reveal-prepare') return
-    let raf2
-    const raf1 = requestAnimationFrame(() => {
-      raf2 = requestAnimationFrame(() => setPhase('reveal'))
-    })
-    return () => {
-      cancelAnimationFrame(raf1)
-      cancelAnimationFrame(raf2)
-    }
-  }, [phase])
-
-  // Phase 'reveal': wait for the blur-in animation to finish, return to idle.
+  // Phase 'reveal': wait for the 1s blur-in animation to finish, return idle.
   useEffect(() => {
     if (phase !== 'reveal') return
     const t = setTimeout(() => setPhase('idle'), TRANSITION_MS)
@@ -167,7 +207,7 @@ function Layout() {
         accentColor="#00f0ff"
         isFixed={true}
       />
-      <main>
+      <main ref={mainRef}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
