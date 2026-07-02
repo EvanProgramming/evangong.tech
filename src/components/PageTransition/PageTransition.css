@@ -1,0 +1,54 @@
+/* ===== Route transition overlay =====
+   Full-screen fixed mask using backdrop-filter to blur viewport content during
+   page navigation. Driven by the phase state machine in App.jsx.
+
+   Why an overlay (not filter on <main>?)
+     Adding `filter: blur()` to <main> would create a new stacking context and
+     break the fixed-positioned decor inside it (About's .about-circular,
+     StaggeredMenu layers, GradualBlur). A separate overlay on top keeps the
+     document structure intact and uniformly blurs every layer on screen.
+
+   Timing & easing:
+     420ms with cubic-bezier(0.4, 0, 0.2, 1) — the Material standard easing,
+     a non-linear curve that satisfies the ease-in-out requirement and feels
+     natural for both blur-out (accelerate) and blur-in (decelerate).
+
+   Performance:
+     will-change: backdrop-filter hints the compositor; the overlay is purely
+     visual (pointer-events toggled) and never holds layout/JS work. */
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  background: rgba(0, 0, 0, 0);
+  transition:
+    backdrop-filter 420ms cubic-bezier(0.4, 0, 0.2, 1),
+    -webkit-backdrop-filter 420ms cubic-bezier(0.4, 0, 0.2, 1),
+    background 420ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: backdrop-filter;
+}
+
+/* Blurry state: max blur + dark tint. pointer-events:auto blocks interaction
+   during the transition to prevent double-firing navigation. */
+.page-transition--active {
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  background: rgba(0, 0, 0, 0.5);
+  pointer-events: auto;
+}
+
+/* Snap-to-blurry with no transition — used by the reveal-prepare phase so the
+   freshly-mounted page is masked instantly before the reveal animates. */
+.page-transition--no-anim {
+  transition: none;
+}
+
+/* Respect reduced-motion: complete the swap near-instantly. */
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    transition-duration: 1ms;
+  }
+}
