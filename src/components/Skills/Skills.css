@@ -1,0 +1,144 @@
+/* ===== Skills section =====
+   Strictly flat design: no glow, no gradients, no 3D / shadows.
+   Only solid colors, 1px borders, and flat background tints are used. */
+
+.about-skills {
+  max-width: 1100px;
+  width: 100%;
+  margin: clamp(3rem, 6vw, 5rem) auto 0;
+  box-sizing: border-box;
+}
+
+.about-skills__title {
+  margin: 0 0 clamp(1.5rem, 3vw, 2.5rem);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+  text-align: left;
+}
+
+.about-skills__groups {
+  width: 100%;
+}
+
+/* Each row is full-width; a 1px #00f0ff divider separates rows (width = area width). */
+.about-skills__row {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  width: 100%;
+  padding: clamp(1rem, 2vw, 1.5rem) 0;
+  border-bottom: 1px solid #00f0ff;
+  box-sizing: border-box;
+}
+
+.about-skills__row:last-child {
+  border-bottom: none;
+}
+
+.about-skills__row-label {
+  flex-shrink: 0;
+  width: clamp(110px, 14vw, 150px);
+  font-size: clamp(0.7rem, 1vw, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #00f0ff;
+  opacity: 0.85;
+}
+
+.about-skills__row-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.5rem, 1vw, 0.75rem);
+  flex: 1;
+  min-width: 0;
+}
+
+/* Flat chip: solid border, transparent background, no shadow / no glow. */
+.skill-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-white);
+  font-size: clamp(0.78rem, 1vw, 0.9rem);
+  font-weight: 500;
+  line-height: 1.4;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.skill-chip:hover,
+.skill-chip:focus-visible {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: #00f0ff;
+  color: #00f0ff;
+  outline: none;
+}
+
+.skill-chip__icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* Flat text badge for skills without an icon (mirrors Home's logo-text fallback). */
+.skill-chip__text-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+  flex-shrink: 0;
+}
+
+.skill-chip:hover .skill-chip__text-icon,
+.skill-chip:focus-visible .skill-chip__text-icon {
+  color: #00f0ff;
+}
+
+.skill-chip__label {
+  white-space: nowrap;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .about-skills {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .about-skills__row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1rem 0;
+  }
+
+  .about-skills__row-label {
+    width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-skills__title {
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+  }
+
+  .skill-chip {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.7rem;
+  }
+}
