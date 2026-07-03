@@ -1,7 +1,6 @@
 import { useEffect, useRef, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Lenis from 'lenis'
-import GlitchText from '../GlitchText/GlitchText.jsx'
 import InfiniteMenu from '../InfiniteMenu/InfiniteMenu.jsx'
 import ErrorBoundary from '../ErrorBoundary.jsx'
 import { NavContext } from '../../navContext.js'
@@ -52,14 +51,7 @@ export default function Gallery() {
   return (
     <section className="gallery-page" aria-label="Photography gallery">
       <div className="gallery-title">
-        <GlitchText
-          speed={1}
-          enableShadows={true}
-          enableOnHover={false}
-          className="gallery-glitch"
-        >
-          GALLERY
-        </GlitchText>
+        <h1 className="gallery-heading">GALLERY</h1>
       </div>
 
       <p className="gallery-intro">

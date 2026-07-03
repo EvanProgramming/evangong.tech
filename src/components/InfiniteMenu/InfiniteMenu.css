@@ -84,24 +84,24 @@
 .face-description {
   user-select: none;
   position: absolute;
-  max-width: 10ch;
+  max-width: 24ch;
   top: 50%;
   font-size: 1.2rem;
-  right: 1%;
+  right: 1.6em;
   transform: translate(0, -50%);
   color: rgba(255, 255, 255, 0.72);
 }
 
 .face-description.active {
   opacity: 1;
-  transform: translate(-90%, -50%);
+  transform: translate(-15%, -50%);
   pointer-events: auto;
   transition: 0.5s ease;
 }
 
 .face-description.inactive {
   pointer-events: none;
-  transform: translate(-60%, -50%);
+  transform: translate(10%, -50%);
   opacity: 0;
   transition: 0.1s ease;
 }
@@ -127,8 +127,27 @@
   transition: 0.1s ease;
 }
 
-@media (max-width: 1500px) {
-  .face-title,
+/* Responsive: scale down title/description on smaller screens instead of
+ * hiding them (official hides at <1500px, but we want the region name +
+ * intro always visible). */
+@media (max-width: 900px) {
+  .face-title {
+    font-size: 1.75rem;
+    left: 1em;
+  }
+
+  .face-description {
+    font-size: 0.95rem;
+    max-width: 18ch;
+    right: 1em;
+  }
+}
+
+@media (max-width: 600px) {
+  .face-title {
+    font-size: 1.35rem;
+  }
+
   .face-description {
     display: none;
   }
