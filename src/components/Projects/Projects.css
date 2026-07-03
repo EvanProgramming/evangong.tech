@@ -5,14 +5,55 @@
   width: 100%;
   min-height: 100vh;
   padding: clamp(6rem, 14vw, 10rem) clamp(1.5rem, 5vw, 4rem) clamp(4rem, 10vw, 8rem);
-  background: var(--color-black);
+  /* Background is now transparent so the fixed SideRays layer shows through;
+     the .projects-bg layer provides the black base. */
+  background: transparent;
   color: var(--color-white);
   /* Clip the nowrap GlitchText on narrow screens without affecting vertical flow */
   overflow-x: clip;
 }
 
+/* ===== Ambient WebGL background (SideRays) ===== */
+/* Fixed to the viewport so the ray shader runs at viewport resolution
+   (performant) and the glow stays anchored while the page scrolls. The
+   Footer (position: relative, later in DOM than <main>) paints above this
+   layer, so rays never bleed into the footer. z-index:0 sits above the app's
+   base black; content layers below get z-index:1 to stay on top. */
+.projects-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: var(--color-black);
+  pointer-events: none;
+  overflow: hidden;
+}
+/* Neutralize SideRays' default .side-rays-container { z-index: 3 } so it stays
+   tucked inside the .projects-bg stacking context (it's trapped anyway, but be
+   explicit). */
+.projects-bg .side-rays-container {
+  z-index: auto;
+}
+
+/* Dimming overlay — sits above the rays, below the content. Lighter at the
+   top-right (let the ray origin glow) and darker elsewhere so white project
+   text stays legible. */
+.projects-bg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 85% 65% at 88% 0%,
+    rgba(0, 0, 0, 0.12) 0%,
+    rgba(0, 0, 0, 0.55) 55%,
+    rgba(0, 0, 0, 0.78) 100%
+  );
+}
+
 /* ===== Title ===== */
 .projects-title {
+  position: relative;
+  z-index: 1;
   max-width: 1400px;
   margin: 0 auto;
   padding-bottom: clamp(2.5rem, 6vw, 4rem);
@@ -29,6 +70,8 @@
 
 /* ===== List ===== */
 .projects-list {
+  position: relative;
+  z-index: 1;
   max-width: 1400px;
   margin: 0 auto;
   border-top: 1px solid rgba(0, 240, 255, 0.15);
