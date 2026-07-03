@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react'
 import Lenis from 'lenis'
 import GlitchText from '../GlitchText/GlitchText.jsx'
 import ScrambledText from '../ScrambledText/ScrambledText.jsx'
+import SideRays from '../SideRays/SideRays.jsx'
+import ErrorBoundary from '../ErrorBoundary.jsx'
 import './Projects.css'
 
 // Local icon helper — SVGs are pre-downloaded to /public/icons/ and injected
@@ -326,6 +328,31 @@ export default function Projects() {
 
   return (
     <section className="projects-page" aria-label="Featured projects">
+      {/* Ambient WebGL background — fixed to the viewport. SideRays (ogl shader)
+         paints a slow cyan/white ray glow from the top-right corner; a dark
+         overlay dims it so the project text stays legible. ErrorBoundary keeps
+         the page usable if WebGL is unavailable (falls back to plain black).
+         Fixed positioning is safe here — PageTransition blurs via an overlay
+         backdrop-filter, never a filter on <main>, so fixed decor inside it
+         (like About's .about-circular) stays viewport-anchored. */}
+      <div className="projects-bg" aria-hidden="true">
+        <ErrorBoundary>
+          <SideRays
+            speed={1.5}
+            rayColor1="#00f0ff"
+            rayColor2="#ffffff"
+            intensity={1.2}
+            spread={2}
+            origin="top-right"
+            saturation={1.4}
+            blend={0.5}
+            falloff={1.6}
+            opacity={0.55}
+          />
+        </ErrorBoundary>
+      </div>
+      <div className="projects-bg-overlay" aria-hidden="true" />
+
       {/* Title — left-aligned GlitchText with #00f0ff shadows (always animating). */}
       <div className="projects-title">
         <GlitchText
