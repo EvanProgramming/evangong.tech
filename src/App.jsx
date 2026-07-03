@@ -5,7 +5,10 @@ import Footer from './components/Footer/Footer.jsx'
 import Home from './components/Home/Home.jsx'
 import About from './components/About/About.jsx'
 import Projects from './components/Projects/Projects.jsx'
+import Gallery from './components/Gallery/Gallery.jsx'
+import GalleryCategory from './components/Gallery/GalleryCategory.jsx'
 import PageTransition from './components/PageTransition/PageTransition.jsx'
+import { NavContext } from './navContext.js'
 import logoUrl from './assets/EvanGongIcon.png'
 import './App.css'
 
@@ -193,34 +196,51 @@ function Layout() {
 
   useClientSideNav(triggerTransition)
 
+  // Gallery routes get bespoke chrome:
+  //   /gallery            — Nav present, Footer suppressed (gallery is a
+  //                         full-stage hub; a footer below the 100vh InfiniteMenu
+  //                         would feel disconnected).
+  //   /gallery/<category> — fully immersive Dome view: no Nav, no Footer. The
+  //                         category page renders its own fixed "Back to Gallery"
+  //                         capsule (a plain <a data-nav-link> that reuses the
+  //                         site-wide blur transition interceptor).
+  const isGalleryArea = pathname.startsWith('/gallery')
+  const isDomeRoute = /^\/gallery\/.+/.test(pathname)
+
   return (
-    <div className="app">
-      <StaggeredMenu
-        position="right"
-        items={menuItems}
-        displaySocials={false}
-        displayItemNumbering={false}
-        logoUrl={logoUrl}
-        menuButtonColor="#00f0ff"
-        openMenuButtonColor="#00f0ff"
-        changeMenuColorOnOpen={false}
-        colors={['#000000', '#00f0ff']}
-        accentColor="#00f0ff"
-        isFixed={true}
-        activePath={pathname}
-      />
-      <main ref={mainRef}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/projects" element={<Projects />} />
-          {/* Unimplemented routes fall back to Home for now */}
-          <Route path="*" element={<Home />} />
-        </Routes>
-      </main>
-      <Footer />
-      <PageTransition phase={phase} />
-    </div>
+    <NavContext.Provider value={triggerTransition}>
+      <div className="app">
+        {!isDomeRoute && (
+          <StaggeredMenu
+            position="right"
+            items={menuItems}
+            displaySocials={false}
+            displayItemNumbering={false}
+            logoUrl={logoUrl}
+            menuButtonColor="#00f0ff"
+            openMenuButtonColor="#00f0ff"
+            changeMenuColorOnOpen={false}
+            colors={['#000000', '#00f0ff']}
+            accentColor="#00f0ff"
+            isFixed={true}
+            activePath={pathname}
+          />
+        )}
+        <main ref={mainRef}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/gallery/:category" element={<GalleryCategory />} />
+            {/* Unimplemented routes fall back to Home for now */}
+            <Route path="*" element={<Home />} />
+          </Routes>
+        </main>
+        {!isGalleryArea && <Footer />}
+        <PageTransition phase={phase} />
+      </div>
+    </NavContext.Provider>
   )
 }
 

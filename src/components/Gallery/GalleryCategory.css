@@ -1,0 +1,68 @@
+/* Dome Gallery category page — full-viewport immersive view, no Nav/Footer.
+ * DomeGallery fills the viewport; a fixed back capsule sits top-left. */
+
+.gallery-dome-page {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000000;
+}
+
+.gallery-dome-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Back capsule — top-left, above the dome (z-index above DomeGallery's
+ * viewer which peaks at z-index 30). Reuses the .scroll-stack-cta capsule
+ * idiom: semi-transparent bg + backdrop-blur + cyan border, hover inverts. */
+.gallery-back {
+  position: fixed;
+  top: clamp(1rem, 3vw, 1.75rem);
+  left: clamp(1rem, 3vw, 1.75rem);
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.6em 1.2em;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  background: rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(0.8rem, 1.4vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.gallery-back:hover {
+  background: #00f0ff;
+  color: #000000;
+  border-color: #00f0ff;
+}
+
+.gallery-back:focus-visible {
+  outline: 2px solid #00f0ff;
+  outline-offset: 4px;
+}
+
+.gallery-back-arrow {
+  font-size: 1.1em;
+  line-height: 1;
+}
+
+@media (max-width: 480px) {
+  .gallery-back-label {
+    /* Keep the arrow-only compact form on very small screens if space is tight;
+     * the aria-label still announces "Back to gallery". */
+  }
+}
