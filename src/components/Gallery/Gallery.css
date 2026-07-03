@@ -1,0 +1,66 @@
+/* Gallery main page — mirrors the Projects page layout conventions
+ * (clamp() fluid padding, centered content column, GlitchText title) but
+ * widens the column for the full-bleed InfiniteMenu stage. No Footer on this
+ * route (App.jsx suppresses it for /gallery*). */
+
+.gallery-page {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(6rem, 14vw, 10rem) clamp(1.5rem, 5vw, 4rem) clamp(4rem, 10vw, 8rem);
+  min-height: 100vh;
+}
+
+.gallery-title {
+  margin-bottom: clamp(1rem, 3vw, 2rem);
+}
+
+.gallery-glitch {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.gallery-intro {
+  max-width: 46ch;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  line-height: 1.6;
+  margin: 0 0 clamp(3rem, 8vw, 6rem);
+}
+
+/* Full-bleed stage for the InfiniteMenu WebGL canvas. InfiniteMenu needs an
+ * explicit-height positioned parent (the canvas fills 100% × 100%). 100vh
+ * gives the sphere room to breathe; the section below the intro keeps the page
+ * scrollable so Lenis still has content to glide over. */
+.gallery-menu-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 520px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #000000;
+  border: 1px solid rgba(0, 240, 255, 0.08);
+}
+
+@media (max-width: 768px) {
+  .gallery-menu-section {
+    height: 80vh;
+    border-radius: 12px;
+  }
+
+  .gallery-intro {
+    margin-bottom: clamp(2rem, 6vw, 4rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-glitch {
+    animation: none !important;
+  }
+}
