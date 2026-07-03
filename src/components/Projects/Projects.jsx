@@ -172,8 +172,36 @@ const PROJECTS = [
 ]
 
 function ProjectRow({ project }) {
+  // The entire row is clickable: clicking anywhere opens the project's repo in
+  // a new tab. Nested <a> (tech chips, demo link, the "View on GitHub" link)
+  // are left to navigate to their own targets — we bail when the click originated
+  // inside one so we don't double-navigate. No stretched-link overlay is used so
+  // ScrambledText keeps receiving pointermove for its scramble effect.
+  const openProject = () => {
+    window.open(project.link.href, '_blank', 'noopener,noreferrer')
+  }
+  const handleRowClick = (e) => {
+    if (e.target.closest('a')) return
+    openProject()
+  }
+  const handleRowKeyDown = (e) => {
+    // The article is focusable (tabIndex=0); activate it like a link on
+    // Enter / Space so keyboard users can open the repo without tabbing in.
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+      e.preventDefault()
+      openProject()
+    }
+  }
+
   return (
-    <article className="project-row" tabIndex={0}>
+    <article
+      className="project-row"
+      tabIndex={0}
+      role="link"
+      aria-label={`Open ${project.name} project on GitHub`}
+      onClick={handleRowClick}
+      onKeyDown={handleRowKeyDown}
+    >
       {/* Leftmost column: index + year, small. Always visible. */}
       <div className="project-row__meta">
         <span className="project-row__index">{project.index}</span>

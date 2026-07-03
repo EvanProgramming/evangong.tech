@@ -46,6 +46,9 @@
   transition: background 0.5s ease-in-out, color 0.5s ease-in-out,
     border-color 0.5s ease-in-out;
   outline: none;
+  /* Whole row is clickable (opens the project's GitHub repo); nested <a>
+     (tech chips, demo, GitHub link) sit above and keep their own targets. */
+  cursor: pointer;
 }
 
 /* Meta column — index + year, small, dimmed via opacity so it inverts with the row */
