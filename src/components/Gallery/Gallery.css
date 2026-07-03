@@ -15,7 +15,7 @@
   margin-bottom: clamp(1rem, 3vw, 2rem);
 }
 
-.gallery-glitch {
+.gallery-heading {
   font-family: 'Inter', system-ui, sans-serif;
   font-weight: 900;
   font-size: clamp(2.5rem, 7vw, 5rem);
@@ -23,6 +23,7 @@
   line-height: 1;
   color: #ffffff;
   text-transform: uppercase;
+  margin: 0;
 }
 
 .gallery-intro {
@@ -56,11 +57,5 @@
 
   .gallery-intro {
     margin-bottom: clamp(2rem, 6vw, 4rem);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gallery-glitch {
-    animation: none !important;
   }
 }
