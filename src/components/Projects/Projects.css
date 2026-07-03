@@ -88,6 +88,20 @@
   transition: color 0.5s ease-in-out;
 }
 
+/* Tagline — small uppercase category · platform label, sits above the intro.
+   Dimmed cyan so it reads as metadata, not a second headline. */
+.project-row__tagline {
+  margin: 0;
+  padding-top: clamp(0.85rem, 1.6vw, 1.2rem);
+  font-size: clamp(0.7rem, 1vw, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #00f0ff;
+  opacity: 0.7;
+  transition: color 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
 /* ===== Expandable details — grid 0fr→1fr for smooth auto-height ===== */
 .project-row__details {
   display: grid;
@@ -111,6 +125,37 @@
 }
 .project-row .text-block p {
   margin: 0;
+}
+
+/* ===== Key features — bulleted list with cyan markers ===== */
+.project-row__features {
+  list-style: none;
+  margin: 0;
+  padding: clamp(0.9rem, 1.6vw, 1.25rem) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.35rem, 0.7vw, 0.55rem);
+  max-width: 70ch;
+}
+.project-row__feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: clamp(0.9rem, 1.25vw, 1rem);
+  line-height: 1.5;
+  color: inherit;
+  opacity: 0.92;
+}
+.project-row__feature-marker {
+  flex-shrink: 0;
+  color: #00f0ff;
+  font-size: 0.85em;
+  line-height: 1.5;
+  transition: color 0.5s ease-in-out;
+}
+.project-row__feature-text {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 /* ===== Tech stack ===== */
@@ -145,19 +190,23 @@
   display: block;
   transition: filter 0.5s ease-in-out;
 }
-/* Fallback text badge for techs without a local SVG (e.g. ROS) */
+/* Fallback text badge for techs without a local SVG (e.g. ROS, .NET, Docker).
+   Auto-width so multi-character labels fit without clipping; height matches
+   the 18px icon size for visual alignment. */
 .project-row__tech-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
+  min-width: 18px;
   height: 18px;
+  padding: 0 5px;
   font-size: 0.55rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   border: 1px solid currentColor;
   border-radius: 4px;
   line-height: 1;
+  white-space: nowrap;
 }
 .project-row__tech-label {
   font-size: 0.85rem;
@@ -165,12 +214,18 @@
   letter-spacing: 0.01em;
 }
 
-/* ===== Text button (GitHub / demo) ===== */
+/* ===== Outbound links (GitHub + optional demo) ===== */
+.project-row__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  margin-top: clamp(1rem, 1.8vw, 1.4rem);
+}
 .project-row__link {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  margin-top: clamp(1rem, 1.8vw, 1.4rem);
   text-decoration: none;
   color: inherit;
   font-size: clamp(0.9rem, 1.2vw, 1rem);
@@ -193,6 +248,15 @@
 .project-row__link:focus-visible span {
   transform: translateX(4px);
 }
+/* Demo link — secondary, slightly dimmed so the GitHub CTA stays primary */
+.project-row__link--demo {
+  font-weight: 500;
+  opacity: 0.8;
+}
+.project-row__link--demo:hover,
+.project-row__link--demo:focus-visible {
+  opacity: 1;
+}
 
 /* ===== Desktop hover/focus: expand + invert (white bg, black text) ===== */
 @media (min-width: 769px) {
@@ -205,6 +269,13 @@
   .project-row:hover .project-row__name,
   .project-row:focus-within .project-row__name {
     color: var(--color-black);
+  }
+  /* Tagline dims to near-black on the inverted white bg (cyan-on-white is
+     low-contrast); feature markers stay cyan as a small accent. */
+  .project-row:hover .project-row__tagline,
+  .project-row:focus-within .project-row__tagline {
+    color: var(--color-black);
+    opacity: 0.6;
   }
   .project-row:hover .project-row__meta,
   .project-row:focus-within .project-row__meta {
@@ -245,6 +316,8 @@
   .project-row,
   .project-row__details,
   .project-row__name,
+  .project-row__tagline,
+  .project-row__feature-marker,
   .project-row__tech-icon,
   .project-row__tech-link,
   .project-row__link,
