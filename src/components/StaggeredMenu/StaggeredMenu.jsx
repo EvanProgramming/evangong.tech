@@ -18,7 +18,8 @@ export default function StaggeredMenu({
   isFixed = false,
   closeOnClickAway = true,
   onMenuOpen,
-  onMenuClose
+  onMenuClose,
+  activePath = ''
 }) {
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
@@ -212,7 +213,13 @@ export default function StaggeredMenu({
             {items && items.length ? (
               items.map((it, idx) => (
                 <li className="sm-panel-itemWrap" key={it.label + idx}>
-                  <a className="sm-panel-item" href={it.link} aria-label={it.ariaLabel} data-index={idx + 1}>
+                  <a
+                    className="sm-panel-item"
+                    href={it.link}
+                    aria-label={it.ariaLabel}
+                    data-index={idx + 1}
+                    aria-current={it.link === activePath ? 'page' : undefined}
+                  >
                     <span className="sm-panel-itemLabel">{it.label}</span>
                   </a>
                 </li>
