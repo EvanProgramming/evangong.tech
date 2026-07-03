@@ -4,6 +4,7 @@ import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import Home from './components/Home/Home.jsx'
 import About from './components/About/About.jsx'
+import Projects from './components/Projects/Projects.jsx'
 import PageTransition from './components/PageTransition/PageTransition.jsx'
 import logoUrl from './assets/EvanGongIcon.png'
 import './App.css'
@@ -78,7 +79,7 @@ function useClientSideNav(triggerTransition) {
 
   useEffect(() => {
     const handler = (e) => {
-      const link = e.target.closest && e.target.closest('.sm-panel-item')
+      const link = e.target.closest && e.target.closest('.sm-panel-item, [data-nav-link]')
       if (!link) return
       const href = link.getAttribute('href')
       if (!href) return
@@ -206,11 +207,13 @@ function Layout() {
         colors={['#000000', '#00f0ff']}
         accentColor="#00f0ff"
         isFixed={true}
+        activePath={pathname}
       />
       <main ref={mainRef}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
           {/* Unimplemented routes fall back to Home for now */}
           <Route path="*" element={<Home />} />
         </Routes>

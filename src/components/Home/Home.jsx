@@ -185,6 +185,12 @@ export default function Home() {
             </div>
           </ScrollStackItem>
         </ScrollStack>
+        <div className="scroll-stack-cta-wrap">
+          <a href="/projects" data-nav-link className="scroll-stack-cta">
+            <span>View All Projects</span>
+            <span className="scroll-stack-cta__arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
       </section>
 
       <section className="logo-loop-section" aria-label="Tools and brands">

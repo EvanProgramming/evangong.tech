@@ -30,6 +30,7 @@
 
 .sm-panel-item { position: relative; color: #fff; font-weight: 600; font-size: 3.5rem; cursor: pointer; line-height: 1; letter-spacing: -2px; text-transform: uppercase; transition: background 0.25s, color 0.25s; display: inline-block; text-decoration: none; padding-right: 1.4em; }
 .sm-panel-item:hover { color: var(--sm-accent, #00f0ff); }
+.sm-panel-item[aria-current="page"] { color: var(--sm-accent, #00f0ff); }
 .sm-panel-itemLabel { display: inline-block; will-change: transform; transform-origin: 50% 100%; }
 
 .sm-socials { margin-top: auto; padding-top: 2rem; display: flex; flex-direction: column; gap: 0.75rem; }
