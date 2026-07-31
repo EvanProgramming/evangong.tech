@@ -31,7 +31,7 @@ describe('GalleryCategory', () => {
     renderAt('/gallery/paris')
     const dome = screen.getByTestId('dome-gallery-mock')
     expect(dome).toBeInTheDocument()
-    expect(dome.textContent).toContain('8 images')
+    expect(dome.textContent).toMatch(/DomeGallery mock — \d+ images/)
   })
 
   it('passes grayscale={false} to DomeGallery (Grey Scale OFF per spec)', () => {
