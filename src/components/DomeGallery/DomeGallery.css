@@ -167,7 +167,18 @@ main.sphere-main {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
-.viewer .enlarge img {
+.viewer .enlarge--ready {
+  overflow: visible;
+}
+
+.enlarge__image-wrap {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--enlarge-radius, 32px);
+  overflow: hidden;
+}
+
+.enlarge__image-wrap img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -179,6 +190,72 @@ main.sphere-main {
   height: 100%;
   object-fit: contain;
   filter: var(--image-filter, none);
+}
+
+.dg-exif-panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 400ms ease;
+  pointer-events: none;
+}
+
+.dg-exif-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+  padding: 14px 20px;
+  background: rgba(0, 0, 0, 0.72);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.dg-exif-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.dg-exif-label {
+  color: #00f0ff;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.dg-exif-value {
+  color: #fff;
+  opacity: 0.92;
+}
+
+.dg-exif-empty {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+  text-align: center;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .dg-exif-grid {
+    gap: 6px 16px;
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+
+  .dg-exif-label {
+    font-size: 11px;
+  }
 }
 
 .edge-fade {

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useCallback } from 'react';
 import { useGesture } from '@use-gesture/react';
+import exifr from 'exifr';
 import './DomeGallery.css';
 
 const DEFAULT_IMAGES = [
@@ -48,6 +49,69 @@ const getDataNumber = (el, name, fallback) => {
   const n = attr == null ? NaN : parseFloat(attr);
   return Number.isFinite(n) ? n : fallback;
 };
+
+function formatExposureTime(t) {
+  if (t == null || Number.isNaN(t)) return '';
+  if (typeof t === 'string') return t.endsWith('s') ? t : `${t}s`;
+  if (t >= 1) return `${parseFloat(t.toFixed(1))}s`;
+  const denom = Math.max(1, Math.round(1 / t));
+  return `1/${denom}s`;
+}
+
+function formatCamera(exif) {
+  const make = exif?.Make?.trim();
+  const model = exif?.Model?.trim();
+  if (!make && !model) return '';
+  if (make && model && model.toLowerCase().startsWith(make.toLowerCase())) return model;
+  return [make, model].filter(Boolean).join(' ');
+}
+
+function formatDate(dt) {
+  if (!dt) return '';
+  const d = dt instanceof Date ? dt : new Date(dt);
+  if (Number.isNaN(d.getTime())) return String(dt);
+  return d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function formatNumber(n, digits = 1) {
+  if (n == null || Number.isNaN(n)) return '';
+  const fixed = Number(n).toFixed(digits);
+  return String(parseFloat(fixed));
+}
+
+function renderExifRows(exif) {
+  const rows = [
+    { label: 'Camera', value: formatCamera(exif) },
+    { label: 'Lens', value: exif?.LensModel?.trim() },
+    { label: 'Date', value: formatDate(exif?.DateTimeOriginal) },
+    { label: 'Focal', value: exif?.FocalLength != null ? `${formatNumber(exif.FocalLength, 1)}mm` : '' },
+    { label: 'Aperture', value: exif?.FNumber != null ? `f/${formatNumber(exif.FNumber, 1)}` : '' },
+    { label: 'Shutter', value: formatExposureTime(exif?.ExposureTime) },
+    { label: 'ISO', value: exif?.ISO != null ? String(Number(exif.ISO)) : '' }
+  ].filter(r => r.value);
+
+  if (rows.length === 0) return '<div class="dg-exif-empty">No EXIF data available</div>';
+
+  return rows
+    .map(r => `<div class="dg-exif-row"><span class="dg-exif-label">${r.label}</span><span class="dg-exif-value">${r.value}</span></div>`)
+    .join('');
+}
+
+async function loadExifPanel(rawSrc, overlay) {
+  try {
+    const exif = await exifr.parse(rawSrc, { gps: false, icc: false, xmp: false });
+    if (!exif) return;
+    const panel = document.createElement('div');
+    panel.className = 'dg-exif-panel';
+    panel.innerHTML = `<div class="dg-exif-grid">${renderExifRows(exif)}</div>`;
+    overlay.appendChild(panel);
+    requestAnimationFrame(() => {
+      panel.style.opacity = '1';
+    });
+  } catch {
+    // EXIF parsing is best-effort; silently ignore failures.
+  }
+}
 
 function buildItems(pool, seg) {
   const xCols = Array.from({ length: seg }, (_, i) => -37 + i * 2);
@@ -503,9 +567,12 @@ export default function DomeGallery({
       overlay.style.transformOrigin = 'top left';
       overlay.style.transition = `transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease`;
       const rawSrc = parent.dataset.src || el.querySelector('img')?.src || '';
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'enlarge__image-wrap';
       const img = document.createElement('img');
       img.src = rawSrc;
-      overlay.appendChild(img);
+      imgWrap.appendChild(img);
+      overlay.appendChild(imgWrap);
       viewerRef.current.appendChild(overlay);
 
       const tx0 = tileR.left - frameR.left;
@@ -567,6 +634,8 @@ export default function DomeGallery({
           const cleanupSecond = () => {
             overlay.removeEventListener('transitionend', cleanupSecond);
             overlay.style.transition = prevTransition;
+            overlay.classList.add('enlarge--ready');
+            loadExifPanel(rawSrc, overlay);
           };
           overlay.addEventListener('transitionend', cleanupSecond, { once: true });
         };

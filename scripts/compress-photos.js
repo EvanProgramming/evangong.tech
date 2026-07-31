@@ -27,6 +27,7 @@ async function compressCategory(name) {
     await sharp(srcPath)
       .resize({ width: 1920, height: 1920, fit: 'inside', withoutEnlargement: true })
       .jpeg({ quality: 85, progressive: true, mozjpeg: true })
+      .withMetadata()
       .toFile(destPath + '.tmp')
 
     await fs.rename(destPath + '.tmp', destPath)
