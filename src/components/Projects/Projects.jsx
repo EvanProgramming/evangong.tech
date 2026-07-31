@@ -246,64 +246,7 @@ const PROJECTS = [
     ],
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/Burney-PDF' }
   },
-  {
-    index: '11',
-    year: '2026',
-    name: 'Matrix-Calculator',
-    tagline: 'Exact Matrix Arithmetic · C++/CMake',
-    intro:
-      'A C++ matrix calculator built around a custom fraction module — perform matrix operations with exact arithmetic, eliminating the floating-point errors that plague naive implementations.',
-    features: [
-      'Exact arithmetic via a custom fraction module — no floating-point drift',
-      'Standard matrix operations — addition, multiplication, transpose, determinant',
-      'CMake build system with a modular source layout'
-    ],
-    tech: [
-      { name: 'C++', icon: si('cplusplus'), href: 'https://isocpp.org' },
-      { name: 'C', icon: si('c'), href: 'https://en.wikipedia.org/wiki/C_(programming_language)' },
-      { name: 'CMake', text: 'CMake', href: 'https://cmake.org' },
-      { name: 'Make', text: 'Make', href: 'https://www.gnu.org/software/make' }
-    ],
-    link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/Matrix-Calculator' }
-  },
-  {
-    index: '12',
-    year: '2026',
-    name: 'Sona',
-    tagline: 'Voice-Driven Desktop Assistant · Early Stage',
-    intro:
-      'A Siri alternative for the desktop — designed as a comprehensive personal assistant with voice-driven control and context-aware automation. Currently in early-stage development.',
-    features: [
-      'Voice-driven computer control',
-      'Context-aware automation',
-      'Designed as a modular, extensible assistant framework'
-    ],
-    tech: [
-      { name: 'Python', icon: si('python'), href: 'https://www.python.org' },
-      { name: 'JavaScript', icon: si('javascript'), href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript' },
-      { name: 'React', icon: si('react'), href: 'https://react.dev' }
-    ],
-    link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/Sona' }
-  },
-  {
-    index: '13',
-    year: '2025',
-    name: 'Debate_Simulator',
-    tagline: 'Telegram Account Simulator · Web Toy',
-    intro:
-      "A playful single-page web simulator that recreates the Telegram account-opening flow — built as a tribute to 'Mr. Debate', a fanatical Telegram fan. Pure HTML, CSS, and vanilla JavaScript with no build step.",
-    features: [
-      'Faithful recreation of the Telegram account-opening experience',
-      'Interactive UI with a QR-code verification step',
-      'Zero-dependency vanilla JS — no build step, runs anywhere'
-    ],
-    tech: [
-      { name: 'JavaScript', icon: si('javascript'), href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript' },
-      { name: 'CSS', icon: si('css'), href: 'https://developer.mozilla.org/en-US/docs/Web/CSS' },
-      { name: 'HTML5', icon: si('html5'), href: 'https://developer.mozilla.org/en-US/docs/Glossary/HTML5' }
-    ],
-    link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/Debate_Simulator' }
-  }
+
 ]
 
 function ProjectRow({ project }) {
