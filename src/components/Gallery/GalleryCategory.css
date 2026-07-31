@@ -17,6 +17,14 @@
   height: 100vh;
 }
 
+/* Remove the vignette/blur overlays so the DomeGallery tiles extend all the
+ * way to the viewport edges without a dark border. */
+.gallery-dome-wrap .sphere-root .overlay,
+.gallery-dome-wrap .sphere-root .overlay--blur,
+.gallery-dome-wrap .sphere-root .edge-fade {
+  display: none;
+}
+
 /* Back capsule — top-left, above the dome (z-index above DomeGallery's
  * viewer which peaks at z-index 30). Reuses the .scroll-stack-cta capsule
  * idiom: semi-transparent bg + backdrop-blur + cyan border, hover inverts. */
