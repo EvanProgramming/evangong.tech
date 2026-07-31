@@ -53,6 +53,139 @@ const PROJECTS = [
   {
     index: '02',
     year: '2026',
+    name: 'Kyrozen',
+    tagline: 'Product Creator & Manager · Full-Stack Agent Platform',
+    intro:
+      'A production-grade "product creator and manager" agent platform — Kyrozen turns ideas into shipped products with an autonomous core, desktop app, browser extension, and web frontend. It coordinates planning, implementation, verification, and deployment in a unified, self-hostable system.',
+    features: [
+      'Autonomous product lifecycle — from idea to deployed product in one platform',
+      'Multi-surface architecture — desktop app, browser extension, web frontend, and Python core',
+      'Self-hostable backend with Docker Compose, Caddy reverse proxy, and Postgres migrations',
+      'Real execution planning with activity tracking and audit-grade verification',
+      'Production-ready packaging — releases, install scripts, tests, and CI/CD scaffolding'
+    ],
+    tech: [
+      { name: 'Python', icon: si('python'), href: 'https://www.python.org' },
+      { name: 'TypeScript', icon: si('typescript'), href: 'https://www.typescriptlang.org' },
+      { name: 'React', icon: si('react'), href: 'https://react.dev' },
+      { name: 'Docker', text: 'Docker', href: 'https://www.docker.com' },
+      { name: 'PostgreSQL', text: 'PostgreSQL', href: 'https://www.postgresql.org' }
+    ],
+    link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/Kyrozen' }
+  },
+  {
+    index: '03',
+    year: '2026',
+    name: 'OverflowBar',
+    tagline: 'macOS Menu-Bar Utility · Native Swift App',
+    intro:
+      'A fluid second row for the macOS menu bar. OverflowBar keeps a crowded menu bar tidy by moving selected status items behind one persistent arrow, then revealing them in a fast, native second row whenever you need them — with Liquid Glass on macOS 26+.',
+    features: [
+      'Native macOS design — Liquid Glass on macOS 26+, lightweight material on macOS 15',
+      'Live status-item capture via Accessibility APIs, WindowServer metadata, and ScreenCaptureKit',
+      'Respects safe areas, notches, multiple displays, full-screen spaces, and reduced motion',
+      'System controls stay safe — Wi-Fi, Battery, Siri, Control Center, and Clock remain visible',
+      'One-click reveal by arrow or hover; selecting an icon activates its original control'
+    ],
+    tech: [
+      { name: 'Swift', icon: si('swift'), href: 'https://www.swift.org' },
+      { name: 'Xcode', text: 'Xcode', href: 'https://developer.apple.com/xcode' },
+      { name: 'AppKit', text: 'AppKit', href: 'https://developer.apple.com/documentation/appkit' },
+      { name: 'SwiftUI', text: 'SwiftUI', href: 'https://developer.apple.com/documentation/swiftui' }
+    ],
+    link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/OverflowBar' }
+  },
+  {
+    index: '04',
+    year: '2026',
+    name: 'Good Samaritan',
+    tagline: 'Autonomous Open-Source Contributor · Python CLI',
+    intro:
+      'A deliberately cautious AI experiment: an independent Python CLI that discovers small open issues on GitHub, prepares focused fixes, tests them, gets a separate model review, and only then may open a pull request — with explicit AI disclosure and a dry-run-by-default safety model.',
+    features: [
+      'Dry-run by default — discovery, cloning, analysis, editing, validation, and review without remote writes',
+      'Safety guardrails — rejects assigned/PR\'d issues, security work, bot-prohibited repos, and large diffs',
+      'SQLite-backed journal, memory, and maintainer-preference learning for better future attempts',
+      'Disposable dependency environments and command sandboxing inside temporary workspaces',
+      'Automatic provider fallback (Gemini, Groq, OpenRouter, local OmniRoute) with cooldowns on rate limits'
+    ],
+    tech: [
+      { name: 'Python', icon: si('python'), href: 'https://www.python.org' },
+      { name: 'GitHub Actions', icon: si('githubactions'), href: 'https://github.com/features/actions' },
+      { name: 'SQLite', text: 'SQLite', href: 'https://www.sqlite.org' },
+      { name: 'OpenAI', text: 'OpenAI API', href: 'https://platform.openai.com' }
+    ],
+    link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/GoodSamaritan' }
+  },
+  {
+    index: '05',
+    year: '2026',
+    name: 'Kards AI',
+    tagline: 'KARDS Game AI Simulator · AlphaZero Training',
+    intro:
+      'A core, headless rules simulator for KARDS AI training. It models the full World-War-II card game as deterministic Python code, then trains an AlphaZero-style policy/value network through self-play — no UI, no networking, pure reinforcement-learning research.',
+    features: [
+      'Complete KARDS rules engine — card loader, serializable game state, actions, turn flow, effect engine',
+      'Custom-handler framework for card abilities, keywords, countermeasures, and battlefield rules',
+      'AlphaZero-style training loop with policy/value network, replay buffer, and vectorized self-play',
+      'Windows training orchestration — D-drive workspace, CUDA isolation, dashboard, and graceful stop',
+      '1488-card unmodified kards.info catalog as the single source of truth'
+    ],
+    tech: [
+      { name: 'Python', icon: si('python'), href: 'https://www.python.org' },
+      { name: 'PyTorch', text: 'PyTorch', href: 'https://pytorch.org' },
+      { name: 'CUDA', text: 'CUDA', href: 'https://developer.nvidia.com/cuda-zone' },
+      { name: 'NumPy', text: 'NumPy', href: 'https://numpy.org' }
+    ],
+    link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/Kards-AI' }
+  },
+  {
+    index: '06',
+    year: '2026',
+    name: 'Hardware Agent Runtime',
+    tagline: 'Embedded Hardware Runtime · TypeScript MCP',
+    intro:
+      'A local-first runtime that lets external AI coding agents safely compile, flash, observe, experiment with, and verify real embedded hardware. The first target is Arduino through Arduino CLI, with adapter contracts that preserve a path to ESP-IDF, Zephyr, RP2040, STM32, and MicroPython.',
+    features: [
+      'Safe hardware-in-the-loop workflow — discovery, compile, flash, serial diagnostics, verification reports',
+      'MCP server exposes the runtime to AI agents via STDIO with input/output validation',
+      'Immutable, attributable evidence — inference never overwrites observation',
+      'Deterministic experiments with persisted human-action pauses and safety analysis',
+      'Validated end-to-end on real ESP32 Dev Module hardware'
+    ],
+    tech: [
+      { name: 'TypeScript', icon: si('typescript'), href: 'https://www.typescriptlang.org' },
+      { name: 'Node.js', icon: si('nodedotjs'), href: 'https://nodejs.org' },
+      { name: 'SQLite', text: 'SQLite', href: 'https://www.sqlite.org' },
+      { name: 'Arduino', text: 'Arduino CLI', href: 'https://arduino.github.io/arduino-cli' }
+    ],
+    link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/Hardware-Agent-Runtime' }
+  },
+  {
+    index: '07',
+    year: '2026',
+    name: 'CAD It Up',
+    tagline: 'Text-to-CAD Agent · Python/build123d',
+    intro:
+      'A text-to-CAD agent with a self-correcting verification loop. It turns a natural-language part description into an accurate, parametric B-rep solid (STEP and STL) using build123d over the OpenCascade kernel, then measures the result against a structured spec and self-corrects via LLM feedback.',
+    features: [
+      'Pydantic PartSpec model — mechanical parts as data (holes, counterbores, bolt patterns, walls, gussets)',
+      'Deterministic build() mapping — LLM emits spec JSON, never arbitrary build123d code',
+      '0.01 mm measurement assertions — bounding box, bore positions, bolt patterns, wall thickness',
+      'Self-correcting loop — precise diffs feed back to the LLM to regenerate the spec on failure',
+      'Exports production-ready STEP + STL with material and tolerance reports'
+    ],
+    tech: [
+      { name: 'Python', icon: si('python'), href: 'https://www.python.org' },
+      { name: 'OpenAI', text: 'OpenAI API', href: 'https://platform.openai.com' },
+      { name: 'OpenCascade', text: 'OpenCascade', href: 'https://www.opencascade.com' },
+      { name: 'pytest', text: 'pytest', href: 'https://docs.pytest.org' }
+    ],
+    link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/CAD_It_Up' }
+  },
+  {
+    index: '08',
+    year: '2026',
     name: 'MoodStudy',
     tagline: 'Mood & Learning Analytics · Hackathon (Team b1t)',
     intro:
@@ -75,7 +208,7 @@ const PROJECTS = [
     demo: { label: 'Live Site', href: 'https://moodstudy.top/' }
   },
   {
-    index: '03',
+    index: '09',
     year: '2024',
     name: 'Anti-Fire Drone System',
     tagline: 'Autonomous Fire-Response Drone · Hardware',
@@ -96,7 +229,7 @@ const PROJECTS = [
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming' }
   },
   {
-    index: '04',
+    index: '10',
     year: '2026',
     name: 'Burney-PDF',
     tagline: 'Liquid Glass PDF Previewer · Windows Desktop',
@@ -114,7 +247,7 @@ const PROJECTS = [
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/Burney-PDF' }
   },
   {
-    index: '05',
+    index: '11',
     year: '2026',
     name: 'Matrix-Calculator',
     tagline: 'Exact Matrix Arithmetic · C++/CMake',
@@ -134,7 +267,7 @@ const PROJECTS = [
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/Matrix-Calculator' }
   },
   {
-    index: '06',
+    index: '12',
     year: '2026',
     name: 'Sona',
     tagline: 'Voice-Driven Desktop Assistant · Early Stage',
@@ -153,7 +286,7 @@ const PROJECTS = [
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/Sona' }
   },
   {
-    index: '07',
+    index: '13',
     year: '2025',
     name: 'Debate_Simulator',
     tagline: 'Telegram Account Simulator · Web Toy',
