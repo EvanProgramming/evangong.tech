@@ -150,10 +150,10 @@ export default function Home() {
             <div className="project-card">
               <span className="project-card__index">02</span>
               <div className="project-card__body">
-                <h3 className="project-card__title">Sona</h3>
-                <p className="project-card__desc">A Siri-like comprehensive personal assistant for your computer.</p>
+                <h3 className="project-card__title">Kyrozen</h3>
+                <p className="project-card__desc">An AI-driven product development platform that takes you from a fuzzy problem to a real software or hardware prototype.</p>
               </div>
-              <span className="project-card__tag">Assistant</span>
+              <span className="project-card__tag">AI</span>
             </div>
           </ScrollStackItem>
           <ScrollStackItem itemClassName="project-card--cyan">
@@ -167,14 +167,14 @@ export default function Home() {
             </div>
           </ScrollStackItem>
           <ScrollStackItem itemClassName="project-card--white">
-            <div className="project-card">
+            <a href="https://github.com/EvanProgramming/OverflowBar" target="_blank" rel="noopener noreferrer" className="project-card">
               <span className="project-card__index">04</span>
               <div className="project-card__body">
-                <h3 className="project-card__title">Campus Studio</h3>
-                <p className="project-card__desc">A work assignment platform for school photography studios.</p>
+                <h3 className="project-card__title">OverflowBar</h3>
+                <p className="project-card__desc">A macOS menu bar icon overflow manager for a cleaner status bar.</p>
               </div>
-              <span className="project-card__tag">Web</span>
-            </div>
+              <span className="project-card__tag">macOS</span>
+            </a>
           </ScrollStackItem>
           <ScrollStackItem itemClassName="project-card--cyan">
             <div className="project-card">
