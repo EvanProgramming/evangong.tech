@@ -46,7 +46,7 @@ const PROJECTS = [
       { name: 'Claude', icon: si('anthropic'), href: 'https://www.anthropic.com' },
       { name: 'Gemini', icon: si('googlegemini'), href: 'https://gemini.google.com' },
       { name: 'Git', icon: si('git'), href: 'https://git-scm.com' },
-      { name: 'Docker', text: 'Docker', href: 'https://www.docker.com' }
+      { name: 'Docker', icon: si('docker'), href: 'https://www.docker.com' }
     ],
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/OpenKyrozen' }
   },
@@ -68,8 +68,8 @@ const PROJECTS = [
       { name: 'Python', icon: si('python'), href: 'https://www.python.org' },
       { name: 'TypeScript', icon: si('typescript'), href: 'https://www.typescriptlang.org' },
       { name: 'React', icon: si('react'), href: 'https://react.dev' },
-      { name: 'Docker', text: 'Docker', href: 'https://www.docker.com' },
-      { name: 'PostgreSQL', text: 'PostgreSQL', href: 'https://www.postgresql.org' }
+      { name: 'Docker', icon: si('docker'), href: 'https://www.docker.com' },
+      { name: 'PostgreSQL', icon: si('postgresql'), href: 'https://www.postgresql.org' }
     ],
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/Kyrozen' }
   },
@@ -89,9 +89,9 @@ const PROJECTS = [
     ],
     tech: [
       { name: 'Swift', icon: si('swift'), href: 'https://www.swift.org' },
-      { name: 'Xcode', text: 'Xcode', href: 'https://developer.apple.com/xcode' },
-      { name: 'AppKit', text: 'AppKit', href: 'https://developer.apple.com/documentation/appkit' },
-      { name: 'SwiftUI', text: 'SwiftUI', href: 'https://developer.apple.com/documentation/swiftui' }
+      { name: 'Xcode', icon: si('xcode'), href: 'https://developer.apple.com/xcode' },
+      { name: 'AppKit', icon: si('apple'), href: 'https://developer.apple.com/documentation/appkit' },
+      { name: 'SwiftUI', icon: si('apple'), href: 'https://developer.apple.com/documentation/swiftui' }
     ],
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/OverflowBar' }
   },
@@ -112,8 +112,8 @@ const PROJECTS = [
     tech: [
       { name: 'Python', icon: si('python'), href: 'https://www.python.org' },
       { name: 'GitHub Actions', icon: si('githubactions'), href: 'https://github.com/features/actions' },
-      { name: 'SQLite', text: 'SQLite', href: 'https://www.sqlite.org' },
-      { name: 'OpenAI', text: 'OpenAI API', href: 'https://platform.openai.com' }
+      { name: 'SQLite', icon: si('sqlite'), href: 'https://www.sqlite.org' },
+      { name: 'OpenAI', icon: si('openai'), href: 'https://platform.openai.com' }
     ],
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/GoodSamaritan' }
   },
@@ -133,9 +133,9 @@ const PROJECTS = [
     ],
     tech: [
       { name: 'Python', icon: si('python'), href: 'https://www.python.org' },
-      { name: 'PyTorch', text: 'PyTorch', href: 'https://pytorch.org' },
-      { name: 'CUDA', text: 'CUDA', href: 'https://developer.nvidia.com/cuda-zone' },
-      { name: 'NumPy', text: 'NumPy', href: 'https://numpy.org' }
+      { name: 'PyTorch', icon: si('pytorch'), href: 'https://pytorch.org' },
+      { name: 'CUDA', icon: si('cuda'), href: 'https://developer.nvidia.com/cuda-zone' },
+      { name: 'NumPy', icon: si('numpy'), href: 'https://numpy.org' }
     ],
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/Kards-AI' }
   },
@@ -156,8 +156,8 @@ const PROJECTS = [
     tech: [
       { name: 'TypeScript', icon: si('typescript'), href: 'https://www.typescriptlang.org' },
       { name: 'Node.js', icon: si('nodedotjs'), href: 'https://nodejs.org' },
-      { name: 'SQLite', text: 'SQLite', href: 'https://www.sqlite.org' },
-      { name: 'Arduino', text: 'Arduino CLI', href: 'https://arduino.github.io/arduino-cli' }
+      { name: 'SQLite', icon: si('sqlite'), href: 'https://www.sqlite.org' },
+      { name: 'Arduino', icon: si('arduino'), href: 'https://arduino.github.io/arduino-cli' }
     ],
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/Hardware-Agent-Runtime' }
   },
@@ -177,9 +177,9 @@ const PROJECTS = [
     ],
     tech: [
       { name: 'Python', icon: si('python'), href: 'https://www.python.org' },
-      { name: 'OpenAI', text: 'OpenAI API', href: 'https://platform.openai.com' },
+      { name: 'OpenAI', icon: si('openai'), href: 'https://platform.openai.com' },
       { name: 'OpenCascade', text: 'OpenCascade', href: 'https://www.opencascade.com' },
-      { name: 'pytest', text: 'pytest', href: 'https://docs.pytest.org' }
+      { name: 'pytest', icon: si('pytest'), href: 'https://docs.pytest.org' }
     ],
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/CAD_It_Up' }
   },
@@ -201,8 +201,8 @@ const PROJECTS = [
       { name: 'JavaScript', icon: si('javascript'), href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript' },
       { name: 'CSS', icon: si('css'), href: 'https://developer.mozilla.org/en-US/docs/Web/CSS' },
       { name: 'HTML5', icon: si('html5'), href: 'https://developer.mozilla.org/en-US/docs/Glossary/HTML5' },
-      { name: 'Supabase', text: 'Supabase', href: 'https://supabase.com' },
-      { name: 'Three.js', text: 'Three.js', href: 'https://threejs.org' }
+      { name: 'Supabase', icon: si('supabase'), href: 'https://supabase.com' },
+      { name: 'Three.js', icon: si('threedotjs'), href: 'https://threejs.org' }
     ],
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/MoodStudy' },
     demo: { label: 'Live Site', href: 'https://moodstudy.top/' }
@@ -224,7 +224,7 @@ const PROJECTS = [
       { name: 'C++', icon: si('cplusplus'), href: 'https://isocpp.org' },
       { name: 'Python', icon: si('python'), href: 'https://www.python.org' },
       { name: 'C', icon: si('c'), href: 'https://en.wikipedia.org/wiki/C_(programming_language)' },
-      { name: 'ROS', text: 'ROS', href: 'https://www.ros.org' }
+      { name: 'ROS', icon: si('ros'), href: 'https://www.ros.org' }
     ],
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming' }
   },
@@ -242,7 +242,7 @@ const PROJECTS = [
     ],
     tech: [
       { name: 'C#', text: 'C#', href: 'https://dotnet.microsoft.com/languages/csharp' },
-      { name: '.NET', text: '.NET', href: 'https://dotnet.microsoft.com' }
+      { name: '.NET', icon: si('dotnet'), href: 'https://dotnet.microsoft.com' }
     ],
     link: { label: 'View on GitHub', href: 'https://github.com/EvanProgramming/Burney-PDF' }
   },
