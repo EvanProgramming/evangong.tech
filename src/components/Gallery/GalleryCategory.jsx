@@ -30,6 +30,10 @@ export default function GalleryCategory() {
             images={images}
             grayscale={false}
             overlayBlurColor="#000000"
+            fit={1.35}
+            fitBasis="min"
+            padFactor={0.02}
+            minRadius={320}
           />
         </ErrorBoundary>
       </div>
