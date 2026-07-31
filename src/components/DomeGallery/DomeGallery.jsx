@@ -390,7 +390,7 @@ export default function DomeGallery({
       const originalImg = overlay.querySelector('img');
       if (originalImg) {
         const img = originalImg.cloneNode();
-        img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+        img.style.cssText = 'width:100%;height:100%;object-fit:contain;';
         animatingOverlay.appendChild(img);
       }
       overlay.remove();
@@ -525,17 +525,32 @@ export default function DomeGallery({
         rootRef.current?.setAttribute('data-enlarging', 'true');
       }, 16);
 
-      const wantsResize = openedImageWidth || openedImageHeight;
-      if (wantsResize) {
-        const onFirstEnd = ev => {
-          if (ev.propertyName !== 'transform') return;
-          overlay.removeEventListener('transitionend', onFirstEnd);
+      // After the tile-to-frame animation finishes, resize the overlay to match
+      // the opened image's actual aspect ratio so landscape shots are not
+      // cropped inside a portrait box. The target size is capped at 85% of the
+      // viewport and centered inside the frame area.
+      const onFirstEnd = ev => {
+        if (ev.propertyName !== 'transform') return;
+        overlay.removeEventListener('transitionend', onFirstEnd);
+
+        const preload = new Image();
+        preload.onload = () => {
+          const { naturalWidth: nw, naturalHeight: nh } = preload;
+          const aspect = nw > 0 && nh > 0 ? nw / nh : 1;
+          const viewportPad = 0.85;
+          const maxW = Math.min(window.innerWidth * viewportPad, frameR.width * 1.6);
+          const maxH = Math.min(window.innerHeight * viewportPad, frameR.height * 1.6);
+          let targetW = maxW;
+          let targetH = targetW / aspect;
+          if (targetH > maxH) {
+            targetH = maxH;
+            targetW = targetH * aspect;
+          }
+
           const prevTransition = overlay.style.transition;
           overlay.style.transition = 'none';
-          const tempWidth = openedImageWidth || `${frameR.width}px`;
-          const tempHeight = openedImageHeight || `${frameR.height}px`;
-          overlay.style.width = tempWidth;
-          overlay.style.height = tempHeight;
+          overlay.style.width = `${targetW}px`;
+          overlay.style.height = `${targetH}px`;
           const newRect = overlay.getBoundingClientRect();
           overlay.style.width = frameR.width + 'px';
           overlay.style.height = frameR.height + 'px';
@@ -546,8 +561,8 @@ export default function DomeGallery({
           requestAnimationFrame(() => {
             overlay.style.left = `${centeredLeft}px`;
             overlay.style.top = `${centeredTop}px`;
-            overlay.style.width = tempWidth;
-            overlay.style.height = tempHeight;
+            overlay.style.width = `${targetW}px`;
+            overlay.style.height = `${targetH}px`;
           });
           const cleanupSecond = () => {
             overlay.removeEventListener('transitionend', cleanupSecond);
@@ -555,8 +570,12 @@ export default function DomeGallery({
           };
           overlay.addEventListener('transitionend', cleanupSecond, { once: true });
         };
-        overlay.addEventListener('transitionend', onFirstEnd);
-      }
+        preload.onerror = () => {
+          // Fallback: keep the frame-sized overlay if the image fails to load.
+        };
+        preload.src = rawSrc;
+      };
+      overlay.addEventListener('transitionend', onFirstEnd);
     },
     [enlargeTransitionMs, lockScroll, openedImageHeight, openedImageWidth, segments, unlockScroll]
   );
