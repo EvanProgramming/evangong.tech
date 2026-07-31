@@ -9,13 +9,12 @@ import {
 
 // galleryData is the single source of truth for the Gallery page: it defines
 // the 4 photography categories (mirroring Home's FlowingMenu), shapes items for
-// InfiniteMenu, and provides placeholder images for DomeGallery until real
-// photos are supplied. These tests guard the contract the UI depends on.
+// InfiniteMenu, and provides real photographs for DomeGallery.
 describe('galleryData', () => {
   describe('CATEGORIES', () => {
     it('defines exactly 4 categories matching Home FlowingMenu', () => {
       expect(CATEGORIES).toHaveLength(4)
-      const labels = CATEGORIES.map(c => c.label)
+      const labels = CATEGORIES.map((c) => c.label)
       expect(labels).toEqual([
         'Paris, France',
         'Chaoshan, China',
@@ -25,7 +24,7 @@ describe('galleryData', () => {
     })
 
     it('every category has the required fields with correct types', () => {
-      CATEGORIES.forEach(cat => {
+      CATEGORIES.forEach((cat) => {
         expect(typeof cat.id).toBe('string')
         expect(cat.id.length).toBeGreaterThan(0)
         expect(typeof cat.label).toBe('string')
@@ -38,12 +37,12 @@ describe('galleryData', () => {
     })
 
     it('category ids are unique', () => {
-      const ids = CATEGORIES.map(c => c.id)
+      const ids = CATEGORIES.map((c) => c.id)
       expect(new Set(ids).size).toBe(ids.length)
     })
 
     it('every category route matches /gallery/<id>', () => {
-      CATEGORIES.forEach(cat => {
+      CATEGORIES.forEach((cat) => {
         expect(cat.route).toBe(`/gallery/${cat.id}`)
       })
     })
@@ -99,9 +98,11 @@ describe('galleryData', () => {
   })
 
   describe('getCategoryImages', () => {
-    it('returns 8 placeholder images for a valid category', () => {
-      const images = getCategoryImages('paris')
-      expect(images).toHaveLength(8)
+    it('returns at least one image for every valid category', () => {
+      CATEGORIES.forEach((cat) => {
+        const images = getCategoryImages(cat.id)
+        expect(images.length).toBeGreaterThan(0)
+      })
     })
 
     it('each image has src and alt strings', () => {
@@ -115,16 +116,16 @@ describe('galleryData', () => {
       })
     })
 
-    it('placeholder srcs are SVG data URIs (no network dependency)', () => {
+    it('srcs are bundled URLs or absolute paths (no SVG placeholders)', () => {
       const images = getCategoryImages('paris')
-      images.forEach(img => {
-        expect(img.src).toMatch(/^data:image\/svg\+xml/)
+      images.forEach((img) => {
+        expect(img.src).not.toMatch(/^data:image\/svg\+xml/)
       })
     })
 
-    it('placeholder srcs are unique within a category', () => {
+    it('srcs are unique within a category', () => {
       const images = getCategoryImages('chaoshan')
-      const srcs = images.map(i => i.src)
+      const srcs = images.map((i) => i.src)
       expect(new Set(srcs).size).toBe(srcs.length)
     })
 
