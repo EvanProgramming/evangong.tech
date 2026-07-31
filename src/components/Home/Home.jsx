@@ -167,14 +167,14 @@ export default function Home() {
             </div>
           </ScrollStackItem>
           <ScrollStackItem itemClassName="project-card--white">
-            <a href="https://github.com/EvanProgramming/OverflowBar" target="_blank" rel="noopener noreferrer" className="project-card">
+            <div className="project-card">
               <span className="project-card__index">04</span>
               <div className="project-card__body">
                 <h3 className="project-card__title">OverflowBar</h3>
                 <p className="project-card__desc">A macOS menu bar icon overflow manager for a cleaner status bar.</p>
               </div>
               <span className="project-card__tag">macOS</span>
-            </a>
+            </div>
           </ScrollStackItem>
           <ScrollStackItem itemClassName="project-card--cyan">
             <div className="project-card">
