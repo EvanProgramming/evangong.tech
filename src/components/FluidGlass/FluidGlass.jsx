@@ -5,7 +5,7 @@ import { Canvas, createPortal, useFrame, useThree } from '@react-three/fiber';
 import {
   useFBO,
   useGLTF,
-  useTexture,
+  Image,
   Preload,
   MeshTransmissionMaterial,
 } from '@react-three/drei';
@@ -26,12 +26,12 @@ export default function FluidGlass({ mode = 'lens', image, lensProps = {}, barPr
 
   return (
     <Canvas camera={{ position: [0, 0, 20], fov: 15 }} gl={{ alpha: true }}>
-      <Suspense fallback={null}>
-        <Wrapper modeProps={modeProps} image={image}>
+      <Wrapper modeProps={modeProps} image={image}>
+        <Suspense fallback={null}>
           <BackgroundImage image={image} />
-        </Wrapper>
-      </Suspense>
-      <Preload />
+        </Suspense>
+        <Preload />
+      </Wrapper>
     </Canvas>
   );
 }
@@ -73,12 +73,14 @@ const ModeWrapper = memo(function ModeWrapper({
       ref.current.scale.setScalar(Math.min(0.15, desired));
     }
 
-    // Clear the FBO to opaque black so MeshTransmissionMaterial
-    // doesn't fall back to its default white color.
-    gl.setClearColor(0x000000, 1);
     gl.setRenderTarget(buffer);
     gl.render(scene, camera);
     gl.setRenderTarget(null);
+
+    // Without setClearColor the FBO is cleared to transparent (alpha 0),
+    // and MeshTransmissionMaterial falls back to its default white color.
+    // Opaque black matches the project's dark theme.
+    gl.setClearColor(0x000000, 1);
   });
 
   const { scale, ior, thickness, anisotropy, chromaticAberration, ...extraMat } = modeProps;
@@ -106,16 +108,12 @@ const ModeWrapper = memo(function ModeWrapper({
 
 function BackgroundImage({ image }) {
   const viewport = useThree(s => s.viewport);
-  // Use useTexture + a plain meshBasicMaterial instead of drei <Image>.
-  // drei <Image>'s custom imageMaterial shader falls back to white when
-  // the texture isn't uploaded or the material hasn't compiled inside the
-  // portaled scene. meshBasicMaterial shows the texture directly.
-  const texture = useTexture(image);
   return (
-    <mesh position={[0, 0, -1]} scale={[viewport.width, viewport.height, 1]}>
-      <planeGeometry />
-      <meshBasicMaterial map={texture} toneMapped={false} />
-    </mesh>
+    <Image
+      position={[0, 0, -1]}
+      scale={[viewport.width, viewport.height, 1]}
+      url={image}
+    />
   );
 }
 

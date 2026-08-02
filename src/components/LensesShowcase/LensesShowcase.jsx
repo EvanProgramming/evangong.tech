@@ -3,11 +3,10 @@ import BorderGlow from '../BorderGlow/BorderGlow.jsx';
 import FluidGlass from '../FluidGlass/FluidGlass.jsx';
 import ErrorBoundary from '../ErrorBoundary.jsx';
 
-import lensesPhoto from '/Photography/Chaoshan/lotus_flower.jpeg';
-
 import './LensesShowcase.css';
 
 export default function LensesShowcase() {
+  const lensesPhoto = '/Photography/Chaoshan/lotus_flower.jpeg';
   return (
     <section className="lenses-section" aria-label="Through the Lenses">
       <div className="lenses-title">
