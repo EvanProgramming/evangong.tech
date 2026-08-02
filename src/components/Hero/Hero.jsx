@@ -9,6 +9,10 @@ import evanGongIcon from '../../assets/EvanGongIcon.png'
 import './Hero.css'
 
 export default function Hero() {
+  const scrollTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section className="hero">
       {/* Ballpit background */}
@@ -65,7 +69,7 @@ export default function Hero() {
           </div>
 
           <div className="hero-buttons">
-            <button type="button" className="hero-button">
+            <button type="button" className="hero-button" onClick={() => scrollTo('projects')}>
               <GlassSurface
                 width="100%"
                 height={56}
@@ -78,7 +82,7 @@ export default function Hero() {
                 <span className="hero-button__label">View Projects</span>
               </GlassSurface>
             </button>
-            <button type="button" className="hero-button">
+            <button type="button" className="hero-button" onClick={() => scrollTo('about')}>
               <GlassSurface
                 width="100%"
                 height={56}
