@@ -173,7 +173,7 @@
 }
 
 .scroll-glass {
-  animation: scrollBounce 2.4s ease-in-out infinite;
+  /* GlassSurface wrapper stays static — no transform animation */
 }
 
 .scroll-arrow {
@@ -181,6 +181,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: scrollBounce 2.4s ease-in-out infinite;
 }
 
 .scroll-arrow svg {
