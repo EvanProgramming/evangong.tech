@@ -1,11 +1,10 @@
 /* eslint-disable react/no-unknown-property */
 import * as THREE from 'three';
 import { Suspense, useRef, useState, useEffect, memo } from 'react';
-import { Canvas, createPortal, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, createPortal, useFrame, useThree, useLoader } from '@react-three/fiber';
 import {
   useFBO,
   useGLTF,
-  Image,
   Preload,
   MeshTransmissionMaterial,
 } from '@react-three/drei';
@@ -108,12 +107,12 @@ const ModeWrapper = memo(function ModeWrapper({
 
 function BackgroundImage({ image }) {
   const viewport = useThree(s => s.viewport);
+  const texture = useLoader(THREE.TextureLoader, image);
   return (
-    <Image
-      position={[0, 0, -1]}
-      scale={[viewport.width, viewport.height, 1]}
-      url={image}
-    />
+    <mesh position={[0, 0, -1]} scale={[viewport.width, viewport.height, 1]}>
+      <planeGeometry />
+      <meshBasicMaterial map={texture} toneMapped={false} />
+    </mesh>
   );
 }
 

@@ -6,7 +6,7 @@ import ErrorBoundary from '../ErrorBoundary.jsx';
 import './LensesShowcase.css';
 
 export default function LensesShowcase() {
-  const lensesPhoto = '/Photography/Chaoshan/lotus_flower.jpeg';
+  const lensesPhoto = '/Photography/Chaoshan/DSC00824.jpeg';
   return (
     <section className="lenses-section" aria-label="Through the Lenses">
       <div className="lenses-title">
