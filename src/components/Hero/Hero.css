@@ -155,3 +155,46 @@
   .hero-button { width: 80%; max-width: 220px; min-width: 0; }
   .hero-lanyard-section { width: 70%; max-width: 220px; height: 40%; }
 }
+
+/* Scroll-down indicator */
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  z-index: 10;
+  opacity: 0;
+  animation: scrollFadeIn 1s ease-out 2.5s forwards;
+  pointer-events: none;
+}
+
+.scroll-arrow {
+  color: var(--color-cyan);
+  opacity: 0.6;
+  animation: scrollBounce 2.4s ease-in-out infinite;
+}
+
+.scroll-arrow svg {
+  display: block;
+}
+
+.hero-scroll-indicator .shiny-text {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+
+@keyframes scrollFadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
