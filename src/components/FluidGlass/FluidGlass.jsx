@@ -26,12 +26,12 @@ export default function FluidGlass({ mode = 'lens', image, lensProps = {}, barPr
 
   return (
     <Canvas camera={{ position: [0, 0, 20], fov: 15 }} gl={{ alpha: true }}>
-      <Wrapper modeProps={modeProps} image={image}>
-        <Suspense fallback={null}>
+      <Suspense fallback={null}>
+        <Wrapper modeProps={modeProps} image={image}>
           <BackgroundImage image={image} />
-        </Suspense>
-        <Preload />
-      </Wrapper>
+        </Wrapper>
+      </Suspense>
+      <Preload />
     </Canvas>
   );
 }
@@ -73,14 +73,12 @@ const ModeWrapper = memo(function ModeWrapper({
       ref.current.scale.setScalar(Math.min(0.15, desired));
     }
 
+    // Clear the FBO to opaque black so MeshTransmissionMaterial
+    // doesn't fall back to its default white color.
+    gl.setClearColor(0x000000, 1);
     gl.setRenderTarget(buffer);
     gl.render(scene, camera);
     gl.setRenderTarget(null);
-
-    // Without setClearColor the FBO is cleared to transparent (alpha 0),
-    // and MeshTransmissionMaterial falls back to its default white color.
-    // Opaque black matches the project's dark theme.
-    gl.setClearColor(0x000000, 1);
   });
 
   const { scale, ior, thickness, anisotropy, chromaticAberration, ...extraMat } = modeProps;
