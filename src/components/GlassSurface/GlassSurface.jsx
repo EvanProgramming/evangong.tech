@@ -22,7 +22,8 @@ const GlassSurface = ({
   yChannel = 'G',
   mixBlendMode = 'difference',
   className = '',
-  style = {}
+  style = {},
+  forceSVG = false
 }) => {
   const uniqueId = useId().replace(/:/g, '-');
   const filterId = `glass-filter-${uniqueId}`;
@@ -30,6 +31,7 @@ const GlassSurface = ({
   const blueGradId = `blue-grad-${uniqueId}`;
 
   const [svgSupported] = useState(() => {
+    if (forceSVG) return true;
     if (typeof window === 'undefined' || typeof document === 'undefined') return false;
     // Safari and Firefox don't support SVG references in backdrop-filter
     const isWebkit = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
