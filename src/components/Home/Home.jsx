@@ -111,7 +111,7 @@ export default function Home() {
         />
       </section>
 
-      <section id="about" className="scroll-reveal-section" aria-label="About statement">
+      <section className="scroll-reveal-section" aria-label="About statement">
         <div className="scroll-reveal-container">
           <ScrollReveal
             baseOpacity={0}
@@ -126,7 +126,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="projects" className="scroll-stack-section" aria-label="Current projects">
+      <section className="scroll-stack-section" aria-label="Current projects">
         <ScrollStack
           useWindowScroll={true}
           itemDistance={80}

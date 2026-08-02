@@ -1,3 +1,6 @@
+import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { NavContext } from '../../navContext.js'
 import Ballpit from '../Ballpit/Ballpit.jsx'
 import Shuffle from '../Shuffle/Shuffle.jsx'
 import RotatingText from '../RotatingText/RotatingText.jsx'
@@ -9,8 +12,14 @@ import evanGongIcon from '../../assets/EvanGongIcon.png'
 import './Hero.css'
 
 export default function Hero() {
-  const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  const navigate = useNavigate()
+  const triggerTransition = useContext(NavContext)
+  const navTo = (path) => {
+    if (triggerTransition) {
+      triggerTransition(() => navigate(path))
+    } else {
+      navigate(path)
+    }
   };
 
   return (
@@ -69,7 +78,7 @@ export default function Hero() {
           </div>
 
           <div className="hero-buttons">
-            <button type="button" className="hero-button" onClick={() => scrollTo('projects')}>
+            <button type="button" className="hero-button" onClick={() => navTo('/projects')}>
               <GlassSurface
                 width="100%"
                 height={56}
@@ -82,7 +91,7 @@ export default function Hero() {
                 <span className="hero-button__label">View Projects</span>
               </GlassSurface>
             </button>
-            <button type="button" className="hero-button" onClick={() => scrollTo('about')}>
+            <button type="button" className="hero-button" onClick={() => navTo('/about')}>
               <GlassSurface
                 width="100%"
                 height={56}
