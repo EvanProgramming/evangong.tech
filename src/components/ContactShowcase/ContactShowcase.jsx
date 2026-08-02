@@ -3,7 +3,7 @@ import Hyperspeed from '../Hyperspeed/Hyperspeed.jsx';
 import ASCIIText from '../ASCIIText/ASCIIText.jsx';
 import SplitText from '../SplitText/SplitText.jsx';
 import ShinyText from '../ShinyText/ShinyText.jsx';
-import Magnet from '../Magnet/Magnet.jsx';
+import GlassSurface from '../GlassSurface/GlassSurface.jsx';
 import ErrorBoundary from '../ErrorBoundary.jsx';
 import './ContactShowcase.css';
 
@@ -81,27 +81,43 @@ export default function ContactShowcase() {
               <ShinyText text={EMAIL} />
             </a>
 
-            <div className="contact-magnets">
-              <Magnet padding={50} disabled={false} magnetStrength={2}>
-                <a
-                  className="magnet-button"
-                  href={`mailto:${EMAIL}`}
-                  aria-label={`Email ${EMAIL}`}
+            <div className="contact-buttons">
+              <a
+                className="contact-button"
+                href={`mailto:${EMAIL}`}
+                aria-label={`Email ${EMAIL}`}
+              >
+                <GlassSurface
+                  width="100%"
+                  height={56}
+                  borderRadius={28}
+                  backgroundOpacity={0.12}
+                  saturation={1.6}
+                  displace={1.5}
+                  className="contact-button__glass"
                 >
-                  Get in touch
-                </a>
-              </Magnet>
-              <Magnet disabled={true}>
-                <a
-                  className="magnet-button"
-                  href={GITHUB_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Visit GitHub profile"
+                  <span className="contact-button__label">Get in touch</span>
+                </GlassSurface>
+              </a>
+              <a
+                className="contact-button"
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit GitHub profile"
+              >
+                <GlassSurface
+                  width="100%"
+                  height={56}
+                  borderRadius={28}
+                  backgroundOpacity={0.08}
+                  saturation={1.4}
+                  displace={1.5}
+                  className="contact-button__glass"
                 >
-                  Github
-                </a>
-              </Magnet>
+                  <span className="contact-button__label">Github</span>
+                </GlassSurface>
+              </a>
             </div>
           </div>
         </div>
