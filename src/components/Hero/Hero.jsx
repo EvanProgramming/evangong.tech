@@ -141,11 +141,21 @@ export default function Hero() {
 
       {/* Scroll-down indicator */}
       <div className="hero-scroll-indicator">
-        <div className="scroll-arrow" aria-hidden="true">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 5v14M5 12l7 7 7-7"/>
-          </svg>
-        </div>
+        <GlassSurface
+          width={48}
+          height={48}
+          borderRadius={24}
+          backgroundOpacity={0.15}
+          saturation={1.4}
+          displace={1.5}
+          className="scroll-glass"
+        >
+          <div className="scroll-arrow" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+          </div>
+        </GlassSurface>
         <ShinyText text="scroll" />
       </div>
     </section>
