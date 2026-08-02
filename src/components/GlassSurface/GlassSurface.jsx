@@ -36,13 +36,13 @@ const GlassSurface = ({
     const isWebkit = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
     const isFirefox = /Firefox/.test(navigator.userAgent);
     if (isWebkit || isFirefox) return false;
-    // Check if backdrop-filter is supported at all
+    // Check if backdrop-filter: url() is supported (SVG filter references)
     if (typeof CSS !== 'undefined' && CSS.supports) {
-      return CSS.supports('backdrop-filter', 'blur(1px)');
+      return CSS.supports('backdrop-filter', 'url(#test) blur(1px)');
     }
     // Fallback: try creating a test element
     const div = document.createElement('div');
-    div.style.backdropFilter = 'blur(1px)';
+    div.style.backdropFilter = 'url(#test) blur(1px)';
     return div.style.backdropFilter !== '';
   });
 
@@ -151,7 +151,6 @@ const GlassSurface = ({
       ref={containerRef}
       className={`glass-surface ${svgSupported ? 'glass-surface--svg' : 'glass-surface--fallback'} ${className}`}
       style={containerStyle}
-      data-svg-mode={svgSupported ? 'svg' : 'fallback'}
     >
       <svg className="glass-surface__filter" xmlns="http://www.w3.org/2000/svg">
         <defs>
