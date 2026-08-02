@@ -29,7 +29,21 @@ const GlassSurface = ({
   const redGradId = `red-grad-${uniqueId}`;
   const blueGradId = `blue-grad-${uniqueId}`;
 
-  const [svgSupported, setSvgSupported] = useState(false);
+  const [svgSupported] = useState(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+    // Safari and Firefox don't support SVG references in backdrop-filter
+    const isWebkit = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+    const isFirefox = /Firefox/.test(navigator.userAgent);
+    if (isWebkit || isFirefox) return false;
+    // Check if backdrop-filter is supported at all
+    if (typeof CSS !== 'undefined' && CSS.supports) {
+      return CSS.supports('backdrop-filter', 'blur(1px)');
+    }
+    // Fallback: try creating a test element
+    const div = document.createElement('div');
+    div.style.backdropFilter = 'blur(1px)';
+    return div.style.backdropFilter !== '';
+  });
 
   const containerRef = useRef(null);
   const feImageRef = useRef(null);
@@ -120,28 +134,6 @@ const GlassSurface = ({
   useEffect(() => {
     setTimeout(updateDisplacementMap, 0);
   }, [width, height]);
-
-  useEffect(() => {
-    setSvgSupported(supportsSVGFilters());
-  }, []);
-
-  const supportsSVGFilters = () => {
-    if (typeof window === 'undefined' || typeof document === 'undefined') {
-      return false;
-    }
-
-    const isWebkit = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
-    const isFirefox = /Firefox/.test(navigator.userAgent);
-
-    if (isWebkit || isFirefox) {
-      return false;
-    }
-
-    const div = document.createElement('div');
-    div.style.backdropFilter = `url(#${filterId})`;
-
-    return div.style.backdropFilter !== '';
-  };
 
   const containerStyle = {
     ...style,
