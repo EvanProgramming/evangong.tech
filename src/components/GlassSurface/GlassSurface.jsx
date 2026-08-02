@@ -152,6 +152,7 @@ const GlassSurface = ({
       ref={containerRef}
       className={`glass-surface ${svgSupported ? 'glass-surface--svg' : 'glass-surface--fallback'} ${className}`}
       style={containerStyle}
+      data-svg-mode={svgSupported ? 'svg' : 'fallback'}
     >
       <svg className="glass-surface__filter" xmlns="http://www.w3.org/2000/svg">
         <defs>
