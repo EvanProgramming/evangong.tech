@@ -7,6 +7,7 @@ import RotatingText from '../RotatingText/RotatingText.jsx'
 import Lanyard from '../Lanyard/Lanyard.jsx'
 import GradualBlur from '../GradualBlur/GradualBlur.jsx'
 import GlassSurface from '../GlassSurface/GlassSurface.jsx'
+import ShinyText from '../ShinyText/ShinyText.jsx'
 import ErrorBoundary from '../ErrorBoundary.jsx'
 import evanGongIcon from '../../assets/EvanGongIcon.png'
 import './Hero.css'
@@ -137,6 +138,16 @@ export default function Hero() {
         opacity={1}
         zIndex={30}
       />
+
+      {/* Scroll-down indicator */}
+      <div className="hero-scroll-indicator">
+        <div className="scroll-arrow" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+          </svg>
+        </div>
+        <ShinyText text="scroll" />
+      </div>
     </section>
   )
 }
