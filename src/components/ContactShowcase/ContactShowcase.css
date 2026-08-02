@@ -70,7 +70,7 @@
   display: inline-block;
 }
 
-/* Action row: email link on the left, Magnet buttons on the right */
+/* Action row: email link on the left, GlassSurface buttons on the right */
 .contact-actions {
   display: flex;
   align-items: center;
@@ -79,45 +79,49 @@
   margin-top: 0.5rem;
 }
 
-.contact-magnets {
+.contact-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
-.magnet-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.85rem 1.85rem;
+.contact-button {
+  flex: 1 1 auto;
+  min-width: 140px;
+  max-width: 200px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-decoration: none;
+  cursor: pointer;
+  outline-offset: 4px;
+}
+
+.contact-button:focus-visible {
+  outline: 2px solid var(--color-cyan);
+}
+
+.contact-button__glass {
+  width: 100% !important;
+  height: 56px !important;
+}
+
+.contact-button__label {
   font-family: inherit;
-  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #ffffff;
-  text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
-  cursor: pointer;
-  white-space: nowrap;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
 }
 
-.magnet-button:hover {
-  background: rgba(0, 240, 255, 0.12);
-  border-color: rgba(0, 240, 255, 0.55);
+.contact-button:hover .contact-button__glass {
+  filter: brightness(1.12);
 }
 
-.magnet-button:active {
-  transform: scale(0.97);
-}
-
-.magnet-button:focus-visible {
-  outline: 2px solid var(--color-cyan);
-  outline-offset: 4px;
+.contact-button:active .contact-button__glass {
+  transform: scale(0.98);
 }
 
 .contact-right {
