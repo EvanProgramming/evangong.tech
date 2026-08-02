@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { NavContext } from '../../navContext.js'
 import Ballpit from '../Ballpit/Ballpit.jsx'
@@ -22,6 +22,12 @@ export default function Hero() {
       navigate(path)
     }
   };
+
+  const [showScroll, setShowScroll] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setShowScroll(true), 2500);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <section className="hero">
@@ -140,7 +146,7 @@ export default function Hero() {
       />
 
       {/* Scroll-down indicator */}
-      <div className="hero-scroll-indicator">
+      <div className={`hero-scroll-indicator${showScroll ? ' visible' : ''}`}>
         <GlassSurface
           width={48}
           height={48}
