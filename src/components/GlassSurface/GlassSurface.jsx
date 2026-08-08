@@ -22,29 +22,36 @@ const GlassSurface = ({
   yChannel = 'G',
   mixBlendMode = 'difference',
   className = '',
-  style = {},
-  forceSVG = false
+  style = {}
 }) => {
   const uniqueId = useId().replace(/:/g, '-');
   const filterId = `glass-filter-${uniqueId}`;
   const redGradId = `red-grad-${uniqueId}`;
   const blueGradId = `blue-grad-${uniqueId}`;
 
-  const [svgSupported] = useState(() => {
-    if (typeof window === 'undefined' || typeof document === 'undefined') return false;
-    // Safari and Firefox don't support SVG references in backdrop-filter
+  const [svgSupported, setSvgSupported] = useState(false);
+
+  const supportsSVGFilters = () => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return false;
+    }
+
     const isWebkit = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
     const isFirefox = /Firefox/.test(navigator.userAgent);
-    if (isWebkit || isFirefox) return false;
-    // Check if backdrop-filter: url() is supported (SVG filter references)
-    if (typeof CSS !== 'undefined' && CSS.supports) {
-      return CSS.supports('backdrop-filter', 'url(#test) blur(1px)');
+
+    if (isWebkit || isFirefox) {
+      return false;
     }
-    // Fallback: try creating a test element
+
     const div = document.createElement('div');
-    div.style.backdropFilter = 'url(#test) blur(1px)';
+    div.style.backdropFilter = `url(#${filterId})`;
+
     return div.style.backdropFilter !== '';
-  });
+  };
+
+  useEffect(() => {
+    setSvgSupported(supportsSVGFilters());
+  }, []);
 
   const containerRef = useRef(null);
   const feImageRef = useRef(null);
