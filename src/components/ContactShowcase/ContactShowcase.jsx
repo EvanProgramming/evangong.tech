@@ -94,7 +94,6 @@ export default function ContactShowcase() {
                   backgroundOpacity={0.12}
                   saturation={1.6}
                   displace={1.5}
-                  forceSVG={true}
                   className="contact-button__glass"
                 >
                   <span className="contact-button__label">Get in touch</span>
