@@ -61,6 +61,33 @@ const useAnimationLoop = (trackRef, targetVelocity, seqWidth, seqHeight, isHover
   const lastTimestampRef = useRef(null);
   const offsetRef = useRef(0);
   const velocityRef = useRef(0);
+  const pausedRef = useRef(false);
+
+  // Pause the rAF loop while off-screen or tab hidden — multiple LogoLoop
+  // instances run on the Home page, each continuously updating CSS transforms.
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    let inView = true;
+    const setPaused = () => {
+      const wasPaused = pausedRef.current;
+      pausedRef.current = !(inView && !document.hidden);
+      if (wasPaused && !pausedRef.current) {
+        lastTimestampRef.current = null;
+      }
+    };
+    const io = new IntersectionObserver((entries) => {
+      inView = entries[0].isIntersecting;
+      setPaused();
+    }, { threshold: 0 });
+    io.observe(el);
+    const onVisibility = () => setPaused();
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      io.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [trackRef]);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -77,6 +104,9 @@ const useAnimationLoop = (trackRef, targetVelocity, seqWidth, seqHeight, isHover
     }
 
     const animate = timestamp => {
+      rafRef.current = requestAnimationFrame(animate);
+      if (pausedRef.current) return;
+
       if (lastTimestampRef.current === null) {
         lastTimestampRef.current = timestamp;
       }
@@ -99,8 +129,6 @@ const useAnimationLoop = (trackRef, targetVelocity, seqWidth, seqHeight, isHover
           : `translate3d(${-offsetRef.current}px, 0, 0)`;
         track.style.transform = transformValue;
       }
-
-      rafRef.current = requestAnimationFrame(animate);
     };
 
     rafRef.current = requestAnimationFrame(animate);

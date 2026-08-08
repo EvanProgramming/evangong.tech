@@ -226,7 +226,7 @@ class Z extends d {
 
 function createBallpit(e, t = {}) {
   const i = new _Three({ canvas: e, size: 'parent', rendererOptions: { antialias: true, alpha: true } });
-  let s; i.renderer.toneMapping = v; i.camera.position.set(0, 0, 20); i.camera.lookAt(0, 0, 0); i.cameraMaxAspect = 1.5; i.resize();
+  let s; i.renderer.toneMapping = v; i.camera.position.set(0, 0, 20); i.camera.lookAt(0, 0, 0); i.cameraMaxAspect = 1.5; i.maxPixelRatio = 1.5; i.resize();
   initialize(t); const n = new y(); const o = new w(new a(0, 0, 1), 0); const r = new a(); let c = false;
   e.style.touchAction = 'none'; e.style.userSelect = 'none'; e.style.webkitUserSelect = 'none';
   const h = S({ domElement: e, onMove() { n.setFromCamera(h.nPosition, i.camera); i.camera.getWorldDirection(o.normal); n.ray.intersectPlane(o, r); s.physics.center.copy(r); s.config.controlSphere0 = true; }, onLeave() { s.config.controlSphere0 = false; } });

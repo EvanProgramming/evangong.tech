@@ -261,6 +261,8 @@ class Canvas {
     this.cameraFov = cameraFov;
     this.cameraZ = cameraZ;
     this.enableWheel = enableWheel;
+    this.paused = false;
+    this.rafId = null;
 
     AutoBind(this);
 
@@ -388,6 +390,12 @@ class Canvas {
   }
 
   update() {
+    this.rafId = requestAnimationFrame(this.update);
+    // Skip the WebGL render + media updates while off-screen or tab hidden.
+    // The pinned posters section is 400vh tall and only visible mid-scroll;
+    // without this guard the rAF burns GPU for the entire page scroll range.
+    if (this.paused) return;
+
     this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
 
     if (this.medias) {
@@ -395,7 +403,14 @@ class Canvas {
     }
     this.renderer.render({ scene: this.scene, camera: this.camera });
     this.scroll.last = this.scroll.current;
-    requestAnimationFrame(this.update);
+  }
+
+  pause() {
+    this.paused = true;
+  }
+
+  resume() {
+    this.paused = false;
   }
 
   addEventListeners() {
@@ -415,6 +430,13 @@ class Canvas {
   }
 
   destroy() {
+    // Cancel the render loop — without this the rAF keeps scheduling (and
+    // rendering to a detached canvas) after the component unmounts.
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+    this.paused = true;
     window.removeEventListener('resize', this.onResize);
     if (!this.enableWheel) return;
 
@@ -467,7 +489,30 @@ const FlyingPosters = forwardRef(function FlyingPosters({
       enableWheel: !disableWheel
     });
 
+    // Pause the WebGL render loop while the pinned section is off-screen or
+    // the tab is hidden. The section is 400vh tall and only visible for part
+    // of the scroll range; without this the rAF runs for the entire duration.
+    let inView = true;
+    const io = new IntersectionObserver((entries) => {
+      inView = entries[0].isIntersecting;
+      const inst = instanceRef.current;
+      if (!inst) return;
+      if (inView && !document.hidden) inst.resume();
+      else inst.pause();
+    }, { threshold: 0 });
+    io.observe(containerRef.current);
+
+    const onVisibility = () => {
+      const inst = instanceRef.current;
+      if (!inst) return;
+      if (document.hidden) inst.pause();
+      else if (inView) inst.resume();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+
     return () => {
+      io.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
       if (instanceRef.current) {
         instanceRef.current.destroy();
         instanceRef.current = null;

@@ -247,6 +247,22 @@ class CanvAscii {
     this.mouse = { x: this.width / 2, y: this.height / 2 };
 
     this.onMouseMove = this.onMouseMove.bind(this);
+
+    // Paused by the IntersectionObserver/visibilitychange wrapper when the
+    // canvas is off-screen or the tab is hidden. The per-frame getImageData +
+    // per-pixel ASCII conversion + innerHTML rewrite is the dominant CPU cost,
+    // so skipping render while unseen is the single biggest win for the Contact
+    // section.
+    this.paused = false;
+    this.lastRender = 0;
+  }
+
+  pause() {
+    this.paused = true;
+  }
+
+  resume() {
+    this.paused = false;
   }
 
   async init() {
@@ -339,11 +355,17 @@ class CanvAscii {
   }
 
   animate() {
-    const animateFrame = () => {
+    // Throttle to ~30fps: ASCII art is visually static enough that 60fps adds
+    // no perceptible benefit, while halving the getImageData + innerHTML cost.
+    // The rAF stays scheduled so pause/resume is a cheap flag check.
+    const animateFrame = (now) => {
       this.animationFrameId = requestAnimationFrame(animateFrame);
+      if (this.paused) return;
+      if (this.lastRender && now - this.lastRender < 32) return;
+      this.lastRender = now;
       this.render();
     };
-    animateFrame();
+    animateFrame(performance.now());
   }
 
   render() {
@@ -472,9 +494,32 @@ export default function ASCIIText({
 
     setup();
 
+    // Ongoing visibility pause (the observer inside setup() is one-shot, used
+    // only to defer initial mount until first visible). This keeps the ASCII
+    // rAF from burning CPU once the Contact section scrolls back out of view.
+    let inView = true;
+    const visIo = new IntersectionObserver((entries) => {
+      inView = entries[0].isIntersecting;
+      const inst = asciiRef.current;
+      if (!inst) return;
+      if (inView && !document.hidden) inst.resume();
+      else inst.pause();
+    }, { threshold: 0 });
+    visIo.observe(containerRef.current);
+
+    const onVisibility = () => {
+      const inst = asciiRef.current;
+      if (!inst) return;
+      if (document.hidden) inst.pause();
+      else if (inView) inst.resume();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+
     return () => {
       cancelled = true;
       if (observer) observer.disconnect();
+      visIo.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
       if (ro) ro.disconnect();
       if (asciiRef.current) {
         asciiRef.current.dispose();

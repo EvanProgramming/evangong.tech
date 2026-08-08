@@ -1,13 +1,17 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState, useCallback } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import Home from './components/Home/Home.jsx'
-import About from './components/About/About.jsx'
-import Projects from './components/Projects/Projects.jsx'
 import PageTransition from './components/PageTransition/PageTransition.jsx'
 import logoUrl from './assets/EvanGongIcon.png'
 import './App.css'
+
+// Lazy-load non-home routes so their component code (and the heavy
+// WebGL/animation libs they pull in) is split into separate chunks and
+// only fetched when the user navigates to them.
+const About = lazy(() => import('./components/About/About.jsx'))
+const Projects = lazy(() => import('./components/Projects/Projects.jsx'))
 
 const menuItems = [
   { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
@@ -211,8 +215,16 @@ function Layout() {
       <main ref={mainRef}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/projects" element={<Projects />} />
+          <Route path="/about" element={
+            <Suspense fallback={null}>
+              <About />
+            </Suspense>
+          } />
+          <Route path="/projects" element={
+            <Suspense fallback={null}>
+              <Projects />
+            </Suspense>
+          } />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>

@@ -287,6 +287,9 @@ export default function MetallicPaint({
   const speedRef = useRef(speed);
   const mouseRef = useRef({ x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5 });
   const mouseAnimRef = useRef(mouseAnimation);
+  // Toggled by IntersectionObserver/visibilitychange — stops the noise-heavy
+  // fragment shader from running while off-screen (About page).
+  const pausedRef = useRef(false);
 
   const [ready, setReady] = useState(false);
   const [textureReady, setTextureReady] = useState(false);
@@ -383,7 +386,9 @@ export default function MetallicPaint({
 
     const canvas = canvasRef.current;
     const gl = glRef.current;
-    const side = 1000 * devicePixelRatio;
+    // Cap DPR: the metallic fragment shader is noise-heavy, and at DPR 2-3 a
+    // 1000*DPR square renders 4-9M fragment invocations per frame.
+    const side = 1000 * Math.min(devicePixelRatio, 1.5);
     canvas.width = side;
     canvas.height = side;
     gl.viewport(0, 0, side, side);
@@ -478,6 +483,9 @@ export default function MetallicPaint({
     canvas.addEventListener('mousemove', handleMouseMove);
 
     const render = time => {
+      rafRef.current = requestAnimationFrame(render);
+      if (pausedRef.current) return;
+
       const delta = time - lastTimeRef.current;
       lastTimeRef.current = time;
 
@@ -491,14 +499,28 @@ export default function MetallicPaint({
 
       gl.uniform1f(u.u_time, animTimeRef.current);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-      rafRef.current = requestAnimationFrame(render);
     };
 
     lastTimeRef.current = performance.now();
     rafRef.current = requestAnimationFrame(render);
 
+    // Pause the render loop while off-screen or the tab is hidden.
+    let inView = true;
+    const setPaused = () => {
+      pausedRef.current = !(inView && !document.hidden);
+    };
+    const io = new IntersectionObserver((entries) => {
+      inView = entries[0].isIntersecting;
+      setPaused();
+    }, { threshold: 0 });
+    io.observe(canvas);
+    const onVisibility = () => setPaused();
+    document.addEventListener('visibilitychange', onVisibility);
+
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      io.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
       canvas.removeEventListener('mousemove', handleMouseMove);
     };
   }, [ready, textureReady]);

@@ -25,7 +25,10 @@ export default function FlyingPostersSection({ items, scrollLength = 400, ...pro
     const section = sectionRef.current;
     if (!section) return;
 
+    let running = false;
+
     const update = () => {
+      if (!running) return;
       const inst = postersRef.current?.getInstance?.();
       if (inst && inst.medias && inst.medias[0]) {
         const rect = section.getBoundingClientRect();
@@ -38,8 +41,31 @@ export default function FlyingPostersSection({ items, scrollLength = 400, ...pro
       }
       rafRef.current = requestAnimationFrame(update);
     };
-    rafRef.current = requestAnimationFrame(update);
-    return () => cancelAnimationFrame(rafRef.current);
+
+    const start = () => {
+      if (running) return;
+      running = true;
+      rafRef.current = requestAnimationFrame(update);
+    };
+    const stop = () => {
+      running = false;
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+
+    // Only run the scroll-mapper rAF while the pinned section is in view.
+    // The section is 400vh tall; without this the per-frame
+    // getBoundingClientRect runs for the entire page scroll range even when
+    // the posters are far off-screen.
+    const io = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) start();
+      else stop();
+    }, { threshold: 0 });
+    io.observe(section);
+
+    return () => {
+      io.disconnect();
+      stop();
+    };
   }, [items]);
 
   return (

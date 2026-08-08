@@ -20,6 +20,8 @@ const FallingText = ({
   const containerRef = useRef(null);
   const textRef = useRef(null);
   const canvasContainerRef = useRef(null);
+  const rafRef = useRef(null);
+  const pausedRef = useRef(false);
 
   const [effectStarted, setEffectStarted] = useState(false);
 
@@ -137,6 +139,8 @@ const FallingText = ({
     Render.run(render);
 
     const updateLoop = () => {
+      rafRef.current = requestAnimationFrame(updateLoop);
+      if (pausedRef.current) return;
       wordBodies.forEach(({ body, elem }) => {
         const { x, y } = body.position;
         elem.style.left = `${x}px`;
@@ -144,11 +148,14 @@ const FallingText = ({
         elem.style.transform = `translate(-50%, -50%) rotate(${body.angle}rad)`;
       });
       Matter.Engine.update(engine);
-      requestAnimationFrame(updateLoop);
     };
     updateLoop();
 
     return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
       Render.stop(render);
       Runner.stop(runner);
       if (render.canvas && canvasContainerRef.current) {
@@ -159,6 +166,27 @@ const FallingText = ({
       Engine.clear(engine);
     };
   }, [effectStarted, gravity, wireframes, backgroundColor, mouseConstraintStiffness]);
+
+  // Pause the Matter.js physics + DOM sync loop while off-screen or tab hidden.
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || !effectStarted) return;
+    let inView = true;
+    const setPaused = () => {
+      pausedRef.current = !(inView && !document.hidden);
+    };
+    const io = new IntersectionObserver((entries) => {
+      inView = entries[0].isIntersecting;
+      setPaused();
+    }, { threshold: 0 });
+    io.observe(el);
+    const onVisibility = () => setPaused();
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      io.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [effectStarted]);
 
   const handleTrigger = () => {
     if (!effectStarted && (trigger === 'click' || trigger === 'hover')) {
