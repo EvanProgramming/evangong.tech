@@ -361,7 +361,10 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
           alpha: true
         });
         this.renderer.setSize(initW, initH, false);
-        this.renderer.setPixelRatio(window.devicePixelRatio);
+        // Cap pixel ratio: postprocessing (Bloom + SMAA) at full retina DPR is
+        // the dominant GPU cost. 1.5 keeps visual quality while cutting fill
+        // rate ~44% on DPR-2 displays and ~56% on DPR-3 displays.
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
         this.composer = new EffectComposer(this.renderer);
         container.append(this.renderer.domElement);
 
@@ -382,6 +385,10 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
         this.clock = new THREE.Clock();
         this.assets = {};
         this.disposed = false;
+        // Paused by the IntersectionObserver/visibilitychange wrapper when the
+        // canvas scrolls off-screen or the tab is hidden — stops the rAF loop
+        // so the postprocessing render pipeline doesn't burn GPU while unseen.
+        this.paused = false;
 
         this.road = new Road(this, options);
         this.leftCarLights = new CarLights(
@@ -643,7 +650,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
       }
 
       tick() {
-        if (this.disposed) return;
+        if (this.disposed || this.paused) return;
 
         if (!this.hasValidSize) {
           const w = this.container.offsetWidth;
@@ -675,6 +682,20 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
         }
 
         requestAnimationFrame(this.tick);
+      }
+
+      // Visibility-driven pause/resume. pause() lets the current frame finish
+      // then stops scheduling; resume() discards the elapsed clock delta so the
+      // animation doesn't jump forward after being off-screen.
+      pause() {
+        this.paused = true;
+      }
+
+      resume() {
+        if (this.disposed || !this.paused) return;
+        this.paused = false;
+        this.clock.getDelta();
+        this.tick();
       }
     }
 
@@ -1177,7 +1198,29 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
       if (!myApp.disposed) myApp.init();
     });
 
+    // Pause the rAF render loop while the canvas is off-screen or the tab is
+    // hidden. Hyperspeed runs Bloom + SMAA postprocessing every frame; without
+    // this guard it keeps burning GPU even when scrolled far below the fold
+    // (e.g. the Contact section on the Home page), which is a primary cause of
+    // device heating. `inView` tracks viewport intersection so a tab-focus
+    // only resumes when the canvas is actually visible.
+    let inView = true;
+    const io = new IntersectionObserver((entries) => {
+      inView = entries[0].isIntersecting;
+      if (inView && !document.hidden) myApp.resume();
+      else myApp.pause();
+    }, { threshold: 0 });
+    io.observe(container);
+
+    const onVisibility = () => {
+      if (document.hidden) myApp.pause();
+      else if (inView) myApp.resume();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+
     return () => {
+      io.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
       if (appRef.current) {
         appRef.current.dispose();
         appRef.current = null;

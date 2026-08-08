@@ -603,7 +603,33 @@ class InfiniteGridMenu {
     this.onMovementChange = onMovementChange || (() => {});
     this.scaleFactor = scale;
     this.camera.position[2] = 3 * scale;
+    // Visibility-driven pause state + rAF handle. The official React Bits
+    // source never cancels the rAF loop, so it keeps running after unmount and
+    // while the Gallery page is scrolled away. These fields let the wrapper
+    // pause/resume and dispose cleanly.
+    this.paused = false;
+    this.disposed = false;
+    this.rafId = null;
     this.#init(onInit);
+  }
+
+  pause() {
+    this.paused = true;
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+  }
+
+  resume() {
+    if (this.disposed || !this.paused) return;
+    this.paused = false;
+    this.rafId = requestAnimationFrame(t => this.run(t));
+  }
+
+  dispose() {
+    this.disposed = true;
+    this.pause();
   }
 
   resize() {
@@ -619,6 +645,7 @@ class InfiniteGridMenu {
   }
 
   run(time = 0) {
+    if (this.disposed || this.paused) return;
     this.#deltaTime = Math.min(32, time - this.#time);
     this.#time = time;
     this.#deltaFrames = this.#deltaTime / this.TARGET_FRAME_DURATION;
@@ -627,7 +654,7 @@ class InfiniteGridMenu {
     this.#animate(this.#deltaTime);
     this.#render();
 
-    requestAnimationFrame(t => this.run(t));
+    this.rafId = requestAnimationFrame(t => this.run(t));
   }
 
   #init(onInit) {
@@ -949,8 +976,28 @@ export default function InfiniteMenu({ items = [], scale = 1.0, onNavigate }) {
     window.addEventListener('resize', handleResize);
     handleResize();
 
+    // Pause the WebGL rAF loop while the canvas is off-screen or the tab
+    // is hidden — the official React Bits source runs it unconditionally,
+    // burning GPU even when the Gallery page is scrolled away.
+    let inView = true;
+    const setPaused = () => {
+      if (!sketch) return;
+      if (inView && !document.hidden) sketch.resume();
+      else sketch.pause();
+    };
+    const io = new IntersectionObserver((entries) => {
+      inView = entries[0].isIntersecting;
+      setPaused();
+    }, { threshold: 0 });
+    if (canvas) io.observe(canvas);
+    const onVisibility = () => setPaused();
+    document.addEventListener('visibilitychange', onVisibility);
+
     return () => {
       window.removeEventListener('resize', handleResize);
+      io.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
+      if (sketch) sketch.dispose();
     };
   }, [items, scale]);
 

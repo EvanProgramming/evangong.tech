@@ -191,10 +191,11 @@ void main() {
 
       const loop = t => {
         if (!rendererRef.current || !uniformsRef.current || !meshRef.current) return;
+        animationIdRef.current = requestAnimationFrame(loop);
+        if (document.hidden) return;
         uniforms.iTime.value = t * 0.001;
         try {
           renderer.render({ scene: mesh });
-          animationIdRef.current = requestAnimationFrame(loop);
         } catch (e) {
           return;
         }

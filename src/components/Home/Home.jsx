@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react'
 import Hero from '../Hero/Hero.jsx'
 import ScrollVelocity from '../ScrollVelocity/ScrollVelocity.jsx'
 import ScrollReveal from '../ScrollReveal/ScrollReveal.jsx'
@@ -92,6 +93,33 @@ const aiLogos = [
 const posterImages = Object.values(
   import.meta.glob('/Photography/*.{jpeg,jpg,png}', { eager: true, query: '?url', import: 'default' })
 )
+
+// Defers mounting of heavy off-screen sections (Hyperspeed, ASCIIText,
+// TextPressure, FluidGlass) until they approach the viewport. Without this,
+// the Home page initializes ~6 WebGL contexts on load — most far below the
+// fold — causing a large initial GPU/CPU spike. The wrapper stays in the
+// document flow (0-height until mounted) so IntersectionObserver can fire; it
+// grows once children mount, naturally re-triggering observers of sections
+// below it. rootMargin '400px' mounts + renders content before the user sees
+// it, avoiding visible layout shift.
+function DeferredMount({ children, rootMargin = '400px' }) {
+  const [shouldMount, setShouldMount] = useState(false)
+  const ref = useRef(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    if (typeof IntersectionObserver === 'undefined') { setShouldMount(true); return }
+    const io = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setShouldMount(true)
+        io.disconnect()
+      }
+    }, { rootMargin })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [rootMargin])
+  return <div ref={ref}>{shouldMount ? children : null}</div>
+}
 
 export default function Home() {
   return (
@@ -265,9 +293,13 @@ export default function Home() {
         <FlowingMenu items={flowingMenuItems} />
       </div>
 
-      <LensesShowcase />
+      <DeferredMount>
+        <LensesShowcase />
+      </DeferredMount>
 
-      <ContactShowcase />
+      <DeferredMount>
+        <ContactShowcase />
+      </DeferredMount>
     </>
   )
 }

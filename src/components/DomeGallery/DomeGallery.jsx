@@ -674,9 +674,10 @@ export default function DomeGallery({
 
   useEffect(() => {
     return () => {
+      stopInertia();
       document.body.classList.remove('dg-scroll-lock');
     };
-  }, []);
+  }, [stopInertia]);
 
   return (
     <div
