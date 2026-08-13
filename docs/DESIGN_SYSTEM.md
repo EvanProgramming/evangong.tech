@@ -306,7 +306,7 @@ featured card 是黑底，hover 变青底黑字；archive row 使用小图、met
 Awards 以最新年份在前的单一时间线组织跨领域荣誉，不重复建立 Featured 卡片区：
 
 ```text
-EVAN GONG / RECOGNITION + DEMO 标识
+EVAN GONG / RECOGNITION
 └─ 超大 AWARDS（GlitchText）
    └─ intro + 奖项数 / 领域数 / 年份跨度
       └─ 01 Recognition timeline
@@ -315,7 +315,7 @@ EVAN GONG / RECOGNITION + DEMO 标识
             └─ Explore Projects
 ```
 
-桌面端年份列 sticky，奖项行 hover/focus 时切换为青底黑字；768px 以下恢复单列文档流。重点案例一次只展开一个，媒体使用原生 `<dialog>` 查看。时间线滚动点亮属于渐进增强，不支持 scroll timeline 或启用 reduced motion 时保持静态细线。内容来自同目录 `awardsData.js`；演示数据必须持续显示 `DEMO CONTENT` 和 `MOCK MEDIA`，替换真实内容后再关闭 `isDemo`。
+桌面端年份列 sticky，奖项行 hover/focus 时切换为青底黑字；768px 以下恢复单列文档流。重点案例一次只展开一个，真实项目照片、证书和界面截图使用原生 `<dialog>` 查看。时间线滚动点亮属于渐进增强，不支持 scroll timeline 或启用 reduced motion 时保持静态细线。内容来自同目录 `awardsData.js`，当前为真实内容并设置 `isDemo: false`；未来若加入未核验占位内容，必须重新开启 `DEMO CONTENT` 和 `MOCK MEDIA` 标识。
 
 ## 6. 响应式规则
 

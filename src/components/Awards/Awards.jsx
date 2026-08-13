@@ -9,6 +9,10 @@ function formatDate(date) {
   return monthFormatter.format(new Date(`${date}-01T00:00:00`))
 }
 
+function isExternalUrl(href) {
+  return /^https?:\/\//.test(href)
+}
+
 function AwardLinks({ award }) {
   if (!award.proofUrl && !award.relatedProject) return null
 
@@ -16,14 +20,18 @@ function AwardLinks({ award }) {
     <div className="award-case__links">
       {award.proofUrl && (
         <a href={award.proofUrl} target="_blank" rel="noreferrer">
-          Official verification <span aria-hidden="true">↗</span>
+          {award.proofLabel || 'Official verification'} <span aria-hidden="true">↗</span>
         </a>
       )}
-      {award.relatedProject && (
+      {award.relatedProject && (isExternalUrl(award.relatedProject.href) ? (
+        <a href={award.relatedProject.href} target="_blank" rel="noreferrer">
+          Explore {award.relatedProject.label} <span aria-hidden="true">↗</span>
+        </a>
+      ) : (
         <a href={award.relatedProject.href} data-nav-link>
           Explore {award.relatedProject.label} <span aria-hidden="true">→</span>
         </a>
-      )}
+      ))}
     </div>
   )
 }
@@ -114,7 +122,10 @@ function AwardCard({ award, isOpen, onToggle, onOpenMedia }) {
                 <p>{award.caseStudy.outcome}</p>
               </div>
             </div>
-            <div className="award-case__media" aria-label={`${award.title} media`}>
+            <div
+              className={`award-case__media award-case__media--${Math.min(award.media.length, 3)}`}
+              aria-label={`${award.title} media`}
+            >
               {award.media.map(media => (
                 <MediaPanel key={media.id} award={award} media={media} onOpen={onOpenMedia} />
               ))}
@@ -243,12 +254,22 @@ export default function Awards() {
         <button type="button" className="awards-media-dialog__close" aria-label="Close media viewer" onClick={closeMedia}>×</button>
         {activeMedia && (
           <div className="awards-media-dialog__content">
-            <div className="awards-media-dialog__mock" aria-hidden="true">
-              <span>MOCK MEDIA</span>
-              <strong>{activeMedia.label}</strong>
+            <div className="awards-media-dialog__visual">
+              {activeMedia.src ? (
+                <img
+                  className="awards-media-dialog__image"
+                  src={activeMedia.src}
+                  alt={activeMedia.alt}
+                />
+              ) : (
+                <div className="awards-media-dialog__mock" aria-hidden="true">
+                  <span>MOCK MEDIA</span>
+                  <strong>{activeMedia.label}</strong>
+                </div>
+              )}
             </div>
             <div>
-              <span>DEMO CONTENT</span>
+              <span>{activeMedia.sourceLabel || (activeMedia.src ? 'DOCUMENTATION' : 'DEMO CONTENT')}</span>
               <h2 id="awards-media-dialog-title">{activeMedia.label}</h2>
               <p>{activeMedia.awardTitle}</p>
             </div>
