@@ -31,3 +31,7 @@ lighthouse-*.report.*
 
 # Editor workspace files
 *.code-workspace
+
+# Local agent and Graphify analysis artifacts
+/AGENTS.md
+graphify-out/
