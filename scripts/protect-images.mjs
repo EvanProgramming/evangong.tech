@@ -12,6 +12,7 @@ const MAX_LONG_EDGE = 1600
 const JPEG_QUALITY = 82
 const WEBP_QUALITY = 82
 const INCLUDED_DIRS = ['Photography', 'public/Photography', 'public/blog', 'public/awards']
+const DUPLICATE_ASSET_PATHS = ['public/assets/demo/cs1.webp']
 const MANIFEST_PATH = path.join(ROOT, 'photo-protection-manifest.json')
 const BACKUP_BASE = process.env.PHOTO_ORIGINAL_BACKUP
   ? path.resolve(process.env.PHOTO_ORIGINAL_BACKUP)
@@ -62,14 +63,20 @@ async function collectRepoAssets() {
   for (const relativeDir of INCLUDED_DIRS) {
     files.push(...await collectFiles(toAbsolute(relativeDir)))
   }
+  for (const relativePath of DUPLICATE_ASSET_PATHS) {
+    const filePath = toAbsolute(relativePath)
+    const stats = await fs.stat(filePath).catch(() => null)
+    if (stats?.isFile()) files.push(filePath)
+  }
   return files.sort()
 }
 
 async function collectApplyTargets() {
   const files = await collectRepoAssets()
   const manifest = await readManifest()
-  if (manifest?.assets?.length) return manifest.assets.map((asset) => toAbsolute(asset.path)).sort()
-  return files
+  const paths = new Set(files.map(toRepoPath))
+  for (const asset of manifest?.assets || []) paths.add(asset.path)
+  return [...paths].map(toAbsolute).sort()
 }
 
 function sha256(buffer) {
