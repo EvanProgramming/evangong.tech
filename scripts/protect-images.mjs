@@ -12,7 +12,7 @@ const MAX_LONG_EDGE = 1600
 const JPEG_QUALITY = 82
 const WEBP_QUALITY = 82
 const INCLUDED_DIRS = ['Photography', 'public/Photography', 'public/blog', 'public/awards']
-const DUPLICATE_ASSET_PATHS = ['public/assets/demo/cs1.webp']
+const DUPLICATE_ASSET_PATHS = ['public/assets/demo/cs1.webp', 'public/assets/demo/cs2.webp']
 const MANIFEST_PATH = path.join(ROOT, 'photo-protection-manifest.json')
 const BACKUP_BASE = process.env.PHOTO_ORIGINAL_BACKUP
   ? path.resolve(process.env.PHOTO_ORIGINAL_BACKUP)
