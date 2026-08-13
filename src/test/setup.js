@@ -26,6 +26,19 @@ class ResizeObserverStub {
 window.ResizeObserver = ResizeObserverStub
 global.ResizeObserver = ResizeObserverStub
 
+// jsdom doesn't implement IntersectionObserver — visibility-driven WebGL
+// components use it to pause work when they leave the viewport.
+class IntersectionObserverStub {
+  constructor(callback) {
+    this.callback = callback
+  }
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+window.IntersectionObserver = IntersectionObserverStub
+global.IntersectionObserver = IntersectionObserverStub
+
 // requestAnimationFrame stub — jsdom's rAF returns undefined which breaks
 // cancelAnimationFrame. Mirror the browser contract.
 if (!global.requestAnimationFrame) {

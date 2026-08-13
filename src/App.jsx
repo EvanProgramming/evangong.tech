@@ -12,6 +12,10 @@ import './App.css'
 // only fetched when the user navigates to them.
 const About = lazy(() => import('./components/About/About.jsx'))
 const Projects = lazy(() => import('./components/Projects/Projects.jsx'))
+const Gallery = lazy(() => import('./components/Gallery/Gallery.jsx'))
+const GalleryCategory = lazy(() => import('./components/Gallery/GalleryCategory.jsx'))
+const Blog = lazy(() => import('./components/Blog/Blog.jsx'))
+const BlogPost = lazy(() => import('./components/Blog/BlogPost.jsx'))
 const Awards = lazy(() => import('./components/Awards/Awards.jsx'))
 
 const menuItems = [
@@ -128,6 +132,7 @@ function Layout() {
   const mainRef = useRef(null)
   const { pathname } = useLocation()
   const isFirstMount = useRef(true)
+  const isGalleryCategory = pathname.startsWith('/gallery/')
 
   // Start a transition: store the pending navigate fn and enter 'out' phase.
   // Ignores re-triggers while a transition is already in flight.
@@ -200,19 +205,21 @@ function Layout() {
 
   return (
     <div className="app">
-      <StaggeredMenu
-        position="right"
-        items={menuItems}
-        displaySocials={false}
-        displayItemNumbering={false}
-        logoUrl={logoUrl}
-        menuButtonColor="#00f0ff"
-        openMenuButtonColor="#00f0ff"
-        changeMenuColorOnOpen={false}
-        colors={['#000000', '#00f0ff']}
-        accentColor="#00f0ff"
-        isFixed={true}
-      />
+      {!isGalleryCategory && (
+        <StaggeredMenu
+          position="right"
+          items={menuItems}
+          displaySocials={false}
+          displayItemNumbering={false}
+          logoUrl={logoUrl}
+          menuButtonColor="#00f0ff"
+          openMenuButtonColor="#00f0ff"
+          changeMenuColorOnOpen={false}
+          colors={['#000000', '#00f0ff']}
+          accentColor="#00f0ff"
+          isFixed={true}
+        />
+      )}
       <main ref={mainRef}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -226,6 +233,26 @@ function Layout() {
               <Projects />
             </Suspense>
           } />
+          <Route path="/gallery" element={
+            <Suspense fallback={null}>
+              <Gallery />
+            </Suspense>
+          } />
+          <Route path="/gallery/:category" element={
+            <Suspense fallback={null}>
+              <GalleryCategory />
+            </Suspense>
+          } />
+          <Route path="/blog" element={
+            <Suspense fallback={null}>
+              <Blog />
+            </Suspense>
+          } />
+          <Route path="/blog/:slug" element={
+            <Suspense fallback={null}>
+              <BlogPost />
+            </Suspense>
+          } />
           <Route path="/awards" element={
             <Suspense fallback={null}>
               <Awards />
@@ -234,7 +261,7 @@ function Layout() {
           <Route path="*" element={<Home />} />
         </Routes>
       </main>
-      <Footer />
+      {!isGalleryCategory && <Footer />}
       <PageTransition phase={phase} />
     </div>
   )
