@@ -65,6 +65,13 @@ async function collectRepoAssets() {
   return files.sort()
 }
 
+async function collectApplyTargets() {
+  const files = await collectRepoAssets()
+  const manifest = await readManifest()
+  if (manifest?.assets?.length) return manifest.assets.map((asset) => toAbsolute(asset.path)).sort()
+  return files
+}
+
 function sha256(buffer) {
   return crypto.createHash('sha256').update(buffer).digest('hex')
 }
@@ -250,7 +257,7 @@ async function check() {
 }
 
 async function apply() {
-  const repoFiles = await collectRepoAssets()
+  const repoFiles = await collectApplyTargets()
   if (!repoFiles.length) throw new Error('No protected image assets found.')
 
   const backupDir = await getBackup(repoFiles)
@@ -264,6 +271,7 @@ async function apply() {
     const derivative = await renderDerivative(sourcePath, relativePath)
     const temporaryPath = `${repoFile}.protected.tmp`
 
+    await fs.mkdir(path.dirname(repoFile), { recursive: true })
     await fs.writeFile(temporaryPath, derivative)
     await fs.rename(temporaryPath, repoFile)
     const metadata = await sharp(derivative).metadata()
