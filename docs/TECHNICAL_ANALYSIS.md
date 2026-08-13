@@ -76,7 +76,7 @@
 | 类别 | 技术 | 版本 | 说明 |
 |---|---|---|---|
 | UI 框架 | React | 19.2 | StrictMode 开启（dev 双挂载，需注意 WebGL 初始化竞态） |
-| 构建工具 | Vite | 8.1 | ES2020 target，`manualChunks` 分包，`vite-imagetools` + `sharp` 构建期图片转 WebP |
+| 构建工具 | Vite | 8.1 | ES2020 target，`manualChunks` 分包；展示图片由 `scripts/protect-images.mjs` 预处理 |
 | React 插件 | @vitejs/plugin-react | 6.0 | 基于 Oxc |
 | 样式方案 | 原生 CSS | — | 组件级 CSS 文件 + 全局 Token，**无 Tailwind / CSS-in-JS** |
 | Lint | oxlint | 1.69 | 配置 `.oxlintrc.json` |
@@ -106,7 +106,7 @@
 
 ### 3.4 资源管线
 
-- 图片：`import.meta.glob` + `?w=xxx&format=webp` 查询驱动 `vite-imagetools` 在构建期用 `sharp` 转 WebP（按用途分档：nav logo 256px、Footer 256px、Lanyard 纹理 512px、FlowingMenu 1600px、FlyingPosters 640px、LensesShowcase 1280px）。
+- 图片：网站引用固定路径上的受保护展示衍生图；`scripts/protect-images.mjs` 使用 `sharp` 将照片限制到 1600px 长边、重新压缩、写入版权元数据并叠加署名水印。原图不在仓库中。
 - 3D 模型：`card.glb`（Lanyard 挂牌，2.3MB）经 `assetsInclude: ['**/*.glb']` 纳入构建。
 - 字体：`<link rel="preconnect">` + 并行 `stylesheet`，取代旧 CSS `@import` 链。
 
@@ -121,10 +121,10 @@
 ```
 evangong.tech/
 ├── index.html              # 入口 HTML（字体 preconnect / link）
-├── vite.config.js          # 分包策略 + imagetools
+├── vite.config.js          # React、资源纳入与分包策略
 ├── package.json
 ├── public/                 # favicon.svg, icons.svg, assets/
-├── Photography/            # 摄影原图（按地域子目录），构建期转 WebP
+├── Photography/            # 摄影展示衍生图（按地域子目录），原图在仓库外
 └── src/
     ├── main.jsx            # createRoot + StrictMode + gsap.ticker 配置
     ├── App.jsx             # 唯一组合根：section 顺序、lazy、菜单数据、品牌数据
@@ -244,7 +244,7 @@ StaggeredMenu (fixed, eager)
 2. **首屏关键路径**：`Hero`/`StaggeredMenu`/`ErrorBoundary` eager，其余 section 全部 `React.lazy` + `Suspense` + `SectionFallback`（按 section 硬编码 `minHeight` 防 CLS）。
 3. **可见性卸载**：`VisibilityMount` 对原生 rAF 无法暂停的 WebGL 组件（Hyperspeed/ASCIIText）做 **进入视口才挂载、远离即卸载**，释放 WebGL 上下文。
 4. **可见性门控**：`useVisibilityPause` 对可暂停组件（Ballpit/FlyingPosters）保持挂载但用 `IntersectionObserver` + `visibilitychange` 门控 rAF。
-5. **图片转 WebP**：`vite-imagetools` + `sharp` 构建期按用途分档转码，原 152K–6.3M JPEG 降至 30–248K WebP。
+5. **图片保护**：`scripts/protect-images.mjs` 生成 1600px 长边以内的带署名展示衍生图，并输出 SHA-256 清单；原图仅保存在仓库外备份中。
 6. **内存泄漏修复**：`Ballpit`/`FlyingPosters` 等补齐 dispose 与 `disposed` 标志；`Hyperspeed` 异步初始化加 `disposed` 检查防 StrictMode 双挂载竞态。
 7. **事件节流**：resize/mousemove 节流。
 8. **GSAP**：`gsap.ticker.lagSmoothing(false)`（[main.jsx](file:///Users/evangong/Library/CloudStorage/OneDrive-Personal/Programming/Web/evangong.tech/src/main.jsx)），避免标签后台化后恢复时单帧跳变长任务。
@@ -286,7 +286,7 @@ StaggeredMenu (fixed, eager)
 
 1. **新 section 默认 lazy**：首屏以下一律 `lazy()` + `Suspense` + `SectionFallback`（按实际高度设 `minHeight` 防 CLS）。
 2. **重型 WebGL section**：用 `VisibilityMount`（卸载式）或 `useVisibilityPause`（门控式）按可见性管理 rAF，禁止常驻后台循环。
-3. **图片**：放 `src/` 或根 `Photography/`，用 `?w=&format=webp` 查询驱动转码；勿放大体积原图直引。
+3. **图片**：放入受保护展示目录并运行 `npm run images:protect -- --apply`；不要把相机原图加入仓库或直接发布。
 4. **CSS 特异性**：lazy 组件的 CSS 注入晚于首屏，覆写组件默认样式时用 **后代选择器提升特异性**（见 `App.css` 的 `.scroll-reveal-container__title .scroll-reveal-container__text` 注释范例），勿依赖同特异性源码顺序。
 5. **版本控制**：改动后直接提交 `main` 分支并推送（用户偏好，不开 feature 分支）。
 6. **验证**：3D 组件与 TBT 须在 Chrome/Safari 真实浏览器验证，无头环境无法准确测试 WebGL 与长任务。

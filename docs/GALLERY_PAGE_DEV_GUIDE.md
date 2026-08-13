@@ -58,27 +58,20 @@ Gallery 是 **Evan 的摄影作品集页面**，展示 `Photography/` 目录下�
 
 ### 3.2 ⚠️ 摄影图片资源盘点（Gallery 的核心数据源）
 
-`Photography/` 目录当前共 **11 张图**，分布在根目录与 4 个地域子目录：
+摄影展示图同时存在于 `Photography/` 和 `public/Photography/`；博客封面和奖项图片也经过同一保护流程。受保护文件的精确清单见仓库根目录的 `photo-protection-manifest.json`。
 
-| 路径 | 文件 | 当前引用情况 |
+| 资源范围 | 用途 | 保护状态 |
 |---|---|---|
-| `Photography/`（根，6 张） | `788F36C5-..._201_a.jpeg` | 仅 Home `import.meta.glob` 批量取（海报墙） |
-|  | `97671D82-..._105_c.jpeg` | 同上 |
-|  | `9D894A1D-..._105_c.jpeg` | 同上 |
-|  | `AFE7D41E-..._105_c.jpeg` | 同上 |
-|  | `CE586B95-..._105_c.jpeg` | 同上 |
-|  | `EBB07F0B-..._105_c.jpeg` | 同上 |
-| `Photography/Paris/` | `IMG_1598.jpg` | Home FlowingMenu 已用（"Paris, France"） |
-| `Photography/Chaoshan/` | `A395CF89-..._105_c.jpeg` | Home FlowingMenu 已用（"Chaoshan, China"） |
-|  | `BF32147D-..._105_c.jpeg` | Home LensesShowcase 已用（FluidGlass 镜片图） |
-| `Photography/Beijing/` | `we-o_rd35vfjgdnyzud3fw-china-7504392.jpg` | Home FlowingMenu 已用（"Beijing, China"） |
-| `Photography/Miscellaneous/` | `639F42E1-..._105_c.jpeg` | Home FlowingMenu 已用（"Miscellaneous"） |
+| `Photography/**` | Home 摄影海报、FlowingMenu 和精选图 | 1600px 内展示衍生图 |
+| `public/Photography/**` | Gallery 分类图集 | 1600px 内展示衍生图 |
+| `public/blog/**` | Blog 封面 | 1600px 内展示衍生图 |
+| `public/awards/**` | Awards 图片和证书 | 1600px 内展示衍生图 |
 
-**地域分类（天然分组，可用作 Gallery 筛选维度）**：Paris / Chaoshan / Beijing / Miscellaneous / Unsorted（根目录 6 张未归类）。
+地域分类仍为 Paris / Chaoshan / Beijing / Miscellaneous；文件数量和指纹以 manifest 为准。
 
 ### 3.3 图片资源策略（重要约束）
 
-1. **vite-imagetools 当前未启用**：`vite.config.js` 无 `vite-imagetools()` 插件调用，**不会在构建期转 WebP / 不会自动 resize**。`import.meta.glob(..., { query: '?url' })` 取到的是**原始 JPEG 路径**，原体积直出。
+1. **图片在提交前预处理**：`npm run images:protect -- --apply` 使用 `sharp` 生成不超过 1600px 长边的 JPEG/WebP 展示衍生图，写入版权元数据并叠加 `© Evan Gong · evangong.tech` 水印。`import.meta.glob(..., { query: '?url' })` 取到的是受保护展示图路径，不是相机原图。
 2. **批量取图范式**（Home 既有，可复用）：
    ```js
    // 仅取根目录（非递归）
@@ -91,10 +84,10 @@ Gallery 是 **Evan 的摄影作品集页面**，展示 `Photography/` 目录下�
    )
    ```
 3. **单图 import**：`import x from '/Photography/Paris/IMG_1598.jpg'`（根目录绝对路径）或 `import x from '../../assets/xxx'`（src 内相对路径）。
-4. **⚠️ 大图风险**：原 JPEG 可达数 MB，直引会拖慢首屏。由于无 imagetools 转码，建议：
-   - 缩略图与原图同源（用 CSS `object-fit` + 固定容器尺寸控制视觉体积）；
+4. **展示图体积**：原图不进入仓库；展示图由预处理脚本限制尺寸和质量。仍然建议：
+   - 缩略图与展示图同源（用 CSS `object-fit` + 固定容器尺寸控制视觉体积）；
    - 全部 `<img>` 加 `loading="lazy"`（见第九节 PageTransition 约束）；
-   - 若后续要优化体积，需在 `vite.config.js` 启用 `vite-imagetools`（依赖已装），或手动预处理图片。
+   - 新增或替换照片后运行 `npm run images:protect -- --apply`，并用 `npm run images:protect -- --check` 验证清单。
 5. **分类元数据缺失**：根目录 6 张未归类，无 EXIF/标题/拍摄信息。若 Gallery 要展示标题/地点/年份，需**手工补一份元数据常量**（见第八节建议结构）。
 
 ---
@@ -361,9 +354,9 @@ function buildGalleryData(modules, groups) {
 
 ### 9.5 图片资源处理
 
-- 11 张原图直引是否可接受（无 imagetools 转码）？
-- 是否需要在 `vite.config.js` 启用 `vite-imagetools` 做构建期 WebP/resize？
-- 是否需要先补齐根目录 6 张的归类与元数据？
+- 图片展示范围由 `photo-protection-manifest.json` 记录；原图只保存在仓库外的私有备份。
+- 保护命令：`npm run images:protect -- --apply`；校验命令：`npm run images:protect -- --check`。
+- 保护包括长边限制、重新压缩、版权元数据、署名水印和 SHA-256 指纹。
 
 ### 9.6 标题组件选择
 
@@ -386,7 +379,7 @@ function buildGalleryData(modules, groups) {
 
 ### 10.3 资源
 
-- **摄影图**：`Photography/` 11 张（见 3.2 盘点），`import.meta.glob('/Photography/**/*.{jpeg,jpg,png}', { eager: true, query: '?url', import: 'default' })` 递归取。
+- **摄影图**：`Photography/` 与 `public/Photography/` 中的受保护展示图，具体清单见 `photo-protection-manifest.json`。
 - **器材图标**：`public/icons/`（`sony.svg` / `nikon.svg` / `dji.svg`），`si()` helper 复用。
 - **3D 模型**：`public/assets/3d/`（可选）。
 - **个人图标**：`src/assets/EvanGongIcon.png`。
@@ -443,7 +436,7 @@ src/components/Gallery/
 ### 11.3 性能与构建
 
 1. **图片 lazy**：首屏以下 `<img>` 一律 `loading="lazy"`（PageTransition `waitForImagesReady` 约束，见 4.3）。
-2. **vite-imagetools 未启用**：不会自动转 WebP/resize，勿直引体积原图作首屏主视觉；若需优化，在 `vite.config.js` 启用 imagetools（依赖已装）。
+2. **保护图片不是运行时转换**：不会依赖 Vite 插件在浏览器前临时处理；新增图片必须先运行保护脚本，勿把体积原图作首屏主视觉。
 3. **重型 WebGL section**：考虑可见性管理（进入视口才挂载/门控 rAF），禁止常驻后台循环。
 4. **CSS 特异性**：覆写组件默认样式时用后代选择器提升特异性（如 `.gallery-page .text-block { ... }`），勿依赖源码顺序（lazy 组件 CSS 注入晚）。
 5. **验证**：3D 组件须在 Chrome + Safari 真实浏览器验证（无头预览无 WebGL，HMR 对 Ballpit/Lanyard 不可靠）。

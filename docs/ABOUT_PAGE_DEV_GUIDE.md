@@ -99,7 +99,7 @@ evangong.tech/
 │   └── assets/
 │       ├── demo/           # cs1/cs2/cs3.webp
 │       └── 3d/              # bar.glb / cube.glb / lens.glb
-├── Photography/            # 摄影原图（按地域子目录），App.jsx 用 import.meta.glob 取
+├── Photography/            # 摄影展示衍生图（按地域子目录），App.jsx 用 import.meta.glob 取
 │   ├── Paris/  Chaoshan/  Beijing/  Miscellaneous/
 └── src/
     ├── main.jsx
@@ -399,7 +399,7 @@ src/components/About/
 
 1. **新 section 默认与基线一致**：当前全 eager，About 页面若含重型 WebGL，至少外包 `ErrorBoundary`；是否恢复懒加载待统一规划。
 2. **重型 WebGL section**：考虑可见性管理（进入视口才挂载/门控 rAF），禁止常驻后台循环。
-3. **图片**：放 `src/` 或 `Photography/`；勿直引体积原图（vite-imagetools 当前未启用，不会自动转 WebP）。
+3. **图片**：使用仓库中的受保护展示衍生图；新增照片后运行 `npm run images:protect -- --apply`，不要把原图直接提交。
 4. **CSS 特异性**：覆写组件默认样式时用后代选择器提升特异性，勿依赖源码顺序。
 5. **验证**：3D 组件须在 Chrome/Safari 真实浏览器验证（无头预览无 WebGL，HMR 对 Ballpit/Lanyard 不可靠）。
 
@@ -429,7 +429,7 @@ src/components/About/
 | 懒加载 | 全 section `React.lazy` + `Suspense` + `SectionFallback` | 全 eager，无 lazy |
 | `_perf/` 工具 | VisibilityMount / useVisibilityPause / SectionFallback 存在 | 目录已移除 |
 | vite 分包 | manualChunks（vendor-r3f/three/gsap/...） | 无 manualChunks |
-| vite-imagetools | 构建期转 WebP（sharp） | 依赖保留但**未配置/未启用** |
+| 图片保护 | `scripts/protect-images.mjs` + sharp | 生成 1600px 内、带署名和版权元数据的展示衍生图 |
 | 字体加载 | index.html `<link>` + preconnect 并行加载 3 字体 | index.html 无字体 link；index.css `@import` 仅加载 Inter |
 | gsap.ticker | main.jsx 配置 lagSmoothing | 未配置 |
 | ScrollTrigger↔Lenis bridge | 存在 | 已移除 |

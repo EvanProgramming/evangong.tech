@@ -1,0 +1,1528 @@
+{
+  "version": 1,
+  "generatedAt": "2026-08-13T14:24:10.289Z",
+  "copyright": "© Evan Gong · evangong.tech",
+  "maxLongEdge": 1600,
+  "assets": [
+    {
+      "path": "Photography/788F36C5-45DD-4743-9217-FDDFDF8B7A83_1_201_a.jpeg",
+      "sourceSha256": "d070f11361369aee839d1f12778f8a4a911b1268fe4ecbc05254a9bc888f9b24",
+      "sourceBytes": 6606648,
+      "publishedSha256": "86c7ff49326daf130435eda74c1ea2bab14f4b097bf46e9859b4f19ec0e81eee",
+      "publishedBytes": 292592,
+      "width": 1067,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "Photography/97671D82-E8B9-4EB1-A0B1-D066CEAB1F28_1_105_c.jpeg",
+      "sourceSha256": "687ef2c34862c8b9983ab23c584971c4524e9bc20e3c27cf7847355ed08d8120",
+      "sourceBytes": 259865,
+      "publishedSha256": "f911f234f456027687a21c4ad54694c5197f4935e4205fbfddad5df075669a8b",
+      "publishedBytes": 118664,
+      "width": 724,
+      "height": 1086,
+      "format": "jpeg"
+    },
+    {
+      "path": "Photography/9D894A1D-8ECD-42F8-A12D-7DC60BAE84A6_1_105_c.jpeg",
+      "sourceSha256": "c9256fdfbd3b3e4d71348e354333adf9cc98e21ef0280cca215afd5892d71ec1",
+      "sourceBytes": 188659,
+      "publishedSha256": "0a1e588705af5e81a36b5342adc0007b6573e5dd653dcb70556fc53159ef78bd",
+      "publishedBytes": 100426,
+      "width": 724,
+      "height": 1086,
+      "format": "jpeg"
+    },
+    {
+      "path": "Photography/AFE7D41E-C889-4475-A8BD-CB1E3B435ABF_1_105_c.jpeg",
+      "sourceSha256": "ce13919301eea21f023d387ef9802224c31ff92c8ac54221e9c6688a8c878858",
+      "sourceBytes": 139357,
+      "publishedSha256": "370d0bac32a4c99c6af5ebead0c714a7f344e89d0292356c292e1fd700f920a0",
+      "publishedBytes": 76018,
+      "width": 665,
+      "height": 1182,
+      "format": "jpeg"
+    },
+    {
+      "path": "Photography/Beijing/we-o_rd35vfjgdnyzud3fw-china-7504392.jpg",
+      "sourceSha256": "57c7a808109d3f4e4bae12262de8c9b93a5d1d9780c75ae0ada04ff047f5604f",
+      "sourceBytes": 3202326,
+      "publishedSha256": "b8a8a5086eefed03e6cf37afbc437676e77b62113a546613a02b48e0fb42eb4d",
+      "publishedBytes": 284588,
+      "width": 1600,
+      "height": 1135,
+      "format": "jpeg"
+    },
+    {
+      "path": "Photography/CE586B95-F229-4B8E-9842-3461D90D4FDB_1_105_c.jpeg",
+      "sourceSha256": "1a1ebcba5ee045990d1f6b295d1fd79e60ddc7ea55d6d53ca6a94df896197ccf",
+      "sourceBytes": 305602,
+      "publishedSha256": "7ec208d8b19212dedaf2a81f6d2c4440ce6bab6859a5e02bd5a0bc8e23688a19",
+      "publishedBytes": 147658,
+      "width": 724,
+      "height": 1086,
+      "format": "jpeg"
+    },
+    {
+      "path": "Photography/Chaoshan/A395CF89-F602-44F6-97F0-747AD556F2C4_1_105_c.jpeg",
+      "sourceSha256": "a8e5a275b758466dbb2091548ef78986a6252049a4faae76a5febe8308908c06",
+      "sourceBytes": 155533,
+      "publishedSha256": "8c7dfb866368988d6dacb217a6e45319767fc38a668c7010c242450c086ecf23",
+      "publishedBytes": 83501,
+      "width": 1086,
+      "height": 724,
+      "format": "jpeg"
+    },
+    {
+      "path": "Photography/Chaoshan/BF32147D-89AC-46F1-BF67-C14D84E88B48_1_105_c.jpeg",
+      "sourceSha256": "39221128e672c8bd18fb3a3b901c91b9c37367fb00f38f5e3cee16d0cee76f38",
+      "sourceBytes": 153062,
+      "publishedSha256": "332e0330f743e9d783d7b1d78b244af2b25454d7aa4e4593969dbd933a37358d",
+      "publishedBytes": 85258,
+      "width": 1086,
+      "height": 724,
+      "format": "jpeg"
+    },
+    {
+      "path": "Photography/Chaoshan/lotus_flower.jpeg",
+      "sourceSha256": "e330cd023298a812503e10a067a3f88e1cbc094f37f6fd2a88fdb6799495b37e",
+      "sourceBytes": 176626,
+      "publishedSha256": "fc7ab471a3807b7db058259a50615555a5188f499d7fac75a4088ae1bb00215d",
+      "publishedBytes": 48753,
+      "width": 1600,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "Photography/EBB07F0B-DD51-49D2-BD12-818547AD038D_1_105_c.jpeg",
+      "sourceSha256": "c080d944d049334eff4d9eaa6d61bcbf9489b9ef654a9436febc542e2be3e810",
+      "sourceBytes": 200204,
+      "publishedSha256": "8070dd30e01b2f577615ab80f92b94c12f6883dc300d0f90db6324386aafd859",
+      "publishedBytes": 111899,
+      "width": 724,
+      "height": 1086,
+      "format": "jpeg"
+    },
+    {
+      "path": "Photography/Miscellaneous/639F42E1-5B22-40AE-BDF9-3974A03E2073_1_105_c.jpeg",
+      "sourceSha256": "7290bf141346b74e22a954bf7803be8a6a1bcb3eb73d564d68c29a5a6367a056",
+      "sourceBytes": 221961,
+      "publishedSha256": "5ebf44c2095284215b0e3c65ce0bde79e4a28b90596c9386b76837729e9f8319",
+      "publishedBytes": 104876,
+      "width": 1086,
+      "height": 724,
+      "format": "jpeg"
+    },
+    {
+      "path": "Photography/Paris/IMG_1598.jpg",
+      "sourceSha256": "da132a9bc5370ce8fb1e43cf96fb9027fd13ce8701ec0616cec88af100d0d342",
+      "sourceBytes": 3810937,
+      "publishedSha256": "239a8563376947e68d6ba47a8a2a58f81fe3f309217a5385c60284b16e4bb5e6",
+      "publishedBytes": 222014,
+      "width": 1600,
+      "height": 1200,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01020.jpeg",
+      "sourceSha256": "e9b953bbe9805dd3e589eb4fea1d7a277d5ed229218c3465dffc2da62e39af68",
+      "sourceBytes": 189491,
+      "publishedSha256": "260cacc636f92d1119ae0334b82efd986a559892ab19d796cc9363700f628afa",
+      "publishedBytes": 133198,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01026.jpeg",
+      "sourceSha256": "ff2db355e6419de4f886413be8a161d5b13109708b01453808757b6e68b019ab",
+      "sourceBytes": 153885,
+      "publishedSha256": "cc86887ce7a3cd7e9301b58e358a516b0029f5ab42e2590ea07746e883b0e122",
+      "publishedBytes": 108976,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01028.jpeg",
+      "sourceSha256": "3dfe7cdb71959f07f44d5a7c9963c802ef8a3477bd78c6e640b7f2b2a47a4bb3",
+      "sourceBytes": 189625,
+      "publishedSha256": "8beed569824574bec365766d3aa3794fdcce925ffb4001da64dce30a2738483b",
+      "publishedBytes": 135682,
+      "width": 900,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01040.jpeg",
+      "sourceSha256": "b914fe84db0435ee587cb2b4463e6e93ff95795c5a83a3b535d10a039fd8abcc",
+      "sourceBytes": 284464,
+      "publishedSha256": "79bd2dc5d2c025b825492ac8eef776486bd90ca36ab153a9361389bf7410f44a",
+      "publishedBytes": 186898,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01042.jpeg",
+      "sourceSha256": "3be9a51af7e610bf77bdf4b5aa0eb189212034618761fbd2b95c0194be9e15f0",
+      "sourceBytes": 267671,
+      "publishedSha256": "fdba13c552219b6c6c54caa84743dadbfe56836a6e7412797dd999472519c157",
+      "publishedBytes": 178713,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01044.jpeg",
+      "sourceSha256": "c9e8d87326dc83128067be0acc9b2d8036ce5faa9a6796fc9d9dadf413048df0",
+      "sourceBytes": 418635,
+      "publishedSha256": "635507711d1a9e958691c27b8d54bb6661aeb3aeec0e35dc34c131260a839112",
+      "publishedBytes": 275598,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01048.jpeg",
+      "sourceSha256": "4f2304b5d2d64566c49c75e38471c5234a4d220a3392f2b851c846002ed2f4fc",
+      "sourceBytes": 139853,
+      "publishedSha256": "7dfcccafb3ab9d89e35f727ad564832006382a4e9d85522cf73bf0665edb6cc9",
+      "publishedBytes": 99468,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01059.jpeg",
+      "sourceSha256": "75ff2a658b97c3d7ba4ad5e59efa3a7f41cb965888b23daeb4918943157f1f53",
+      "sourceBytes": 193130,
+      "publishedSha256": "6105789027b3c5c22e2040e301bfc5c4c9c55a7c8f896f44f0080265e886cbf3",
+      "publishedBytes": 139732,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01066.jpeg",
+      "sourceSha256": "d7da2263abfed0c708236e58a9f475b5b1afc929b3a26a7f9500c1e64b965c6d",
+      "sourceBytes": 233001,
+      "publishedSha256": "4b7984161973491efdded423d44c4e4b2ace5a5310675db3bab710b6d2144dd1",
+      "publishedBytes": 154848,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01073.jpeg",
+      "sourceSha256": "a6db0cf630b628c5988683666acb53842ec8f259e1df859a30b98d127b7c4926",
+      "sourceBytes": 276909,
+      "publishedSha256": "b18215e257a8c3dcc947211c352b75cc93499c699c0cbaed449d159491dd8d6a",
+      "publishedBytes": 198350,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01093.jpeg",
+      "sourceSha256": "f009b8ceb4fbdbe5a66168cd07c4ef016fb7c03134e42944f74b610da1cfce8f",
+      "sourceBytes": 275077,
+      "publishedSha256": "98bd8061d0dfec8dd17b8e91cc350a94c03087d889c7fce84b7ff9a6b0e46951",
+      "publishedBytes": 195550,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01094.jpeg",
+      "sourceSha256": "992ccdf1c167fa8677f309b7da4c3967d2fb4d337855d994958423d312ffe63d",
+      "sourceBytes": 306096,
+      "publishedSha256": "34cc3734bea27319f39747d4432bb3eac2af0252cbe415903a931224dde3b29b",
+      "publishedBytes": 211421,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01104.jpeg",
+      "sourceSha256": "47e5136b8d4b1ecba30864c253857127b25f7509d43b14ec9cfa022c5051f58f",
+      "sourceBytes": 235631,
+      "publishedSha256": "accc59c5a2f008a3dd531874c423b3c919d568269da1cbd7aebe26167a0d7415",
+      "publishedBytes": 165808,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01107.jpeg",
+      "sourceSha256": "6d7c74a9156869229fe95f8f947bd195c83a8b00992dd132cf9cc6a47ceff88a",
+      "sourceBytes": 282824,
+      "publishedSha256": "7b8c03a742e4458017247af550259012f50209e7d6dda1568efdda211c2e1a65",
+      "publishedBytes": 197653,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01110.jpeg",
+      "sourceSha256": "04d77b460b6b2cb962a8e5bbe5ce8b35ff4edde4dc84f19ab59de7d01dde5c21",
+      "sourceBytes": 187312,
+      "publishedSha256": "ac71404a0b8ec585192e96d5202c36c93f8587c988dcbd3c07f062f7523d1971",
+      "publishedBytes": 135989,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01111.jpeg",
+      "sourceSha256": "96da412cc229fd73f1a6b615baa921120f549f1c4c9be4538d67bdba1dd5deb2",
+      "sourceBytes": 164023,
+      "publishedSha256": "566a53a70e1102741bf9ab2cfcc2dff2a2a60137e0c474ef0d1b9f79e4460bb0",
+      "publishedBytes": 118742,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01113.jpeg",
+      "sourceSha256": "d2522e9ecefcd0feaa7ce142cec1dd3ceb2d0785b31cd7aa9cc8783d3b50c808",
+      "sourceBytes": 130623,
+      "publishedSha256": "9435a3382d87d523d12e3cae3e196b02fd9ac7ebc644102bbb958241ed8acee1",
+      "publishedBytes": 96365,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01127.jpeg",
+      "sourceSha256": "25eef9e1639c6118dd625b6faab6bea9269ae6711dd5ef953bddf02a63f77a65",
+      "sourceBytes": 403029,
+      "publishedSha256": "d34c2f7c488ff551c13e2bd036b93bbd6b952c205267addd0c4ed6f83708ebec",
+      "publishedBytes": 272641,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01185.jpeg",
+      "sourceSha256": "b106f9bb5dd8f723912a191ab7a03ff43641324a30989a775ab13bb1ddf59864",
+      "sourceBytes": 358258,
+      "publishedSha256": "e6c5029b5b6ac8f8f1c675490660f431bcab083604e96985a9fef63330ec0568",
+      "publishedBytes": 234229,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01208.jpeg",
+      "sourceSha256": "ddf5ebeb634453e5067ea3765f92494c2349ec7cdbf5a968e024c89318a76f9f",
+      "sourceBytes": 339174,
+      "publishedSha256": "412c6c7039bbc7fb6a1805d8ac073cc7eb632349e20c3f03a4343f7a0d1f476f",
+      "publishedBytes": 232705,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01209.jpeg",
+      "sourceSha256": "0d44d99fd63cef1191553375913cdd19f3a2940f5559bf03534389be6efb1e5f",
+      "sourceBytes": 25122,
+      "publishedSha256": "62eb065ea02cd3163216ccb442257b4f0b908dfb6e031555b24b38fa20771005",
+      "publishedBytes": 22999,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01226.jpeg",
+      "sourceSha256": "47a05e39dbd2db729ea1397a78135051ee0f03a2ae6773ffd703e2c6191634ee",
+      "sourceBytes": 508123,
+      "publishedSha256": "9ed8ff99b4a0c9d10034f4dc45768a5b962a9958dbf05fb28d28dcea6c785ea4",
+      "publishedBytes": 337790,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01235.jpeg",
+      "sourceSha256": "fcf1beb9cdc729e9e38518ae9060d8fa262e2ded08b607d16b8454c776f4613a",
+      "sourceBytes": 700883,
+      "publishedSha256": "13ddc4ef1a0a41d27e25c02100ee4ec243b7dad7ab3d46671cf7f776b6be811d",
+      "publishedBytes": 437304,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01236.jpeg",
+      "sourceSha256": "74d214780eb24369649bf0e4d5ae37455847bd8259100701819e07b5b0bb75f3",
+      "sourceBytes": 207455,
+      "publishedSha256": "87fbe13da3f4614503b9ca3566e4d87f8a55e5dd10a82ad7f1f131386e754eeb",
+      "publishedBytes": 148101,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01241.jpeg",
+      "sourceSha256": "a854651578ce90375be2caf078c046cac9c31120a1eafb891e81151695f44f6e",
+      "sourceBytes": 319407,
+      "publishedSha256": "3d9eec67f2bf771eecf8aba0447ae2a30ff4db3edf14f5819a40cf9c78db7fe7",
+      "publishedBytes": 217499,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01242.jpeg",
+      "sourceSha256": "ee1ad556c89bbe14864a669cd8fc511e178ab7bc53f4b3541a8b853840196712",
+      "sourceBytes": 349708,
+      "publishedSha256": "1eb9b3c18904fb06b41e425334806f0a5610eddd50f4a6c5b82e0861ec2c1f6e",
+      "publishedBytes": 221521,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01267.jpeg",
+      "sourceSha256": "5783b1df3b9cd4a6dd794f2936d70ced7c799c60ef93d4b72a4644b5b385f35b",
+      "sourceBytes": 198162,
+      "publishedSha256": "a7cdbd079e7546346d0f406e74c1bcac11aaf63e63b814ec77cc798df873171a",
+      "publishedBytes": 135987,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01282.jpeg",
+      "sourceSha256": "dc323cbb40298f1130f1c8e2036e3e76f07d9d981fa659f2e29ce9f3ed789d40",
+      "sourceBytes": 343356,
+      "publishedSha256": "2e8bc68e12626a7454221c310e86ba8f855a2106f57c47ec7b73b636ab8cef25",
+      "publishedBytes": 226782,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01284.jpeg",
+      "sourceSha256": "2c17eb714ea5485cff82095c5e16ad26e11eb4571e6c6f0ba09e347a94a9d5cf",
+      "sourceBytes": 192897,
+      "publishedSha256": "3685c614145744e3201edc025ddc8cb2090c865031f5e5207c7207cdeb59bcf8",
+      "publishedBytes": 125568,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01293.jpeg",
+      "sourceSha256": "a713fd9c7fe79473137d59682147898f578567b56a7be40af61d5564a9da3552",
+      "sourceBytes": 170175,
+      "publishedSha256": "59255042a8b92a498227c84a874391dc89723501edc88387668d8fc2b1c34ccd",
+      "publishedBytes": 119366,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01295.jpeg",
+      "sourceSha256": "af68f262115bf3629c7f75b0f83cf88c806c64c80c92c3f7150cf40d5ad9e932",
+      "sourceBytes": 264541,
+      "publishedSha256": "2134d53a66eb24320ba0261164d4efb33dac52e461bfdc7cffb172b547612c5d",
+      "publishedBytes": 187114,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01297.jpeg",
+      "sourceSha256": "b977cb8b1ffafec1e835b095952af44829e8c99bd5ae6a552b5a17c38137ce0b",
+      "sourceBytes": 165355,
+      "publishedSha256": "4c934d30dd6b85925e9496e843ec7f7ec40eb10500131b9a2acc3bcf8522ce84",
+      "publishedBytes": 112635,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01303.jpeg",
+      "sourceSha256": "05ef02919a7497472cdc22c86091b8cc427b8da30b7f3011503ebf670b3d81b5",
+      "sourceBytes": 310089,
+      "publishedSha256": "ef8cb18dc87fc71a19492372b883c07f04bd462cf99e6024600937e3cfd6990e",
+      "publishedBytes": 211353,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01305.jpeg",
+      "sourceSha256": "3d0b85c158a7805f298cbb8ddddf46077a01d29cee131623b86b0c467bd0e100",
+      "sourceBytes": 94805,
+      "publishedSha256": "19333d844c99695964f4fcc4fbf2fd73385a692398494f6785c1b7634123aa34",
+      "publishedBytes": 67655,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01307.jpeg",
+      "sourceSha256": "925ec48fa0e88ecdc9e15c965ffe010e9edd02145e86e501e8c95ef92b61ac2e",
+      "sourceBytes": 203447,
+      "publishedSha256": "cb760697b92166d089373d65ddf412a577eb076075a9cf27d6975e2c24d4cf01",
+      "publishedBytes": 145466,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01308.jpeg",
+      "sourceSha256": "281b76a5d4a6cc9d79056f166c0c3e5bf0ac914ee95bc9402d5d873663da52fb",
+      "sourceBytes": 123361,
+      "publishedSha256": "e252f10b8d3091e9123abdd90ec487e4346aacf50ca8903ec47e85e5cd0a50fa",
+      "publishedBytes": 86856,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01310.jpeg",
+      "sourceSha256": "c53b5a588b1f63acc73e79d607ba9c7325133536d5fe7226017a19a07c6ba245",
+      "sourceBytes": 142748,
+      "publishedSha256": "338c7a97d46e773626beedf4d4cce12250ef4c33fe9738206ea23dea2b59924a",
+      "publishedBytes": 102498,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01311.jpeg",
+      "sourceSha256": "1b202342afa5c437f6173ef6638f0f9efcf71761efa2177d637c71799bca4c70",
+      "sourceBytes": 189307,
+      "publishedSha256": "ab20957325808625dc10eae33c9a49dc191f1b3aa463c625b15e26e63435ed79",
+      "publishedBytes": 130312,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01312.jpeg",
+      "sourceSha256": "721264a20737a29e98f60cab311780d7aa7a799f086c71fc7d6336cc395a7184",
+      "sourceBytes": 87994,
+      "publishedSha256": "1a3380368a291ed7bc5970efdf41667e8014d0368d1a3eba7a5654712855f320",
+      "publishedBytes": 60756,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01319.jpeg",
+      "sourceSha256": "6167996148abf9ee7d5ce5917a05fa64452c6447b0629d90c5c5a2690f56d507",
+      "sourceBytes": 743680,
+      "publishedSha256": "f301d9ade02ad366cb6ec422cb3b1f7f195d88c7a7c1edfe05fcf68d4d6cdc9a",
+      "publishedBytes": 464917,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01327.jpeg",
+      "sourceSha256": "a20ff0131d7941917ee4da816bcc27ae8759a401cc20ecdac9ea062b13b32014",
+      "sourceBytes": 125380,
+      "publishedSha256": "7b02bb4740bf4ad0aba52c9939ea56a27cc730e0e65406fbc7160d0092330912",
+      "publishedBytes": 89419,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01328.jpeg",
+      "sourceSha256": "5c9edda12779f77a51dd4497f0ac95ad20a9d86eae3306efaa3e7e5e750498ef",
+      "sourceBytes": 139494,
+      "publishedSha256": "0f5bab9f4392da6e1c8a363ecc9360e87fefb42ea6dae19a64cd5c97a6252eaa",
+      "publishedBytes": 99526,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01331.jpeg",
+      "sourceSha256": "1f63c42f090e8047f243bb8cadad8597a94231f64023e01fd383d41c5c1374a7",
+      "sourceBytes": 135285,
+      "publishedSha256": "fb0ecd55af34929cf79b404d27a1c4a67504c01cac2bfd51a65e9d48e4327d23",
+      "publishedBytes": 96203,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01343.jpeg",
+      "sourceSha256": "e5c5399a779559ed27d68fb9990c6e4bfaf035d84a3baf0862e1b669d9f8e2fd",
+      "sourceBytes": 236902,
+      "publishedSha256": "87eabeb5b9ca215e932c1d36c118ffabfc0dc5c20799da7a737606d7488647e5",
+      "publishedBytes": 162761,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01354.jpeg",
+      "sourceSha256": "f56f975b4fb01ced9404d722c29cc8821a34a667b9dda8f87683de6f08f0d950",
+      "sourceBytes": 425750,
+      "publishedSha256": "b12df66f4b34413840d6d0ad5ccd88af04d1b24676a492ba1f37c3874130d383",
+      "publishedBytes": 298342,
+      "width": 1067,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01358.jpeg",
+      "sourceSha256": "6e2f4cc4a3d695706f1d72e86dec9f2f7abda325a276fd5c56dd34f9a97d7d6f",
+      "sourceBytes": 675526,
+      "publishedSha256": "2d634bf48c198b88c97c7f0ae80c0211bdbd06eca6fd75bb9573b2fc09d1a26d",
+      "publishedBytes": 444743,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01360.jpeg",
+      "sourceSha256": "5f827adf48bada887406b8ac712fb2b08f79cb60fd7a4185e694db1510234822",
+      "sourceBytes": 138243,
+      "publishedSha256": "7982ab367aa026ed2266e7f02cc7fb8440b28cc8153d131dc270c3bc2acba8c7",
+      "publishedBytes": 102853,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01362.jpeg",
+      "sourceSha256": "c2cb25ea0ec5ca680b6e4dc5fc69805b1d4eb5fc3f7cebff2cc716776044e62a",
+      "sourceBytes": 177765,
+      "publishedSha256": "d58ff292e950a0612c0a92178dc7e5c9d82432348ecac85ff52128aeb67a1a02",
+      "publishedBytes": 123577,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01372.jpeg",
+      "sourceSha256": "3a388a53e7bfe30cf3bfdb140ef9c1c8349e6591f4eecc13a205e4e5ff03edfc",
+      "sourceBytes": 311311,
+      "publishedSha256": "5c065cf202b3c6138cd74ab70e7da8430f722dc57be0f193829e9cb2bbd526f0",
+      "publishedBytes": 210807,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01373.jpeg",
+      "sourceSha256": "aa2e13f03fac22fd66eeccd544edd3610087fe0f6998699a9288f0954c3d2214",
+      "sourceBytes": 287225,
+      "publishedSha256": "512c08081bb896eca20aadadbe9b83f4124cca81386a945191cabcf6da6b9cb2",
+      "publishedBytes": 191688,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01378.jpeg",
+      "sourceSha256": "20066df5d3e14770ae042ed8a98d27d6d4c2d079556e630a3d4eb9af0ebd49cb",
+      "sourceBytes": 297733,
+      "publishedSha256": "40e24bcfee9d64a1f4b1dec0bff4287de3ff4e63c6f86eef197a08b214b53966",
+      "publishedBytes": 197401,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01379.jpeg",
+      "sourceSha256": "92d3c10a89a0a92b68a5d508dfacaffbc0f294b1585041e09e916124a7fe3e83",
+      "sourceBytes": 141112,
+      "publishedSha256": "ebc0c77f5150bc5fe94fb7ae1c3ffa737030bd132d931e8818a316cb8371fe2d",
+      "publishedBytes": 100863,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01381.jpeg",
+      "sourceSha256": "070a29a4c1b3e3ac6d7a4247c890399655b97b7ddbaf9e74dc8a05496694df50",
+      "sourceBytes": 313692,
+      "publishedSha256": "661dfb1095a2a94d1fc27e99dd60465f4106eb0e80cfcebd0376cb89170d35b4",
+      "publishedBytes": 204579,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01383.jpeg",
+      "sourceSha256": "6c3d138746c0d68e88d207e3ee89e9d80609d0bf69d063e3992e8756707901f6",
+      "sourceBytes": 412852,
+      "publishedSha256": "5829a0b58dcf0001d4164896a7bba588db70f91943da0470a2340220bddf8568",
+      "publishedBytes": 279311,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01388.jpeg",
+      "sourceSha256": "61160a91a6041be52a28838b58fee4fe00d83bf6258064b2a29c683aa02b3898",
+      "sourceBytes": 121662,
+      "publishedSha256": "c602862c3208afec37cdac203a4aa9b7f0b8fe255f9d543fbfba26fe7828bc3b",
+      "publishedBytes": 86193,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01391.jpeg",
+      "sourceSha256": "2888279eb2f4f28fd64d5ef67a284f99cdd07fed8d02b4f71d51b2f113ee76e4",
+      "sourceBytes": 461430,
+      "publishedSha256": "c6dc356241f8e14b4a5e32f78ada375e89a3080d7e27a55ad4b491de2d22f345",
+      "publishedBytes": 319805,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01397.jpeg",
+      "sourceSha256": "fbc580c47d3bf9354ba05e7a31114b99d7b286f022c9671ab7813196c4eb2402",
+      "sourceBytes": 549500,
+      "publishedSha256": "585ae8e352a207413e417dbfe43dc0681798345fcd46bdba7f07c3f561caa9c7",
+      "publishedBytes": 354741,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01400.jpeg",
+      "sourceSha256": "decfab63013fba9b0dad120cd8969f314ff5a41c0c085fdd2e549861c614a47f",
+      "sourceBytes": 201057,
+      "publishedSha256": "4858139f30029748c1905158354263036abab68d8bcec5b8a533d34a68216bdc",
+      "publishedBytes": 142502,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01405.jpeg",
+      "sourceSha256": "50fa7ebbafca9b5752926dd0fc55872c7e14585c44e2a25b73a10aca46cdf37b",
+      "sourceBytes": 87681,
+      "publishedSha256": "808641aeb55d06f4ffbc1690ceb47eedc385b35b330eda5912f5db635f9d1191",
+      "publishedBytes": 66077,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01406.jpeg",
+      "sourceSha256": "1bf4410cf79af12eb797c378056d54024fb9a77677403af6f923f143bb265fa8",
+      "sourceBytes": 144316,
+      "publishedSha256": "0953eac63a3b0af60e06190cde36747bb833c19618a17d80b88182ca1b29a432",
+      "publishedBytes": 111500,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01407.jpeg",
+      "sourceSha256": "b680de4d0e004b3a100072e6af25eeb5fa3f3d094f4a09b76f58a1c1095b0736",
+      "sourceBytes": 249919,
+      "publishedSha256": "3a155bb832a6e0e944ba4ab0da992daa4da1675fcf04ab1c266bfec39aa61e68",
+      "publishedBytes": 167283,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01412.jpeg",
+      "sourceSha256": "5d82ab069918e64b193cdd1458ad7c997104aff11e65706639c8cfd7fa7f9755",
+      "sourceBytes": 161583,
+      "publishedSha256": "a83ff1c4a64702229f76be9e83f2ea441dcc8b4c77b9087932fce4cd951d82a0",
+      "publishedBytes": 112509,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01416.jpeg",
+      "sourceSha256": "4eac6c1881dfbadbabaab41149f56a199cd7456337457c8a69ecd9c554f2c399",
+      "sourceBytes": 162706,
+      "publishedSha256": "dbcb2bf7f7aa5ebb0c90053083d8fbfe142cba09cb0c99208410b8853f604b5f",
+      "publishedBytes": 112266,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01418.jpeg",
+      "sourceSha256": "25a661af71be7b32d9aa7a412020d3fdb0b81cc6be3d218d33bcd3447f7c54cb",
+      "sourceBytes": 158757,
+      "publishedSha256": "86c867f39404db3412068f673fa0f4a91b5443894866913855a7180eb697e429",
+      "publishedBytes": 107909,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01421.jpeg",
+      "sourceSha256": "7031390df6012a6f082ba913af01634ce16ee9056d518c06052c28b36f4264a3",
+      "sourceBytes": 483318,
+      "publishedSha256": "5c4d76fcbd2299db90821c56253f090ba353baf0095ac7c483eab55066281f4f",
+      "publishedBytes": 310751,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01422.jpeg",
+      "sourceSha256": "c9879594f0b1bf3dd3f25d2ccdd30d2e1d305f99b1a2be6ab0366efa5211370e",
+      "sourceBytes": 531009,
+      "publishedSha256": "9977fd23fbc2c83034bff7a20a73330569f3eb8548d20ac5e2a1126fe07df647",
+      "publishedBytes": 343553,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01423.jpeg",
+      "sourceSha256": "3541afc14bcea813805abbeff713133ccffc62f96b4c7a0fb8aa9765fa8c1bb5",
+      "sourceBytes": 676138,
+      "publishedSha256": "163ad2817662708da6059cf40517b4cbc3adededd5a4ac79e87c403071409652",
+      "publishedBytes": 429270,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01425.jpeg",
+      "sourceSha256": "b84a981a7ccff77426ca63f4437bc9a6a498966d04088a641105f6a106947a57",
+      "sourceBytes": 29270,
+      "publishedSha256": "1d33bb5cbef53648886606e8db653d7a1c58cc1ef1cb3fdbbbc727338ac56cf1",
+      "publishedBytes": 27238,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01427.jpeg",
+      "sourceSha256": "49b874c0611a524f96d2e8d794c76d5a007524fff83a62079ecf69c6d5f1f81d",
+      "sourceBytes": 342384,
+      "publishedSha256": "2cf4f9f662886e2cfd01e7b769b0208d3915db2840a8c9f3d1c7aedba125bcc5",
+      "publishedBytes": 234323,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01431.jpeg",
+      "sourceSha256": "9bd236ab2425d1a3791d698a16425b6f0c837b60b2b0a99bd8440c6b86cd0566",
+      "sourceBytes": 176432,
+      "publishedSha256": "14f32b49274ea093bd8228db2690aca9a9d2bb98fb8a737722999465dd4831cf",
+      "publishedBytes": 124742,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01432.jpeg",
+      "sourceSha256": "42bff7299ce9cf30cec0e515e0b1e94f3fc5b39ea1b19c5c4c33058014bcf1f5",
+      "sourceBytes": 242778,
+      "publishedSha256": "02c1b02891c56f9cfc45ce91f96114b21526a6b1bc72a6b0e647d744ecf18ce7",
+      "publishedBytes": 175563,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01434.jpeg",
+      "sourceSha256": "a745759966f447fce8aec82d1df0b9c334633ced70173341bf9d192d30458c3e",
+      "sourceBytes": 504632,
+      "publishedSha256": "07828722d349782c5523abc9b31d7996a41b48c946fd694308d22c86e524ec69",
+      "publishedBytes": 313057,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01436.jpeg",
+      "sourceSha256": "5484c09172b9f6abdebd3601816f95f2f70618af1ecc9e2d909dbdda5f481ed7",
+      "sourceBytes": 307999,
+      "publishedSha256": "73fab0ca0b443594e39609bfddb440baa3327a43f6797f11ce5c7390b139dc65",
+      "publishedBytes": 221161,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01442.jpeg",
+      "sourceSha256": "8a6efb31bfc75da9618fbcf8b6197156ad4bba1180755526ec1b5af165ebd6fe",
+      "sourceBytes": 262968,
+      "publishedSha256": "ffb0e266144ea23e48642c2e47078ab517f2e93cccaa6753672f88f661d27f28",
+      "publishedBytes": 184734,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01443.jpeg",
+      "sourceSha256": "e6423ac7f062f785e73bc8d2190a3ae9f6cd6495e656638621dbfb4e2cf0fcc8",
+      "sourceBytes": 251347,
+      "publishedSha256": "36a66be78fceedfe6073592fe5eb0bb372d564bb5ecac8c9052cb8aa9b1d02b7",
+      "publishedBytes": 176345,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01446.jpeg",
+      "sourceSha256": "00a95d3086d14c3f6fb6c121e19307a43dda24e3389da964a15f313ae21b4759",
+      "sourceBytes": 183008,
+      "publishedSha256": "8178c0cb9cd950e082ced359e18a5cfbc5e1ffc5501e8ec4b79350f48f866fea",
+      "publishedBytes": 131382,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01447.jpeg",
+      "sourceSha256": "40f0b1de9a83a1e920d36a854d68b426ea525b9485e0cc37af9e62bd7961bf9a",
+      "sourceBytes": 19294,
+      "publishedSha256": "ea2900abf5c0514fc66db79b1df6194f79fd8452d2dad9d4c3f8f2b955119b0c",
+      "publishedBytes": 16195,
+      "width": 938,
+      "height": 626,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01450.jpeg",
+      "sourceSha256": "da8321fc86c3c70e8d4a71c0b9b54441ae07f23776558e119c83c7a567ce2130",
+      "sourceBytes": 534883,
+      "publishedSha256": "15fc1577b6cfee9ee825a4180adeea1bdad49e13a87315d1b86b728722b95dba",
+      "publishedBytes": 346136,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01451.jpeg",
+      "sourceSha256": "1aeea6187c1e1521b344f0aa853d17bf6f599dee72723ebe0b280a6b312cb3d6",
+      "sourceBytes": 496383,
+      "publishedSha256": "e05b225f9812a510f1b0e61464cd4492c1ceb7da4748e176eb5d1f7286799e1f",
+      "publishedBytes": 341225,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01593.jpeg",
+      "sourceSha256": "993221b74527941cd66cc41198b0564e9356fad71f24d9b43fdcc0fb811a5a38",
+      "sourceBytes": 190038,
+      "publishedSha256": "9337ed1d5f917c4294cdb3d4e2fe6c9c63694ff695b923d06047793196a8ab39",
+      "publishedBytes": 131799,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01604.jpeg",
+      "sourceSha256": "8b4439591984ae3ce1d158b49567fef43c445d98eb492cf3edb7eb808144bd8f",
+      "sourceBytes": 160226,
+      "publishedSha256": "aac2f46c9b1ddd715c63c5775e3826723b3af91b56113a15426dcf99f76d63ed",
+      "publishedBytes": 110564,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01606.jpeg",
+      "sourceSha256": "d13de5a8673bbd39024d504d03410311a7ffb06d021b6d5fe96d9d8e1890d161",
+      "sourceBytes": 295993,
+      "publishedSha256": "79659f18596872082c88e2f8087d3108bc36ff2d2556895eac60ebb0ccf87e47",
+      "publishedBytes": 192200,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01610.jpeg",
+      "sourceSha256": "2505477abafcac402b2423079e9fd35bd22b3be730cfc65f55db5802bde2cfe5",
+      "sourceBytes": 274442,
+      "publishedSha256": "00016a3256bd158b8c860e3e9ed47f64c067c632a3974ecf1c9191ce17791d60",
+      "publishedBytes": 198579,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01623.jpeg",
+      "sourceSha256": "27808076abcd066124a5e17438c6692e1e8a1c6333008276e5675d706e9244ce",
+      "sourceBytes": 477927,
+      "publishedSha256": "079b70bc18cdf95a6bab217ab9fc5f4ad3faff5780bcdb8d3384d54537ec557f",
+      "publishedBytes": 280965,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01624.jpeg",
+      "sourceSha256": "583aa5d26df42f49027bf9cd7ee237a1045d99e4f71d6d0a9ec4145438205587",
+      "sourceBytes": 410385,
+      "publishedSha256": "85a365a5df01a22cef15fe3a6a106fc1a0b346f48f0c6637d7092b3a7c24cf0e",
+      "publishedBytes": 281135,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01629.jpeg",
+      "sourceSha256": "1fc1d4ba52830a97fe5d9e9fa70e6d90d4340196ef87d6d56b4b1e389897e0da",
+      "sourceBytes": 289857,
+      "publishedSha256": "0f541c539c9b5a1ce5de7ef3e55419e9234106f3f0c4fb750d78835ecd755582",
+      "publishedBytes": 208186,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01635.jpeg",
+      "sourceSha256": "0e898a47ae223574e03c5c0f6a9db0661bb9979e1e97db2617922d413afd515b",
+      "sourceBytes": 489931,
+      "publishedSha256": "b9a6485c31192b939b50f31fbc1c263154617e9a0a511f1600a45f6e93612d55",
+      "publishedBytes": 326548,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01637.jpeg",
+      "sourceSha256": "5e5f059c0716afd3b778c148f0f10137a74c11a81a5c031d182576d3f2d18977",
+      "sourceBytes": 458262,
+      "publishedSha256": "4e9f751af98be76d08755a8afccb18959f33afe75d87f794862e7a5f1141517f",
+      "publishedBytes": 304108,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01642.jpeg",
+      "sourceSha256": "3d9e1939ddda124a103f31b882c319fbf62ffa510d45081fd88cdf291d890c34",
+      "sourceBytes": 601114,
+      "publishedSha256": "6b392171429a69bc0d3b356adc552b4d78de6cbf576bc16f526abd446e7e4cc2",
+      "publishedBytes": 412192,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01650.jpeg",
+      "sourceSha256": "840dce65992edf7ed2abbaa7283f8ba40f622a4a8b48ca7f627a34e74eebff5f",
+      "sourceBytes": 166718,
+      "publishedSha256": "a32d8d084a0c2ff7ac0a2ca556e65347c1c7af8f2e76e175de1e5d26beef7e28",
+      "publishedBytes": 114271,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01654.jpeg",
+      "sourceSha256": "89b5f75d7dcb8c7ee9e94a7a10d919638cdea915ef42c16560e304e09245ca51",
+      "sourceBytes": 66609,
+      "publishedSha256": "84a91eb7e95cb8888241a83533e0c8efb1813bb1806be6e2042770e93b2f6787",
+      "publishedBytes": 53030,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Beijing/DSC01665.jpeg",
+      "sourceSha256": "de754f0f9634fc29be0cdf8947efd6a8e22eb886fdfad9e081c95de266259b70",
+      "sourceBytes": 441373,
+      "publishedSha256": "c2040903081a7d6d3d3e9dd31f3f5d06811b6a0650497c04001135bbfc45e0e6",
+      "publishedBytes": 307703,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00775.jpeg",
+      "sourceSha256": "9f10eac526e033e77a8c024e972991b75e4b86c703feb1bf487021c2928ebe43",
+      "sourceBytes": 422822,
+      "publishedSha256": "eb8563b55f9c8ed8500694fd0152cdcaf9bd87b00c277217296c4e589993b48c",
+      "publishedBytes": 285963,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00776.jpeg",
+      "sourceSha256": "8826f221d1faa9252298352f6dfec6aee8fb96a804a506a625f58508996616f4",
+      "sourceBytes": 278776,
+      "publishedSha256": "a6ba2e165da692c7aad291931cda0b1135443738fea3f6687bb1ed8a59acb181",
+      "publishedBytes": 196549,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00777.jpeg",
+      "sourceSha256": "4aa995f8850b675e978b76e126c833dd86f145c6d3b3768b208f24a19d566ca6",
+      "sourceBytes": 348912,
+      "publishedSha256": "483d423aa45bffceae69a303c3b40f8177cc23779acd3fb02e9a884e639bf324",
+      "publishedBytes": 238696,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00778.jpeg",
+      "sourceSha256": "21f73a0f3d6dcbf8abcba60c896f01d3e8e41df74a1415913516214d80d1bc3c",
+      "sourceBytes": 142996,
+      "publishedSha256": "5391ecffbb4e657423632bcdcbf4b269ebb965939decf8b6fa36a236f217148e",
+      "publishedBytes": 106021,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00779.jpeg",
+      "sourceSha256": "75c5b56cea450a9a6a814f3088b5a79687c401eb9e867df43aae94e4ebdd9b2e",
+      "sourceBytes": 121943,
+      "publishedSha256": "f8a7d1196344717e0b987e6b08f2422b10cbb68ef5354abeed800ecb670d84a3",
+      "publishedBytes": 90204,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00794.jpeg",
+      "sourceSha256": "c47bbf4ed9740fe8348196790ff76af1fd6f2897f07472fd6fbcc8b9d524f52f",
+      "sourceBytes": 363300,
+      "publishedSha256": "54dd68574587c52ad20babbbd38e1ed411232f9db4bebe85fea4ef761c7d23eb",
+      "publishedBytes": 244354,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00824.jpeg",
+      "sourceSha256": "64cfaac077bc375b5e1a79055b5426b7ef709ef75de4e2043639471d1e12d6b8",
+      "sourceBytes": 263281,
+      "publishedSha256": "f008023991122461cdebf43a30d62f5c87544348b02fbe18fef970feb1470375",
+      "publishedBytes": 185322,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00826.jpeg",
+      "sourceSha256": "7c00795a0d856aa4d73a6a0f6a3290f28ce45bbd8a8b7589af1b9a9b0ddbb357",
+      "sourceBytes": 396378,
+      "publishedSha256": "9f7e73070a339edbd36cd218623cabb41d3bc477b1e97c58b07cce3b3c62c83d",
+      "publishedBytes": 270006,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00827.jpeg",
+      "sourceSha256": "612b89c47af73fee5ddc191ca4d5e7d0b4eb81a9234af77fe2a9694a0eac36de",
+      "sourceBytes": 339891,
+      "publishedSha256": "7c03652900860016587f74aec64b881afaa827b22fd7d49a91e6e22df709e368",
+      "publishedBytes": 228158,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00848.jpeg",
+      "sourceSha256": "065814d64cf4e33fbdbfb2118b5dc96eacd22df6c81c2495c94937105f1787ec",
+      "sourceBytes": 223481,
+      "publishedSha256": "e41ed8d1381b5d66929e689857db0b88cecbcce235d772918cb0ffb2c634a433",
+      "publishedBytes": 140254,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00850.jpeg",
+      "sourceSha256": "adace451cbe5704afd741b5b07386e87b75b88337d32eb75be547bf6ea49e609",
+      "sourceBytes": 268502,
+      "publishedSha256": "4690c2f217e49acca40b94d325fbc6cfc01510a7c638946514d5229da3edda8a",
+      "publishedBytes": 180295,
+      "width": 1068,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00872.jpeg",
+      "sourceSha256": "d7379b686087b5cf352846b093b7f9a2487c026f2058545c60f27dcdb1c3d6fc",
+      "sourceBytes": 209682,
+      "publishedSha256": "04192b6ba5513ce8f5ba9eaf95ba093f8136b5ed32a7b801559be31b0167388a",
+      "publishedBytes": 145543,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00880.jpeg",
+      "sourceSha256": "548e4e3a7a42d8644847d14e0f2b69cc7be119ad5a975080738ce21389ef3aee",
+      "sourceBytes": 222597,
+      "publishedSha256": "f955c9b056d89de2edfca75cb846fed858b01ced329858a180276e28da71c926",
+      "publishedBytes": 153816,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00884.jpeg",
+      "sourceSha256": "750ac20349cb228abf85ead3a420e8d67c2ce53172d605c93327f039006b10b4",
+      "sourceBytes": 188356,
+      "publishedSha256": "71559b37976f21e7effdfd6d0b1e79f7d9956383f8c94561f12e597171ce6859",
+      "publishedBytes": 131398,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00885.jpeg",
+      "sourceSha256": "f16152a4bbed42d2ec272ceab0611d589ff4d426282ffcbeede51c0059bcaf4b",
+      "sourceBytes": 1033413,
+      "publishedSha256": "abb32c97d02a80fbb28da8bb4ab848825777d71c8a16278e2dd1c197c4a9f9ef",
+      "publishedBytes": 622411,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00904.jpeg",
+      "sourceSha256": "071b1d507871df510e10da94302a16c95e2f601b0a3738c124384af71b7cfbcb",
+      "sourceBytes": 218146,
+      "publishedSha256": "20629119be6d3d3c26e8dcdcc5146e596aaa5b9384901e46d5c4f8b3ce56e6fb",
+      "publishedBytes": 142179,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00907.jpeg",
+      "sourceSha256": "bf4d0b58f72ece92a92566bd4c21c91cd54c617b2f126b73e734dbfd80aea72f",
+      "sourceBytes": 230040,
+      "publishedSha256": "5377acd8286dc6bc573f136fba16277d584218b8f20a309c5254f21fc59ac262",
+      "publishedBytes": 158096,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00908.jpeg",
+      "sourceSha256": "b8e779e4c0d5086bfac2faa4b9d4dd10f6e85d9259589b0a884d7b9058ac15f8",
+      "sourceBytes": 127778,
+      "publishedSha256": "fcd2ec11b3b8f87f2109d0af2929520878514c97f8c663d34223eb5129cdc398",
+      "publishedBytes": 94728,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00912.jpeg",
+      "sourceSha256": "2900ef2647021abac615d454917946843b0c7618e7e29f3f0ea352ee8c601bcd",
+      "sourceBytes": 190415,
+      "publishedSha256": "4b373bcc957fcaa78cef8119b3270e1aa36d86884eb130a29832cfb4b268f9a8",
+      "publishedBytes": 133995,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00931.jpeg",
+      "sourceSha256": "f3bccc803c2510f054eb33627051f32b50e9b4c4b2e488be868de9336deb547c",
+      "sourceBytes": 345330,
+      "publishedSha256": "4bf6910477816e371165761d011222b006376aad51bf1321c5b31a9fee0a9e1a",
+      "publishedBytes": 224738,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00933.jpeg",
+      "sourceSha256": "2bb7617bd0ea385f763320fc8c455a0b123858181a04c7e844d80c0db55f2fb1",
+      "sourceBytes": 230860,
+      "publishedSha256": "40b0e8f26a6ae7b772914c8eab2ffbed44433db9c4905706ac489e80bcc7585f",
+      "publishedBytes": 150973,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00938.jpeg",
+      "sourceSha256": "bc038c69a695f460b107b3dc4632b0fe4bb52914e8f58994423e2b217f904251",
+      "sourceBytes": 677319,
+      "publishedSha256": "bee4a06ea7fc185b50388244a15b7f88d913da2fb3f1d833c4ea6c446819c11d",
+      "publishedBytes": 424322,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00957.jpeg",
+      "sourceSha256": "04b45abff2737dad86dcb353f1d5962ced9862ab370d51d3f59979987caedc72",
+      "sourceBytes": 162527,
+      "publishedSha256": "47e1384f1616ebbc7719f5dd7c20c11aece599afb5e34c65ddeb4a877828f35b",
+      "publishedBytes": 116418,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00987.jpeg",
+      "sourceSha256": "1214061c97e7e783669042229392f12b1ea7020bc5093a7a1f4d00f8dcf225c1",
+      "sourceBytes": 80851,
+      "publishedSha256": "e9858cc394ced7cf1cbff24eeef14f62d5cb7e4f5cb53186e5ed3af8edbe8634",
+      "publishedBytes": 59674,
+      "width": 1600,
+      "height": 900,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00988.jpeg",
+      "sourceSha256": "f812c9c740c899918848a70c0f3579667517c7afa74b0511864de39670382d73",
+      "sourceBytes": 94484,
+      "publishedSha256": "8ae609ef4d98b210b67e7946d07fb97d9493d6b146c761d60e6c5e1755fd3af1",
+      "publishedBytes": 66366,
+      "width": 1600,
+      "height": 900,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/DSC00992.jpeg",
+      "sourceSha256": "0190ecec681be5cc902fccf3754cbdff68a87d20be07a5e5a9d861bf10a2d862",
+      "sourceBytes": 162165,
+      "publishedSha256": "534ae46869f39e47797b3867968ab689eac574821328ab421a3853416d4beb75",
+      "publishedBytes": 111641,
+      "width": 900,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Chaoshan/lotus_flower.jpeg",
+      "sourceSha256": "e330cd023298a812503e10a067a3f88e1cbc094f37f6fd2a88fdb6799495b37e",
+      "sourceBytes": 176626,
+      "publishedSha256": "fc7ab471a3807b7db058259a50615555a5188f499d7fac75a4088ae1bb00215d",
+      "publishedBytes": 48753,
+      "width": 1600,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Miscellaneous/DSC00615.jpeg",
+      "sourceSha256": "a39f4cf85cdaf3d06d05ba4a423f2ea7ffed3746b7de03e6c2a8ea04203bd142",
+      "sourceBytes": 31762,
+      "publishedSha256": "f8e8ec16881a2ac52b24fefa490af17f14d4cfbc460a7fc7e6c98b56abc9f8f0",
+      "publishedBytes": 27929,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Miscellaneous/DSC00637.jpeg",
+      "sourceSha256": "2352aa521230dfa0348a0293c7a08a450f24c9a67cf49c612b3b5b65fd9cc7af",
+      "sourceBytes": 66824,
+      "publishedSha256": "6a02a708f372b4d340b75dac5c8816d5bfe8193f71ced7da0e64a59e4ca3d8ec",
+      "publishedBytes": 48831,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Miscellaneous/DSC00656.jpeg",
+      "sourceSha256": "0912738e4c96b7513b062a666a8a767e14d42f9bb780e1616e4fe2b78a9f3021",
+      "sourceBytes": 266931,
+      "publishedSha256": "5c02b7e81ce54588bfd82856c4beaf2eab53caeea20ab72952558b0ecd3a4ce9",
+      "publishedBytes": 183240,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Miscellaneous/DSC00676.jpeg",
+      "sourceSha256": "a08494ee2e8e0865e5520ac04c9f44f13186d725d43a1b7625aa6d7a97dfe7cb",
+      "sourceBytes": 215591,
+      "publishedSha256": "593670ace56738769db078f97be88607c83c7b4c5eeb6dcca58aed32212519b8",
+      "publishedBytes": 156911,
+      "width": 1600,
+      "height": 1068,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Miscellaneous/DSC_0807.jpeg",
+      "sourceSha256": "4b1f5182eb11e467bd1e6516df1083e2857c22e1bdf6b52a0936eab64e3016a9",
+      "sourceBytes": 234414,
+      "publishedSha256": "bf82544e128f7c1cceff26b9a0ce1e992460fe94d3c74be38ad5a12a2ba025c3",
+      "publishedBytes": 165043,
+      "width": 1063,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Miscellaneous/DSC_0840.jpeg",
+      "sourceSha256": "66de691e318bf3b087f29333f55231f26799c40184de5e39349bd4eb642e96cd",
+      "sourceBytes": 192490,
+      "publishedSha256": "36e271a3bbf0201d65813f9e5a6c6931a71bb73a86c47108646c8bb764491b99",
+      "publishedBytes": 128619,
+      "width": 1600,
+      "height": 1063,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/Photography/Paris/IMG_1430.jpeg",
+      "sourceSha256": "106e497c50a256d984583bbe2a26e05f4bd43ef7c94469a202ece79b9186faa2",
+      "sourceBytes": 423264,
+      "publishedSha256": "d7bc285b8b5de34bcfc447615e7af3a6d66c18e02b59de1b26053e19b110a789",
+      "publishedBytes": 274946,
+      "width": 1200,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/awards/igem-hardware-assembly.jpg",
+      "sourceSha256": "70771f2cf7090f300993ec8f4280bf41deb56a8b36a80149c5ea6dd437624ffa",
+      "sourceBytes": 487714,
+      "publishedSha256": "4147007344641f1ea806e77a3b5fb0cc5b69ec421ab9eda1d913e97bb9289c28",
+      "publishedBytes": 200805,
+      "width": 1600,
+      "height": 1200,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/awards/igem-hardware-build.jpg",
+      "sourceSha256": "700e9cc3317c7cb72aedb6bd3715865a786b417569ea4d839723f5e2a659dbe1",
+      "sourceBytes": 694409,
+      "publishedSha256": "41ee6e909b375218c540a26bbd526122f584dc160b0f5af448e5cdfb66602e84",
+      "publishedBytes": 296009,
+      "width": 1600,
+      "height": 1200,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/awards/igem-silver-medal-certificate.jpg",
+      "sourceSha256": "921c8205c08b17b2c980a837d8cd567d2551585e9ded0ffed5399132759b3db9",
+      "sourceBytes": 230635,
+      "publishedSha256": "32aa332121f3c578ef77621dbfed11127120a6d9ab4cbce6c6deeb576029eb27",
+      "publishedBytes": 81851,
+      "width": 1132,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/awards/innox-manufacturing-lab.jpg",
+      "sourceSha256": "2a672013e208c71cd2e8fdea317021f5caf74aa8cf661a2c88118d327a29561d",
+      "sourceBytes": 665411,
+      "publishedSha256": "b92554f310cbc3b874e7d2aac519d25631ad2db6a0219ac90f96d0efa80a879d",
+      "publishedBytes": 256219,
+      "width": 1200,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/awards/lightlink-display-prototype.jpg",
+      "sourceSha256": "50bbb2100c152ab702fdd62cb37081095cf41375f9f7b89669ca4dc70b89bef4",
+      "sourceBytes": 498965,
+      "publishedSha256": "d178be0f0cfabab42ecafa7b88ee943e760b65b4ce11b745b571b078e946cc84",
+      "publishedBytes": 160636,
+      "width": 1200,
+      "height": 1600,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/awards/lightlink-wearable-prototypes.jpg",
+      "sourceSha256": "5d7c4f30130ec405d0ad71ceb40431a8c63108fce7a0031b52b1ab487929dc3f",
+      "sourceBytes": 504009,
+      "publishedSha256": "7a7ee4a535971da5e3c7ede48082ff7417d75e03934c23d108745ad1470af74d",
+      "publishedBytes": 153190,
+      "width": 1600,
+      "height": 1200,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/awards/mood-study-dashboard.jpg",
+      "sourceSha256": "51b468bb172dd0b5c19aae68ba0ec125de7e863695b9980776fd5b76cf3a4576",
+      "sourceBytes": 185267,
+      "publishedSha256": "b4bbb8a7fa39713be306d88e9bc11e5cb1ddbb434bcf56d609513bbf9fa69bad",
+      "publishedBytes": 66137,
+      "width": 1600,
+      "height": 900,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/awards/mood-study-home.jpg",
+      "sourceSha256": "5cff70bf3a456fe230edc2cd576c231300ebf543d67c366e82c859fcd7df6b6b",
+      "sourceBytes": 133882,
+      "publishedSha256": "9cf598e02d1f2c3df982f2fc3da84999266bf26f644d29ade7b8ffe3bcf74e68",
+      "publishedBytes": 47041,
+      "width": 1600,
+      "height": 900,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/awards/veritas-ai-certificate.jpg",
+      "sourceSha256": "b01d66ea2463133426e1198cd8f6dfc3f631f6eab572e488481ef4e924ea7f61",
+      "sourceBytes": 229648,
+      "publishedSha256": "af0730df14ba9fb95a5bfc0874d95683b637faa8e6d1fc9879350e8783fd5696",
+      "publishedBytes": 74383,
+      "width": 1600,
+      "height": 1132,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/awards/veritas-ai-scholars.jpg",
+      "sourceSha256": "24d3dc26cb06e119781eea69971eec7b1de940d2a19bbb7ffe6c31a802d8145a",
+      "sourceBytes": 227840,
+      "publishedSha256": "7fb1c5d37293599a8370534d76d3bebb8ab427e8c4a86a1ea48cb6dab181e958",
+      "publishedBytes": 84393,
+      "width": 1600,
+      "height": 900,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/awards/veritas-vgg16-training.jpg",
+      "sourceSha256": "5cd0c9e0a2b8864fdc13669f42e4a03f791bc871f7f1bc970e673f9c797775a0",
+      "sourceBytes": 312805,
+      "publishedSha256": "5b4122baeea3259d741ae833136a74edd5ca1b5b118dce08a1015dd4cdefb2da",
+      "publishedBytes": 119320,
+      "width": 1600,
+      "height": 914,
+      "format": "jpeg"
+    },
+    {
+      "path": "public/blog/hardware-agent-runtime/cover.webp",
+      "sourceSha256": "ef8cc605f9a315a032e3dc46060b074f153758ce94d2042a6acb9c7cfc1d773a",
+      "sourceBytes": 78976,
+      "publishedSha256": "467372d252a2df5b99b7205a609190b4cb27042636acd6eac8dc430a7911bdf8",
+      "publishedBytes": 56212,
+      "width": 1600,
+      "height": 900,
+      "format": "webp"
+    },
+    {
+      "path": "public/blog/kards-ai/cover.webp",
+      "sourceSha256": "95b8989f2907ea9cb2200ae666f491f9c50b4b62c89b334a774d01d96edb8b52",
+      "sourceBytes": 77544,
+      "publishedSha256": "d4bc9d2957f748c4d5aa0038b0865c5ce2ebaab9c4f3c9954b0324632c5e24d0",
+      "publishedBytes": 53366,
+      "width": 1600,
+      "height": 900,
+      "format": "webp"
+    },
+    {
+      "path": "public/blog/openkyrozen/cover.webp",
+      "sourceSha256": "fce9c8ca3e46e499afe7f965e5d9d17b57d2ef95ab69ff60a80270d8ea1e5629",
+      "sourceBytes": 53416,
+      "publishedSha256": "596c37c53779151e25e403ce23ec4b30b7a583c33877e657585832f0593849a2",
+      "publishedBytes": 40402,
+      "width": 1600,
+      "height": 900,
+      "format": "webp"
+    }
+  ]
+}

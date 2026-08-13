@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
+    "images:protect": "node scripts/protect-images.mjs",
     "preview": "vite preview",
     "test": "vitest",
     "test:run": "vitest run"

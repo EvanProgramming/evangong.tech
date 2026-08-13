@@ -120,7 +120,7 @@ evangong.tech/
 │   └── assets/
 │       ├── demo/           # cs1/cs2/cs3.webp
 │       └── 3d/             # bar.glb / cube.glb / lens.glb（可复用于 Projects 视觉）
-├── Photography/            # 摄影原图（按地域子目录），import.meta.glob 取
+├── Photography/            # 摄影展示衍生图（按地域子目录），import.meta.glob 取
 └── src/
     ├── main.jsx
     ├── App.jsx             # 组合根 + 路由 + 导航拦截
@@ -429,7 +429,7 @@ import Projects from './components/Projects/Projects.jsx'
 
 ### 10.3 资源
 
-- 项目封面图：放 `src/assets/projects/` 或根 `Photography/`，用 `import` 或 `import.meta.glob` 取；勿直引体积原图（vite-imagetools 当前未启用，不会自动转 WebP）。
+- 项目封面图：使用仓库内的受保护展示衍生图；新增照片后运行 `npm run images:protect -- --apply`，勿直引相机原图。
 - tech stack 图标：复用 `public/icons/` 与 `si()` helper。
 - 3D 模型：`public/assets/3d/`（bar.glb / cube.glb / lens.glb）可复用。
 - 个人图标：`src/assets/EvanGongIcon.png`。
@@ -475,7 +475,7 @@ src/components/Projects/
 
 1. **新页面默认与基线一致**：当前全 eager，Projects 页面若含重型 WebGL，至少外包 `ErrorBoundary`；是否恢复懒加载待统一规划。
 2. **重型 WebGL section**：考虑可见性管理（进入视口才挂载/门控 rAF），禁止常驻后台循环。
-3. **图片**：放 `src/` 或 `Photography/`；勿直引体积原图（vite-imagetools 当前未启用，不会自动转 WebP）。
+3. **图片**：使用已处理的展示衍生图；保护流程限制长边、重新压缩、写入版权元数据并叠加署名水印。
 4. **CSS 特异性**：覆写组件默认样式时用后代选择器提升特异性，勿依赖源码顺序。
 5. **验证**：3D 组件须在 Chrome/Safari 真实浏览器验证（无头预览无 WebGL，HMR 对 Ballpit/Lanyard 不可靠）。
 
