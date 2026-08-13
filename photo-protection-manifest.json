@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-13T14:38:43.872Z",
+  "generatedAt": "2026-08-13T14:40:09.643Z",
   "copyright": "© Evan Gong · evangong.tech",
   "maxLongEdge": 1600,
   "assets": [
@@ -1396,6 +1396,16 @@
     },
     {
       "path": "public/assets/demo/cs2.webp",
+      "sourceSha256": "39221128e672c8bd18fb3a3b901c91b9c37367fb00f38f5e3cee16d0cee76f38",
+      "sourceBytes": 153062,
+      "publishedSha256": "fa46628b63347b908de3b82b75537be42181d0d3290ff872629202ecb5980340",
+      "publishedBytes": 64316,
+      "width": 1086,
+      "height": 724,
+      "format": "webp"
+    },
+    {
+      "path": "public/assets/demo/cs3.webp",
       "sourceSha256": "39221128e672c8bd18fb3a3b901c91b9c37367fb00f38f5e3cee16d0cee76f38",
       "sourceBytes": 153062,
       "publishedSha256": "fa46628b63347b908de3b82b75537be42181d0d3290ff872629202ecb5980340",
