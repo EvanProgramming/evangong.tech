@@ -12,6 +12,7 @@ import './App.css'
 // only fetched when the user navigates to them.
 const About = lazy(() => import('./components/About/About.jsx'))
 const Projects = lazy(() => import('./components/Projects/Projects.jsx'))
+const Awards = lazy(() => import('./components/Awards/Awards.jsx'))
 
 const menuItems = [
   { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
@@ -83,7 +84,7 @@ function useClientSideNav(triggerTransition) {
 
   useEffect(() => {
     const handler = (e) => {
-      const link = e.target.closest && e.target.closest('.sm-panel-item')
+      const link = e.target.closest && e.target.closest('.sm-panel-item, [data-nav-link]')
       if (!link) return
       const href = link.getAttribute('href')
       if (!href) return
@@ -223,6 +224,11 @@ function Layout() {
           <Route path="/projects" element={
             <Suspense fallback={null}>
               <Projects />
+            </Suspense>
+          } />
+          <Route path="/awards" element={
+            <Suspense fallback={null}>
+              <Awards />
             </Suspense>
           } />
           <Route path="*" element={<Home />} />

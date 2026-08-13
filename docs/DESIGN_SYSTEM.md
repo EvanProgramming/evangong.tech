@@ -46,10 +46,8 @@ BrowserRouter
 | `/gallery/:category` | GalleryCategory | 某一摄影分类的全屏 Dome Gallery | 隐藏 | 隐藏 |
 | `/blog` | Blog | Featured notes、按年份归档、tag 筛选 | 显示 | 显示 |
 | `/blog/:slug` | BlogPost | Markdown 文章、目录、阅读进度、相关文章 | 显示 | 显示 |
-| `/awards` | 当前未实现 | 菜单有入口，但没有对应 Route | 显示 | 显示 |
+| `/awards` | Awards | 编辑式荣誉时间线、可展开案例、证明与项目入口 | 显示 | 显示 |
 | 其他 | Home fallback | `path="*"` 回退到首页 | 显示 | 显示 |
-
-`/awards` 是当前需要特别注意的事实：菜单数据里存在 Awards，但路由表没有 Awards 页面，所以点击后会落到 Home。未来要实现它时，应先补 Route 和页面，不要只修改菜单文字。
 
 ### 2.3 导航与页面切换
 
@@ -303,6 +301,22 @@ featured card 是黑底，hover 变青底黑字；archive row 使用小图、met
 
 正文使用 ReactMarkdown + GFM。`h2` 自动生成目录锚点；链接、列表 marker、blockquote、code、pre、table 和图片均通过青色细线/低透明背景统一。正文列建议保持约 46rem，不能把长文拉满 1400px。
 
+### 5.7 Awards：编辑式荣誉时间线
+
+Awards 以最新年份在前的单一时间线组织跨领域荣誉，不重复建立 Featured 卡片区：
+
+```text
+EVAN GONG / RECOGNITION + DEMO 标识
+└─ 超大 AWARDS（GlitchText）
+   └─ intro + 奖项数 / 领域数 / 年份跨度
+      └─ 01 Recognition timeline
+         ├─ sticky 年份 + 普通奖项条目
+         └─ 重点奖项原位展开：Challenge / My contribution / Outcome / media
+            └─ Explore Projects
+```
+
+桌面端年份列 sticky，奖项行 hover/focus 时切换为青底黑字；768px 以下恢复单列文档流。重点案例一次只展开一个，媒体使用原生 `<dialog>` 查看。时间线滚动点亮属于渐进增强，不支持 scroll timeline 或启用 reduced motion 时保持静态细线。内容来自同目录 `awardsData.js`；演示数据必须持续显示 `DEMO CONTENT` 和 `MOCK MEDIA`，替换真实内容后再关闭 `isDemo`。
+
 ## 6. 响应式规则
 
 当前采用 `max-width` 下探和 `clamp()` 流体排版：
@@ -429,11 +443,10 @@ export default function NewPage() {
 
 1. `--color-gray` 已定义但不是主要 CSS 中性色；实际灰度多通过白色 opacity 表达。
 2. 全站没有集中式 spacing/type scale Token，规则分布在 `index.css`、`App.css` 和组件 CSS 中。本文档的数值是现有实现的约束摘要，不代表已经存在同名变量。
-3. `Awards` 出现在菜单数据中，但目前没有 Route。
-4. `/gallery` 是普通入口页，只有 `/gallery/:category` 才会隐藏菜单和 Footer；不要依据旧注释把两者混为全屏详情页。
-5. `GlassSurface` 的 SVG filter 在浏览器间能力不同；当前 Contact 按钮显式使用 `forceFallback`，未来复用时应根据目标浏览器确认。
-6. `PixelBlast`、`ShuffleText` 等本地组件存在但当前没有进入页面编排；“存在于组件目录”不等于“已经是默认设计模式”。
-7. 旧的 `docs/TECHNICAL_ANALYSIS.md` 和各页面开发指南包含历史阶段信息。新增页面请先检查当前 `App.jsx`、`index.css`、对应页面 JSX/CSS 及运行时，而不是直接复制旧文档里的旧路由和旧 section 清单。
+3. `/gallery` 是普通入口页，只有 `/gallery/:category` 才会隐藏菜单和 Footer；不要依据旧注释把两者混为全屏详情页。
+4. `GlassSurface` 的 SVG filter 在浏览器间能力不同；当前 Contact 按钮显式使用 `forceFallback`，未来复用时应根据目标浏览器确认。
+5. `PixelBlast`、`ShuffleText` 等本地组件存在但当前没有进入页面编排；“存在于组件目录”不等于“已经是默认设计模式”。
+6. 旧的 `docs/TECHNICAL_ANALYSIS.md` 和各页面开发指南包含历史阶段信息。新增页面请先检查当前 `App.jsx`、`index.css`、对应页面 JSX/CSS 及运行时，而不是直接复制旧文档里的旧路由和旧 section 清单。
 
 ## 11. 设计系统索引
 
@@ -447,6 +460,7 @@ export default function NewPage() {
 6. `src/components/Blog/`：索引卡片、年份归档、tag 过滤。
 7. `src/components/Blog/BlogPost.css`：长文、目录、代码、表格、相关文章。
 8. `src/components/Gallery/`：入口页与 full-viewport 沉浸页的边界。
-9. `src/components/ErrorBoundary.jsx` 与 WebGL 组件：降级和清理范式。
+9. `src/components/Awards/`：编辑式时间线、原位展开案例和原生 dialog 媒体查看。
+10. `src/components/ErrorBoundary.jsx` 与 WebGL 组件：降级和清理范式。
 
 这套系统的核心不是“每个页面都加一个新特效”，而是保持黑白青内容层、编辑式信息层级、可感知的交互反馈，以及在高性能视觉失效时仍然成立的页面结构。
