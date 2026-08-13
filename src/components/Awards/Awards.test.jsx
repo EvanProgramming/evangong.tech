@@ -1,9 +1,58 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import Awards from './Awards.jsx'
 import { awards, awardsPage } from './awardsData.js'
 
+const lenisMocks = vi.hoisted(() => ({
+  constructor: vi.fn(),
+  destroy: vi.fn(),
+  raf: vi.fn(),
+}))
+
+vi.mock('lenis', () => ({
+  default: class LenisMock {
+    constructor(options) {
+      lenisMocks.constructor(options)
+    }
+
+    raf(time) {
+      lenisMocks.raf(time)
+    }
+
+    destroy() {
+      lenisMocks.destroy()
+    }
+  },
+}))
+
 describe('Awards', () => {
+  beforeEach(() => {
+    vi.spyOn(globalThis, 'requestAnimationFrame').mockReturnValue(1)
+    vi.spyOn(globalThis, 'cancelAnimationFrame').mockImplementation(() => {})
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+    lenisMocks.constructor.mockClear()
+    lenisMocks.destroy.mockClear()
+    lenisMocks.raf.mockClear()
+  })
+
+  it('uses the shared Lenis smooth-scroll configuration and cleans it up', () => {
+    const { unmount } = render(<Awards />)
+
+    expect(lenisMocks.constructor).toHaveBeenCalledWith(expect.objectContaining({
+      duration: 1.2,
+      smoothWheel: true,
+      syncTouch: true,
+    }))
+    expect(requestAnimationFrame).toHaveBeenCalledOnce()
+
+    unmount()
+    expect(cancelAnimationFrame).toHaveBeenCalledWith(1)
+    expect(lenisMocks.destroy).toHaveBeenCalledOnce()
+  })
+
   it('renders verified content, dynamic stats, and a newest-first timeline', () => {
     render(<Awards />)
 

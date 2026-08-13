@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import Lenis from 'lenis'
 import GlitchText from '../GlitchText/GlitchText.jsx'
 import { awards, awardsPage } from './awardsData.js'
 import './Awards.css'
@@ -142,6 +143,7 @@ export default function Awards() {
   const [openAwardId, setOpenAwardId] = useState(null)
   const [activeMedia, setActiveMedia] = useState(null)
   const dialogRef = useRef(null)
+  const rafRef = useRef(null)
 
   const groupedAwards = useMemo(() => {
     return [...awards]
@@ -157,6 +159,31 @@ export default function Awards() {
   const years = Object.keys(groupedAwards).sort((a, b) => b.localeCompare(a))
   const fields = new Set(awards.map(award => award.field)).size
   const yearSpan = `${years.at(-1)}—${years[0]}`
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 2,
+      infinite: false,
+      wheelMultiplier: 1,
+      lerp: 0.1,
+      syncTouch: true,
+      syncTouchLerp: 0.075
+    })
+
+    const raf = time => {
+      lenis.raf(time)
+      rafRef.current = requestAnimationFrame(raf)
+    }
+    rafRef.current = requestAnimationFrame(raf)
+
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      lenis.destroy()
+    }
+  }, [])
 
   useEffect(() => {
     const dialog = dialogRef.current
