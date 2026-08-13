@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Lenis from 'lenis'
 import GlitchText from '../GlitchText/GlitchText.jsx'
+import ProtectedImage from '../ProtectedImage/ProtectedImage.jsx'
 import './Blog.css'
 import { articleTags, articles, featuredArticles } from './blogData.js'
 
@@ -30,7 +31,7 @@ function ArticleLink({ article, featured = false }) {
   return (
     <a href={`/blog/${article.slug}`} data-nav-link className={featured ? 'blog-featured-card' : 'blog-article-row'}>
       <div className="blog-card__image-wrap">
-        <img src={article.cover} alt="" className="blog-card__image" loading="lazy" />
+        <ProtectedImage src={article.cover} alt={`${article.title} cover`} className="blog-card__image" loading="lazy" sizes="(max-width: 700px) 90vw, 30rem" />
       </div>
       <div className="blog-card__content">
         <ArticleMeta article={article} />

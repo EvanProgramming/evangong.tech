@@ -43,8 +43,8 @@ class _Three {
     document.addEventListener('visibilitychange', this.#v.bind(this));
   }
   #y() { window.removeEventListener('resize', this.#f.bind(this)); this.#r?.disconnect(); this.#o?.disconnect(); document.removeEventListener('visibilitychange', this.#v.bind(this)); }
-  #u(e) { this.#s = e[0].isIntersecting; this.#s ? this.#w() : this.#z(); }
-  #v() { if (this.#s) { document.hidden ? this.#z() : this.#w(); } }
+  #u(e) { this.#s = e[0].isIntersecting; if (this.#s) this.#w(); else this.#z(); }
+  #v() { if (this.#s) { if (document.hidden) this.#z(); else this.#w(); } }
   #f() { if (this.#a) clearTimeout(this.#a); this.#a = setTimeout(this.resize.bind(this), 100); }
   resize() {
     let w, h;
@@ -239,11 +239,12 @@ function createBallpit(e, t = {}) {
 const Ballpit = ({ className = '', followCursor = true, ...props }) => {
   const canvasRef = useRef(null);
   const spheresInstanceRef = useRef(null);
+  const configRef = useRef({ followCursor, ...props });
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    spheresInstanceRef.current = createBallpit(canvas, { followCursor, ...props });
+    spheresInstanceRef.current = createBallpit(canvas, configRef.current);
     return () => { if (spheresInstanceRef.current) spheresInstanceRef.current.dispose(); };
   }, []);
 

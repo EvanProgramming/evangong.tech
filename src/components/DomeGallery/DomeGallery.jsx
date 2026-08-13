@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useCallback } from 'react';
 import { useGesture } from '@use-gesture/react';
 import exifr from 'exifr';
+import ProtectedImage from '../ProtectedImage/ProtectedImage.jsx';
 import './DomeGallery.css';
 
 const DEFAULT_IMAGES = [
@@ -137,7 +138,13 @@ function buildItems(pool, seg) {
     if (typeof image === 'string') {
       return { src: image, alt: '' };
     }
-    return { src: image.src || '', alt: image.alt || '' };
+    return {
+      src: image.src || '',
+      alt: image.alt || '',
+      width: image.width,
+      height: image.height,
+      sizes: image.sizes
+    };
   });
 
   const usedImages = Array.from({ length: totalSlots }, (_, i) => normalizedImages[i % normalizedImages.length]);
@@ -158,7 +165,10 @@ function buildItems(pool, seg) {
   return coords.map((c, i) => ({
     ...c,
     src: usedImages[i].src,
-    alt: usedImages[i].alt
+    alt: usedImages[i].alt,
+    width: usedImages[i].width,
+    height: usedImages[i].height,
+    sizes: usedImages[i].sizes
   }));
 }
 
@@ -646,7 +656,7 @@ export default function DomeGallery({
       };
       overlay.addEventListener('transitionend', onFirstEnd);
     },
-    [enlargeTransitionMs, lockScroll, openedImageHeight, openedImageWidth, segments, unlockScroll]
+    [enlargeTransitionMs, lockScroll, segments, unlockScroll]
   );
 
   const onTileClick = useCallback(
@@ -719,7 +729,16 @@ export default function DomeGallery({
                   onClick={onTileClick}
                   onPointerUp={onTilePointerUp}
                 >
-                  <img src={it.src} draggable={false} alt={it.alt} />
+                  <ProtectedImage
+                    src={it.src}
+                    alt=""
+                    aria-hidden="true"
+                    width={it.width}
+                    height={it.height}
+                    sizes={it.sizes || '(max-width: 640px) 80vw, 360px'}
+                    loading="lazy"
+                    draggable={false}
+                  />
                 </div>
               </div>
             ))}

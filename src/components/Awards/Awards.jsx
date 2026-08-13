@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Lenis from 'lenis'
 import GlitchText from '../GlitchText/GlitchText.jsx'
 import { awards, awardsPage } from './awardsData.js'
+import ProtectedImage from '../ProtectedImage/ProtectedImage.jsx'
 import './Awards.css'
 
 const monthFormatter = new Intl.DateTimeFormat('en', { month: 'short', year: 'numeric' })
@@ -46,7 +47,7 @@ function MediaPanel({ award, media, onOpen }) {
       onClick={() => onOpen({ ...media, awardTitle: award.title })}
     >
       {media.src ? (
-        <img src={media.src} alt={media.alt} loading="lazy" />
+        <ProtectedImage src={media.src} alt={media.alt} loading="lazy" sizes="(max-width: 700px) 90vw, 30rem" />
       ) : (
         <span className="award-media__mock" aria-hidden="true">
           <span>MOCK MEDIA</span>
@@ -283,10 +284,12 @@ export default function Awards() {
           <div className="awards-media-dialog__content">
             <div className="awards-media-dialog__visual">
               {activeMedia.src ? (
-                <img
+                <ProtectedImage
                   className="awards-media-dialog__image"
                   src={activeMedia.src}
                   alt={activeMedia.alt}
+                  loading="eager"
+                  sizes="90vw"
                 />
               ) : (
                 <div className="awards-media-dialog__mock" aria-hidden="true">

@@ -16,6 +16,11 @@ Object.defineProperty(window, 'matchMedia', {
   }),
 })
 
+// Keep WebGL/Canvas tests deterministic without jsdom's noisy unimplemented
+// getContext warning. Individual component tests provide their own richer
+// canvas stubs when they need a drawing context.
+HTMLCanvasElement.prototype.getContext = () => null
+
 // jsdom doesn't implement ResizeObserver — DomeGallery relies on it for radius
 // computation. Stub it so the component mounts without throwing.
 class ResizeObserverStub {

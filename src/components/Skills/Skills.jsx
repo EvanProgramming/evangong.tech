@@ -96,6 +96,9 @@ export default function Skills() {
                       alt={skill.name}
                       className="skill-chip__icon"
                       loading="lazy"
+                      width="18"
+                      height="18"
+                      decoding="async"
                       draggable={false}
                     />
                   ) : (

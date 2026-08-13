@@ -331,6 +331,9 @@ function ProjectRow({ project }) {
                         alt={t.name}
                         className="project-row__tech-icon"
                         loading="lazy"
+                        width="18"
+                        height="18"
+                        decoding="async"
                         draggable={false}
                       />
                     ) : (

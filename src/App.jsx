@@ -4,6 +4,7 @@ import StaggeredMenu from './components/StaggeredMenu/StaggeredMenu.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import Home from './components/Home/Home.jsx'
 import PageTransition from './components/PageTransition/PageTransition.jsx'
+import { NavContext } from './navContext.js'
 import logoUrl from './assets/EvanGongIcon.png'
 import './App.css'
 
@@ -47,7 +48,7 @@ function waitForImagesReady(container, timeout = IMAGE_LOAD_TIMEOUT) {
   return new Promise((resolve) => {
     const settle = () => requestAnimationFrame(() => requestAnimationFrame(resolve))
     if (!container) return settle()
-    const imgs = Array.from(container.querySelectorAll('img'))
+    const imgs = Array.from(container.querySelectorAll('img[data-transition-critical="true"]'))
     const pending = imgs.filter((img) => {
       if (img.loading === 'lazy') return false
       return !img.complete || img.naturalWidth === 0
@@ -72,6 +73,93 @@ function waitForImagesReady(container, timeout = IMAGE_LOAD_TIMEOUT) {
     // Safety net: never let a stuck image block the reveal indefinitely.
     setTimeout(finish, timeout)
   })
+}
+
+const PAGE_META = {
+  '/': {
+    title: 'Evan Gong | Programming, AI, Robotics & Photography',
+    description: 'Evan Gong builds tangible experiences across programming, AI, robotics, 3D printing, and photography.'
+  },
+  '/about': {
+    title: 'About Evan Gong | Evan Gong',
+    description: 'Learn about Evan Gong, his technical interests, creative practice, and current skills.'
+  },
+  '/projects': {
+    title: 'Featured Projects | Evan Gong',
+    description: 'Selected software, AI, robotics, hardware, and interactive projects by Evan Gong.'
+  },
+  '/gallery': {
+    title: 'Photography Gallery | Evan Gong',
+    description: 'Photography by Evan Gong from Paris, Chaoshan, Beijing, and elsewhere.'
+  },
+  '/blog': {
+    title: 'Field Notes | Evan Gong',
+    description: 'Technical notes and reflections on AI agents, hardware, software, and learning.'
+  },
+  '/awards': {
+    title: 'Awards & Recognition | Evan Gong',
+    description: 'Selected awards, competition results, program milestones, and project records.'
+  },
+  '/blog/hardware-agent-runtime': {
+    title: 'Giving AI Agents a Safe Path to Real Hardware | Evan Gong',
+    description: 'Hardware Agent Runtime connects coding agents to embedded devices through observable hardware-in-the-loop workflows.'
+  },
+  '/blog/kards-ai-simulator': {
+    title: 'Teaching a Card Game Agent to Think in States | Evan Gong',
+    description: 'Kards AI turns a complex card game into a deterministic environment for simulation and reinforcement-learning research.'
+  },
+  '/blog/openkyrozen-agent': {
+    title: 'Building an Agent That Learns From Its Work | Evan Gong',
+    description: 'OpenKyrozen explores how an AI agent can improve through the work it already performs.'
+  }
+}
+
+function setMeta(attribute, key, content) {
+  let element = document.head.querySelector(`meta[${attribute}="${key}"]`)
+  if (!element) {
+    element = document.createElement('meta')
+    element.setAttribute(attribute, key)
+    document.head.appendChild(element)
+  }
+  element.setAttribute('content', content)
+}
+
+function PageMeta() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    const isBlogPost = pathname.startsWith('/blog/')
+    const slug = isBlogPost ? pathname.split('/').filter(Boolean).at(-1) : ''
+    const meta = PAGE_META[pathname] || (isBlogPost
+      ? {
+          title: `${slug.replace(/-/g, ' ')} | Evan Gong`,
+          description: 'A field note by Evan Gong.'
+        }
+      : PAGE_META['/'])
+    const canonicalUrl = `https://evangong.tech${pathname === '/' ? '/' : pathname}`
+
+    document.title = meta.title
+    setMeta('name', 'description', meta.description)
+    setMeta('property', 'og:title', meta.title)
+    setMeta('property', 'og:description', meta.description)
+    setMeta('property', 'og:type', isBlogPost ? 'article' : 'website')
+    setMeta('property', 'og:url', canonicalUrl)
+    setMeta('name', 'twitter:card', 'summary_large_image')
+
+    let canonical = document.head.querySelector('link[rel="canonical"]')
+    if (!canonical) {
+      canonical = document.createElement('link')
+      canonical.rel = 'canonical'
+      document.head.appendChild(canonical)
+    }
+    canonical.href = canonicalUrl
+  }, [pathname])
+
+  return null
+}
+
+function RouteFallback() {
+  return <div className="route-loading" role="status" aria-live="polite">Loading page…</div>
 }
 
 // StaggeredMenu renders menu items as <a href={link}> (official React Bits
@@ -204,7 +292,9 @@ function Layout() {
   useClientSideNav(triggerTransition)
 
   return (
-    <div className="app">
+    <NavContext.Provider value={triggerTransition}>
+      <div className="app">
+        <PageMeta />
       {!isGalleryCategory && (
         <StaggeredMenu
           position="right"
@@ -224,37 +314,37 @@ function Layout() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={
-            <Suspense fallback={null}>
+            <Suspense fallback={<RouteFallback />}>
               <About />
             </Suspense>
           } />
           <Route path="/projects" element={
-            <Suspense fallback={null}>
+            <Suspense fallback={<RouteFallback />}>
               <Projects />
             </Suspense>
           } />
           <Route path="/gallery" element={
-            <Suspense fallback={null}>
+            <Suspense fallback={<RouteFallback />}>
               <Gallery />
             </Suspense>
           } />
           <Route path="/gallery/:category" element={
-            <Suspense fallback={null}>
+            <Suspense fallback={<RouteFallback />}>
               <GalleryCategory />
             </Suspense>
           } />
           <Route path="/blog" element={
-            <Suspense fallback={null}>
+            <Suspense fallback={<RouteFallback />}>
               <Blog />
             </Suspense>
           } />
           <Route path="/blog/:slug" element={
-            <Suspense fallback={null}>
+            <Suspense fallback={<RouteFallback />}>
               <BlogPost />
             </Suspense>
           } />
           <Route path="/awards" element={
-            <Suspense fallback={null}>
+            <Suspense fallback={<RouteFallback />}>
               <Awards />
             </Suspense>
           } />
@@ -263,7 +353,8 @@ function Layout() {
       </main>
       {!isGalleryCategory && <Footer />}
       <PageTransition phase={phase} />
-    </div>
+        </div>
+    </NavContext.Provider>
   )
 }
 

@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import Lenis from 'lenis'
 import Shuffle from '../Shuffle/Shuffle.jsx'
+import ProtectedImage from '../ProtectedImage/ProtectedImage.jsx'
 import './BlogPost.css'
 import { articles, getArticle } from './blogData.js'
 
@@ -108,7 +109,7 @@ export default function BlogPost() {
       </header>
 
       <div className="blog-post__cover-wrap">
-        <img src={article.cover} alt="" className="blog-post__cover" />
+        <ProtectedImage src={article.cover} alt={`${article.title} cover`} className="blog-post__cover" loading="eager" fetchPriority="high" data-transition-critical="true" sizes="(max-width: 900px) 100vw, 70rem" />
       </div>
 
       <div className="blog-post__layout">
@@ -128,7 +129,7 @@ export default function BlogPost() {
             components={{
               h2: props => <MarkdownHeading level={2} {...props} />,
               h3: props => <MarkdownHeading level={3} {...props} />,
-              img: ({ alt, ...props }) => <img {...props} alt={alt || ''} loading="lazy" />,
+              img: ({ alt, ...props }) => <ProtectedImage {...props} alt={alt || 'Article image'} loading="lazy" sizes="(max-width: 700px) 100vw, 46rem" />,
               a: ({ href, children, ...props }) => <a {...props} href={href}>{children}</a>
             }}
           >

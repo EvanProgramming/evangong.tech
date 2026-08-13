@@ -71,22 +71,18 @@ Gallery 是 **Evan 的摄影作品集页面**，展示 `Photography/` 目录下�
 
 ### 3.3 图片资源策略（重要约束）
 
-1. **图片在提交前预处理**：`npm run images:protect -- --apply` 使用 `sharp` 生成不超过 1600px 长边的 JPEG/WebP 展示衍生图，写入版权元数据并叠加 `© Evan Gong · evangong.tech` 水印。`import.meta.glob(..., { query: '?url' })` 取到的是受保护展示图路径，不是相机原图。
-2. **批量取图范式**（Home 既有，可复用）：
+1. **图片在提交前预处理**：`npm run images:protect -- --apply` 使用 `sharp` 生成不超过 1600px 长边的 JPEG/WebP 展示衍生图，写入版权元数据并叠加 `© Evan Gong · evangong.tech` 水印。Gallery 运行时读取 `src/data/photoCatalog.js`，浏览器 URL 指向 `/Photography/...`，不使用 `/public/...` glob。
+2. **批量取图范式**：
    ```js
-   // 仅取根目录（非递归）
-   const rootPhotos = Object.values(
-     import.meta.glob('/Photography/*.{jpeg,jpg,png}', { eager: true, query: '?url', import: 'default' })
-   )
-   // 递归取全部（含子目录）—— Gallery 推荐用此
-   const allPhotos = Object.values(
-     import.meta.glob('/Photography/**/*.{jpeg,jpg,png}', { eager: true, query: '?url', import: 'default' })
-   )
+   import { getPhotosByCategory } from '../../data/photoCatalog.js'
+
+   const rootPhotos = getPhotosByCategory('paris')
+   const allPhotos = getPhotosByCategory('beijing')
    ```
 3. **单图 import**：`import x from '/Photography/Paris/IMG_1598.jpg'`（根目录绝对路径）或 `import x from '../../assets/xxx'`（src 内相对路径）。
 4. **展示图体积**：原图不进入仓库；展示图由预处理脚本限制尺寸和质量。仍然建议：
    - 缩略图与展示图同源（用 CSS `object-fit` + 固定容器尺寸控制视觉体积）；
-   - 全部 `<img>` 加 `loading="lazy"`（见第九节 PageTransition 约束）；
+   - 使用 `ProtectedImage`，补齐 `alt`、尺寸、`sizes`、`decoding` 和懒加载；只有明确的首屏关键图标记 `data-transition-critical="true"`；
    - 新增或替换照片后运行 `npm run images:protect -- --apply`，并用 `npm run images:protect -- --check` 验证清单。
 5. **分类元数据缺失**：根目录 6 张未归类，无 EXIF/标题/拍摄信息。若 Gallery 要展示标题/地点/年份，需**手工补一份元数据常量**（见第八节建议结构）。
 
@@ -279,7 +275,7 @@ Gallery 应采用 **Home 未用的布局形式**——优先 **CSS 网格 / Maso
 
 - **无 API 调用**：零 fetch / axios。
 - **数据内联**：延续模块级常量范式，在 `Gallery.jsx` 顶部定义图集数据。
-- **图片资源**：`import.meta.glob('/Photography/**/*.{jpeg,jpg,png}', { eager: true, query: '?url', import: 'default' })` **递归取全部**（注意 Home 用的是非递归 `/Photography/*`，Gallery 要含子目录应用 `/**/*`）。
+- **图片资源**：Gallery 使用 `src/data/photoCatalog.js` 从保护 manifest 读取分类、宽高和运行时 URL；Home 的精选图片仍可使用独立受保护展示图。
 
 ### 8.2 状态管理
 
@@ -289,15 +285,12 @@ Gallery 应采用 **Home 未用的布局形式**——优先 **CSS 网格 / Maso
 
 ### 8.3 Gallery 数据结构建议
 
-由于 `import.meta.glob` 只给 URL 数组（无元数据），且根目录 6 张未归类，建议**手工补一份元数据常量**，按地域分组：
+图片目录已经由 `src/data/photoCatalog.js` 从保护 manifest 生成，包含分类、宽高、alt 和展示路径，不再维护第二份手工 URL 清单：
 
 ```js
 const si = (slug) => `/icons/${slug}.svg`
 
-// 用 import.meta.glob 递归取全部图，再按路径前缀匹配到分组
-const photoModules = import.meta.glob('/Photography/**/*.{jpeg,jpg,png}', {
-  eager: true, query: '?url', import: 'default'
-})
+import { PHOTO_CATEGORIES, getPhotosByCategory } from '../../data/photoCatalog.js'
 
 // 分组定义（标题/简介/代表图标可按需）
 const GALLERY_GROUPS = [
@@ -308,10 +301,7 @@ const GALLERY_GROUPS = [
   { id: 'unsorted',     label: 'Unsorted',     path: '/Photography/' }, // 根目录
 ]
 
-// 运行时把 glob 结果按 path 前缀分桶
-function buildGalleryData(modules, groups) {
-  // ...按 groups[i].path 过滤，根目录需排除子目录文件
-}
+const beijingPhotos = getPhotosByCategory('beijing')
 ```
 
 **或**更简单：直接单图 `import` 列出每张（11 张可控），手工标注 `{ src, title, location, year, group }`。**推荐后者**——数量少、可控、可补标题。

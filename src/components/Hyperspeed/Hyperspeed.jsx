@@ -382,7 +382,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
           fogNear: { value: fog.near },
           fogFar: { value: fog.far }
         };
-        this.clock = new THREE.Clock();
+        this.clock = new THREE.Timer().connect(document);
         this.assets = {};
         this.disposed = false;
         // Paused by the IntersectionObserver/visibilitychange wrapper when the
@@ -560,7 +560,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
         this.speedUp += lerp(this.speedUp, this.speedUpTarget, lerpPercentage, 0.00001);
         this.timeOffset += this.speedUp * delta;
 
-        let time = this.clock.elapsedTime + this.timeOffset;
+        let time = this.clock.getElapsed() + this.timeOffset;
 
         this.rightCarLights.update(time);
         this.leftCarLights.update(time);
@@ -597,6 +597,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
 
       dispose() {
         this.disposed = true;
+        this.clock?.dispose();
 
         if (this.scene) {
           this.scene.traverse(object => {
@@ -676,6 +677,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
         }
 
         if (this.hasValidSize) {
+          this.clock.update();
           const delta = this.clock.getDelta();
           this.render(delta);
           this.update(delta);
@@ -694,7 +696,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
       resume() {
         if (this.disposed || !this.paused) return;
         this.paused = false;
-        this.clock.getDelta();
+        this.clock.reset();
         this.tick();
       }
     }

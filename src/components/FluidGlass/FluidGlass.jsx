@@ -15,7 +15,7 @@ export default function FluidGlass({ mode = 'lens', image, lensProps = {}, barPr
   const rawOverrides = mode === 'bar' ? barProps : mode === 'cube' ? cubeProps : lensProps;
 
   const {
-    navItems = [
+    navItems: _navItems = [
       { label: 'Home', link: '' },
       { label: 'About', link: '' },
       { label: 'Contact', link: '' }
@@ -42,7 +42,7 @@ const ModeWrapper = memo(function ModeWrapper({
   lockToBottom = false,
   followPointer = true,
   modeProps = {},
-  image,
+  image: _image,
   ...props
 }) {
   const ref = useRef();

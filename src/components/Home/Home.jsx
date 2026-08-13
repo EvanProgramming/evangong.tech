@@ -1,15 +1,16 @@
-import { useState, useEffect, useRef } from 'react'
-import Hero from '../Hero/Hero.jsx'
+import { lazy, Suspense, useState, useEffect, useRef } from 'react'
 import ScrollVelocity from '../ScrollVelocity/ScrollVelocity.jsx'
 import ScrollReveal from '../ScrollReveal/ScrollReveal.jsx'
 import ScrollStack, { ScrollStackItem } from '../ScrollStack/ScrollStack.jsx'
 import LogoLoop from '../LogoLoop/LogoLoop.jsx'
 import TrueFocus from '../TrueFocus/TrueFocus.jsx'
-import FlyingPostersSection from '../FlyingPosters/FlyingPostersSection.jsx'
-import FlowingMenu from '../FlowingMenu/FlowingMenu.jsx'
-import LensesShowcase from '../LensesShowcase/LensesShowcase.jsx'
-import ContactShowcase from '../ContactShowcase/ContactShowcase.jsx'
 import ErrorBoundary from '../ErrorBoundary.jsx'
+
+const Hero = lazy(() => import('../Hero/Hero.jsx'))
+const FlyingPostersSection = lazy(() => import('../FlyingPosters/FlyingPostersSection.jsx'))
+const FlowingMenu = lazy(() => import('../FlowingMenu/FlowingMenu.jsx'))
+const LensesShowcase = lazy(() => import('../LensesShowcase/LensesShowcase.jsx'))
+const ContactShowcase = lazy(() => import('../ContactShowcase/ContactShowcase.jsx'))
 
 // FlowingMenu images (specific photography picks from subfolders)
 import parisImg from '/Photography/Paris/IMG_1598.jpg'
@@ -124,12 +125,14 @@ function DeferredMount({ children, rootMargin = '400px' }) {
 export default function Home() {
   return (
     <>
-      <Hero />
+      <Suspense fallback={<div className="hero hero-loading" aria-hidden="true" />}>
+        <Hero />
+      </Suspense>
       <section className="scroll-velocity-section" aria-label="Interests marquee">
         <ScrollVelocity
           texts={[
-            <span style={{ color: 'var(--color-white)' }}>Table Tennis &nbsp;•&nbsp; Programming &nbsp;•&nbsp; AI</span>,
-            <span style={{ color: '#00f0ff' }}>3D Printing &nbsp;•&nbsp; Robot &nbsp;•&nbsp; Photography</span>,
+            <span key="white" style={{ color: 'var(--color-white)' }}>Table Tennis &nbsp;•&nbsp; Programming &nbsp;•&nbsp; AI</span>,
+            <span key="cyan" style={{ color: '#00f0ff' }}>3D Printing &nbsp;•&nbsp; Robot &nbsp;•&nbsp; Photography</span>,
           ]}
           velocity={100}
           className="scroll-velocity-text"
@@ -285,20 +288,32 @@ export default function Home() {
         />
       </section>
 
-      <ErrorBoundary>
-        <FlyingPostersSection items={posterImages} />
-      </ErrorBoundary>
+      <DeferredMount rootMargin="600px">
+        <Suspense fallback={null}>
+          <ErrorBoundary>
+            <FlyingPostersSection items={posterImages} />
+          </ErrorBoundary>
+        </Suspense>
+      </DeferredMount>
 
-      <div style={{ height: '600px', position: 'relative' }}>
-        <FlowingMenu items={flowingMenuItems} />
-      </div>
-
-      <DeferredMount>
-        <LensesShowcase />
+      <DeferredMount rootMargin="600px">
+        <Suspense fallback={<div style={{ height: '600px' }} aria-hidden="true" />}>
+          <div style={{ height: '600px', position: 'relative' }}>
+            <FlowingMenu items={flowingMenuItems} />
+          </div>
+        </Suspense>
       </DeferredMount>
 
       <DeferredMount>
-        <ContactShowcase />
+        <Suspense fallback={null}>
+          <LensesShowcase />
+        </Suspense>
+      </DeferredMount>
+
+      <DeferredMount>
+        <Suspense fallback={null}>
+          <ContactShowcase />
+        </Suspense>
       </DeferredMount>
     </>
   )

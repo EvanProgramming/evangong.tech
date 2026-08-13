@@ -113,6 +113,9 @@ describe('galleryData', () => {
         expect(typeof img.alt).toBe('string')
         expect(img.alt).toContain('Beijing, China')
         expect(img.alt).toContain(`${i + 1}`)
+        expect(img.width).toBeGreaterThan(0)
+        expect(img.height).toBeGreaterThan(0)
+        expect(img.sizes).toContain('vw')
       })
     })
 

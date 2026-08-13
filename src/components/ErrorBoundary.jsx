@@ -14,7 +14,13 @@ export default class ErrorBoundary extends Component {
   }
 
   render() {
-    if (this.state.hasError) return this.props.fallback ?? null
+    if (this.state.hasError) {
+      return this.props.fallback ?? (
+        <div className="error-boundary-fallback" role="status">
+          Interactive visual unavailable
+        </div>
+      )
+    }
     return this.props.children
   }
 }

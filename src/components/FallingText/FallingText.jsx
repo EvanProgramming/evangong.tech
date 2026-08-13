@@ -61,6 +61,7 @@ const FallingText = ({
     if (!effectStarted) return;
 
     const { Engine, Render, World, Bodies, Runner, Mouse, MouseConstraint } = Matter;
+    const canvasContainer = canvasContainerRef.current;
 
     const containerRect = containerRef.current.getBoundingClientRect();
     const width = containerRect.width;
@@ -74,7 +75,7 @@ const FallingText = ({
     engine.world.gravity.y = gravity;
 
     const render = Render.create({
-      element: canvasContainerRef.current,
+      element: canvasContainer,
       engine,
       options: {
         width,
@@ -158,9 +159,8 @@ const FallingText = ({
       }
       Render.stop(render);
       Runner.stop(runner);
-      if (render.canvas && canvasContainerRef.current) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        canvasContainerRef.current.removeChild(render.canvas);
+      if (render.canvas && canvasContainer) {
+        canvasContainer.removeChild(render.canvas);
       }
       World.clear(engine.world);
       Engine.clear(engine);

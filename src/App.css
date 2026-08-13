@@ -5,6 +5,16 @@
   background: var(--color-black);
 }
 
+.route-loading {
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 main {
   position: relative;
   width: 100%;
@@ -407,5 +417,4 @@ main {
 }
 
 /* ===== Flying Posters section ===== */
-
 

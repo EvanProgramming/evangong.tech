@@ -196,7 +196,7 @@ void main() {
         uniforms.iTime.value = t * 0.001;
         try {
           renderer.render({ scene: mesh });
-        } catch (e) {
+        } catch {
           return;
         }
       };
@@ -217,7 +217,7 @@ void main() {
             if (loseCtx) loseCtx.loseContext();
             const canvas = renderer.gl.canvas;
             if (canvas && canvas.parentNode) canvas.parentNode.removeChild(canvas);
-          } catch (e) {}
+          } catch {}
         }
         rendererRef.current = null;
         uniformsRef.current = null;
