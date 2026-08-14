@@ -48,7 +48,7 @@ function waitForImagesReady(container, timeout = IMAGE_LOAD_TIMEOUT) {
   return new Promise((resolve) => {
     const settle = () => requestAnimationFrame(() => requestAnimationFrame(resolve))
     if (!container) return settle()
-    const imgs = Array.from(container.querySelectorAll('img[data-transition-critical="true"]'))
+    const imgs = Array.from(container.querySelectorAll('img'))
     const pending = imgs.filter((img) => {
       if (img.loading === 'lazy') return false
       return !img.complete || img.naturalWidth === 0
@@ -156,10 +156,6 @@ function PageMeta() {
   }, [pathname])
 
   return null
-}
-
-function RouteFallback() {
-  return <div className="route-loading" role="status" aria-live="polite">Loading page…</div>
 }
 
 // StaggeredMenu renders menu items as <a href={link}> (official React Bits
@@ -314,37 +310,37 @@ function Layout() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={
-            <Suspense fallback={<RouteFallback />}>
+            <Suspense fallback={null}>
               <About />
             </Suspense>
           } />
           <Route path="/projects" element={
-            <Suspense fallback={<RouteFallback />}>
+            <Suspense fallback={null}>
               <Projects />
             </Suspense>
           } />
           <Route path="/gallery" element={
-            <Suspense fallback={<RouteFallback />}>
+            <Suspense fallback={null}>
               <Gallery />
             </Suspense>
           } />
           <Route path="/gallery/:category" element={
-            <Suspense fallback={<RouteFallback />}>
+            <Suspense fallback={null}>
               <GalleryCategory />
             </Suspense>
           } />
           <Route path="/blog" element={
-            <Suspense fallback={<RouteFallback />}>
+            <Suspense fallback={null}>
               <Blog />
             </Suspense>
           } />
           <Route path="/blog/:slug" element={
-            <Suspense fallback={<RouteFallback />}>
+            <Suspense fallback={null}>
               <BlogPost />
             </Suspense>
           } />
           <Route path="/awards" element={
-            <Suspense fallback={<RouteFallback />}>
+            <Suspense fallback={null}>
               <Awards />
             </Suspense>
           } />

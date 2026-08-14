@@ -24,18 +24,6 @@ export default function Hero() {
   };
 
   const [showScroll, setShowScroll] = useState(false);
-  const [enableWebGL, setEnableWebGL] = useState(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) return true
-    return !window.matchMedia('(prefers-reduced-motion: reduce), (max-width: 640px)').matches
-  })
-
-  useEffect(() => {
-    if (!window.matchMedia) return
-    const query = window.matchMedia('(prefers-reduced-motion: reduce), (max-width: 640px)')
-    const update = () => setEnableWebGL(!query.matches)
-    query.addEventListener?.('change', update)
-    return () => query.removeEventListener?.('change', update)
-  }, [])
   useEffect(() => {
     const timer = setTimeout(() => setShowScroll(true), 2500);
     return () => clearTimeout(timer);
@@ -45,23 +33,21 @@ export default function Hero() {
     <section className="hero">
       {/* Ballpit background */}
       <div className="hero-ballpit">
-        {enableWebGL ? (
-          <ErrorBoundary>
-            <Ballpit
-              count={150}
-              gravity={0.5}
-              friction={0.9975}
-              wallBounce={0.9}
-              followCursor={true}
-              colors={[0x00f0ff, 0xffffff, 0x9c9c9c]}
-              ambientIntensity={0.4}
-              lightIntensity={80}
-              minSize={0.5}
-              maxSize={1.5}
-              maxVelocity={0.12}
-            />
-          </ErrorBoundary>
-        ) : <div className="hero-ballpit-static" aria-hidden="true" />}
+        <ErrorBoundary>
+          <Ballpit
+            count={150}
+            gravity={0.5}
+            friction={0.9975}
+            wallBounce={0.9}
+            followCursor={true}
+            colors={[0x00f0ff, 0xffffff, 0x9c9c9c]}
+            ambientIntensity={0.4}
+            lightIntensity={80}
+            minSize={0.5}
+            maxSize={1.5}
+            maxVelocity={0.12}
+          />
+        </ErrorBoundary>
       </div>
 
       {/* Content overlay */}
@@ -131,19 +117,17 @@ export default function Hero() {
         {/* Right side - Lanyard with EvanGongIcon on card */}
         <div className="hero-lanyard-section">
           <div className="hero-lanyard-wrapper">
-            {enableWebGL && (
-              <ErrorBoundary>
-                <Lanyard
-                  position={[0, 0, 25]}
-                  gravity={[0, -40, 0]}
-                  fov={20}
-                  frontImage={evanGongIcon}
-                  backImage={evanGongIcon}
-                  imageFit="cover"
-                  lanyardWidth={1.2}
-                />
-              </ErrorBoundary>
-            )}
+            <ErrorBoundary>
+              <Lanyard
+                position={[0, 0, 25]}
+                gravity={[0, -40, 0]}
+                fov={20}
+                frontImage={evanGongIcon}
+                backImage={evanGongIcon}
+                imageFit="cover"
+                lanyardWidth={1.2}
+              />
+            </ErrorBoundary>
           </div>
         </div>
       </div>

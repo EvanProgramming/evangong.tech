@@ -240,7 +240,6 @@ const Ballpit = ({ className = '', followCursor = true, ...props }) => {
   const canvasRef = useRef(null);
   const spheresInstanceRef = useRef(null);
   const configRef = useRef({ followCursor, ...props });
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
