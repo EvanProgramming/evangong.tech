@@ -32,5 +32,16 @@ export default function PageTransition({ phase }) {
     noAnim ? 'page-transition--no-anim' : '',
   ].filter(Boolean).join(' ')
 
-  return <div className={className} aria-hidden="true" />
+  // Keep the actual blur value inline. The production CSS transformer can
+  // rewrite backdrop-filter to a prefixed declaration that this browser does
+  // not apply, leaving only the dark overlay visible.
+  const blur = isBlurry ? 'blur(50px)' : 'blur(0px)'
+
+  return (
+    <div
+      className={className}
+      style={{ backdropFilter: blur, WebkitBackdropFilter: blur }}
+      aria-hidden="true"
+    />
+  )
 }
