@@ -9,7 +9,7 @@ const BASE_GRAPH = [
     '@id': `${SITE_URL}/#person`,
     name: 'Evan Gong',
     url: `${SITE_URL}/`,
-    image: `${SITE_URL}/favicon.svg`,
+    image: DEFAULT_SOCIAL_IMAGE,
     sameAs: [
       'https://github.com/EvanProgramming',
       'https://x.com/EvanGong459069',
