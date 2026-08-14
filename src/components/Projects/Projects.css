@@ -59,6 +59,18 @@
   padding-bottom: clamp(2.5rem, 6vw, 4rem);
 }
 
+.projects-title h1 {
+  margin: 0;
+}
+
+.projects-title__intro {
+  max-width: 42rem;
+  margin: 1rem 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  line-height: 1.5;
+}
+
 /* GlitchText overrides: left-aligned, sized as a section title (official
    centers it at clamp(2rem,10vw,8rem)). */
 .projects-title .glitch {

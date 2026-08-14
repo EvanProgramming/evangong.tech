@@ -19,6 +19,10 @@ export default function GalleryCategory() {
 
   return (
     <section className="gallery-dome-page" aria-label={`${cat.label} photo gallery`}>
+      <header className="gallery-dome-heading">
+        <h1>{cat.label} Photography</h1>
+        <p>{cat.description}</p>
+      </header>
       <a href="/gallery" data-nav-link className="gallery-back" aria-label="Back to gallery">
         <span className="gallery-back-arrow" aria-hidden="true">←</span>
         <span className="gallery-back-label">Back to Gallery</span>

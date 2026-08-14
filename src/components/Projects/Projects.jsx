@@ -433,7 +433,8 @@ export default function Projects() {
       <div className="projects-bg-overlay" aria-hidden="true" />
 
       {/* Title — left-aligned GlitchText with #00f0ff shadows (always animating). */}
-      <div className="projects-title">
+      <header className="projects-title">
+        <h1>
         <GlitchText
           speed={1}
           enableShadows={true}
@@ -444,7 +445,9 @@ export default function Projects() {
         >
           FEATURED PROJECTS
         </GlitchText>
-      </div>
+        </h1>
+        <p className="projects-title__intro">Software, AI agents, robotics, and hardware projects by Evan Gong.</p>
+      </header>
 
       <div className="projects-list">
         {PROJECTS.map((p) => (

@@ -3,12 +3,20 @@ slug: hardware-agent-runtime
 title: Giving AI Agents a Safe Path to Real Hardware
 excerpt: Hardware Agent Runtime connects external coding agents to embedded devices through observable, verifiable hardware-in-the-loop workflows.
 date: 2026-06-30
+modified: 2026-08-14
+author: Evan Gong
 tags:
   - Hardware
   - Agents
   - ESP32
 featured: true
 cover: /blog/hardware-agent-runtime/cover.webp
+imageAlt: Hardware Agent Runtime connecting an AI coding agent to an ESP32 hardware-in-the-loop workflow
+keywords:
+  - AI agents
+  - embedded systems
+  - ESP32
+  - hardware in the loop
 readingTime: 8
 ---
 

@@ -142,6 +142,7 @@ export default function Home() {
               <div className="project-card__body">
                 <h3 className="project-card__title">OpenKyrozen</h3>
                 <p className="project-card__desc">A self-learning AI Agent that adapts and grows through autonomous exploration.</p>
+                <a className="project-card__link" href="/blog/openkyrozen-agent" data-nav-link>Read the field note</a>
               </div>
               <span className="project-card__tag">AI</span>
             </div>
@@ -152,6 +153,7 @@ export default function Home() {
               <div className="project-card__body">
                 <h3 className="project-card__title">Kyrozen</h3>
                 <p className="project-card__desc">An AI-driven product development platform that takes you from a fuzzy problem to a real software or hardware prototype.</p>
+                <a className="project-card__link" href="/projects" data-nav-link>Explore projects</a>
               </div>
               <span className="project-card__tag">AI</span>
             </div>
@@ -162,6 +164,7 @@ export default function Home() {
               <div className="project-card__body">
                 <h3 className="project-card__title">Anti-Fire Drone System</h3>
                 <p className="project-card__desc">An autonomous fire-extinguishing drone system for rapid response.</p>
+                <a className="project-card__link" href="/projects" data-nav-link>Explore projects</a>
               </div>
               <span className="project-card__tag">Robotics</span>
             </div>
@@ -172,6 +175,7 @@ export default function Home() {
               <div className="project-card__body">
                 <h3 className="project-card__title">OverflowBar</h3>
                 <p className="project-card__desc">A macOS menu bar icon overflow manager for a cleaner status bar.</p>
+                <a className="project-card__link" href="/projects" data-nav-link>Explore projects</a>
               </div>
               <span className="project-card__tag">macOS</span>
             </div>

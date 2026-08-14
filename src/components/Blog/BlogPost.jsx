@@ -109,7 +109,7 @@ export default function BlogPost() {
       </header>
 
       <div className="blog-post__cover-wrap">
-        <ProtectedImage src={article.cover} alt={`${article.title} cover`} className="blog-post__cover" loading="eager" fetchPriority="high" data-transition-critical="true" sizes="(max-width: 900px) 100vw, 70rem" />
+        <ProtectedImage src={article.cover} alt={article.imageAlt} className="blog-post__cover" loading="eager" fetchPriority="high" data-transition-critical="true" sizes="(max-width: 900px) 100vw, 70rem" />
       </div>
 
       <div className="blog-post__layout">

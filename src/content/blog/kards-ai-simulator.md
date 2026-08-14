@@ -3,12 +3,20 @@ slug: kards-ai-simulator
 title: Teaching a Card Game Agent to Think in States
 excerpt: Kards AI turns a complex card game into a deterministic environment for simulation, self-play, and reinforcement-learning research.
 date: 2026-07-18
+modified: 2026-08-14
+author: Evan Gong
 tags:
   - AI
   - Reinforcement Learning
   - Simulation
 featured: true
 cover: /blog/kards-ai/cover.webp
+imageAlt: Kards AI simulator research environment for deterministic card game reinforcement learning
+keywords:
+  - Kards AI
+  - reinforcement learning
+  - AlphaZero
+  - game simulation
 readingTime: 8
 ---
 

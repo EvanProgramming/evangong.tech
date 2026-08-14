@@ -17,6 +17,32 @@
   height: 100vh;
 }
 
+.gallery-dome-heading {
+  position: fixed;
+  right: clamp(1rem, 3vw, 1.75rem);
+  bottom: clamp(1rem, 3vw, 1.75rem);
+  z-index: 100;
+  max-width: min(34rem, calc(100vw - 2rem));
+  padding: 1rem 1.25rem;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.gallery-dome-heading h1 {
+  margin: 0;
+  font-size: clamp(1.1rem, 2.4vw, 1.8rem);
+}
+
+.gallery-dome-heading p {
+  margin: 0.35rem 0 0;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
 /* Remove the vignette/blur overlays so the DomeGallery tiles extend all the
  * way to the viewport edges without a dark border. */
 .gallery-dome-wrap .sphere-root .overlay,

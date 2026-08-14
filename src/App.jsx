@@ -6,6 +6,7 @@ import Home from './components/Home/Home.jsx'
 import PageTransition from './components/PageTransition/PageTransition.jsx'
 import { NavContext } from './navContext.js'
 import logoUrl from './assets/EvanGongIcon.png'
+import { DEFAULT_SOCIAL_IMAGE, getSeoForPath } from './seo/seo.js'
 import './App.css'
 
 // Lazy-load non-home routes so their component code (and the heavy
@@ -75,45 +76,6 @@ function waitForImagesReady(container, timeout = IMAGE_LOAD_TIMEOUT) {
   })
 }
 
-const PAGE_META = {
-  '/': {
-    title: 'Evan Gong | Programming, AI, Robotics & Photography',
-    description: 'Evan Gong builds tangible experiences across programming, AI, robotics, 3D printing, and photography.'
-  },
-  '/about': {
-    title: 'About Evan Gong | Evan Gong',
-    description: 'Learn about Evan Gong, his technical interests, creative practice, and current skills.'
-  },
-  '/projects': {
-    title: 'Featured Projects | Evan Gong',
-    description: 'Selected software, AI, robotics, hardware, and interactive projects by Evan Gong.'
-  },
-  '/gallery': {
-    title: 'Photography Gallery | Evan Gong',
-    description: 'Photography by Evan Gong from Paris, Chaoshan, Beijing, and elsewhere.'
-  },
-  '/blog': {
-    title: 'Field Notes | Evan Gong',
-    description: 'Technical notes and reflections on AI agents, hardware, software, and learning.'
-  },
-  '/awards': {
-    title: 'Awards & Recognition | Evan Gong',
-    description: 'Selected awards, competition results, program milestones, and project records.'
-  },
-  '/blog/hardware-agent-runtime': {
-    title: 'Giving AI Agents a Safe Path to Real Hardware | Evan Gong',
-    description: 'Hardware Agent Runtime connects coding agents to embedded devices through observable hardware-in-the-loop workflows.'
-  },
-  '/blog/kards-ai-simulator': {
-    title: 'Teaching a Card Game Agent to Think in States | Evan Gong',
-    description: 'Kards AI turns a complex card game into a deterministic environment for simulation and reinforcement-learning research.'
-  },
-  '/blog/openkyrozen-agent': {
-    title: 'Building an Agent That Learns From Its Work | Evan Gong',
-    description: 'OpenKyrozen explores how an AI agent can improve through the work it already performs.'
-  }
-}
-
 function setMeta(attribute, key, content) {
   let element = document.head.querySelector(`meta[${attribute}="${key}"]`)
   if (!element) {
@@ -128,23 +90,32 @@ function PageMeta() {
   const { pathname } = useLocation()
 
   useEffect(() => {
-    const isBlogPost = pathname.startsWith('/blog/')
-    const slug = isBlogPost ? pathname.split('/').filter(Boolean).at(-1) : ''
-    const meta = PAGE_META[pathname] || (isBlogPost
-      ? {
-          title: `${slug.replace(/-/g, ' ')} | Evan Gong`,
-          description: 'A field note by Evan Gong.'
-        }
-      : PAGE_META['/'])
-    const canonicalUrl = `https://evangong.tech${pathname === '/' ? '/' : pathname}`
+    const meta = getSeoForPath(pathname)
+    const title = meta?.title || 'Page not found | Evan Gong'
+    const description = meta?.description || 'The requested page could not be found on evangong.tech.'
+    const canonicalUrl = meta?.canonical || 'https://evangong.tech/404'
 
-    document.title = meta.title
-    setMeta('name', 'description', meta.description)
-    setMeta('property', 'og:title', meta.title)
-    setMeta('property', 'og:description', meta.description)
-    setMeta('property', 'og:type', isBlogPost ? 'article' : 'website')
+    document.title = title
+    setMeta('name', 'description', description)
+    setMeta('property', 'og:title', title)
+    setMeta('property', 'og:description', description)
+    setMeta('property', 'og:type', meta?.article ? 'article' : 'website')
     setMeta('property', 'og:url', canonicalUrl)
+    setMeta('property', 'og:image', meta?.image || DEFAULT_SOCIAL_IMAGE)
+    setMeta('property', 'og:site_name', 'Evan Gong')
+    setMeta('property', 'og:locale', 'en_US')
     setMeta('name', 'twitter:card', 'summary_large_image')
+    setMeta('name', 'twitter:title', title)
+    setMeta('name', 'twitter:description', description)
+    setMeta('name', 'twitter:image', meta?.image || DEFAULT_SOCIAL_IMAGE)
+
+    let robots = document.head.querySelector('meta[name="robots"]')
+    if (!robots) {
+      robots = document.createElement('meta')
+      robots.name = 'robots'
+      document.head.appendChild(robots)
+    }
+    robots.content = meta ? 'index, follow, max-image-preview:large' : 'noindex, nofollow'
 
     let canonical = document.head.querySelector('link[rel="canonical"]')
     if (!canonical) {
@@ -344,7 +315,7 @@ function Layout() {
               <Awards />
             </Suspense>
           } />
-          <Route path="*" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       {!isGalleryCategory && <Footer />}
@@ -353,6 +324,18 @@ function Layout() {
     </NavContext.Provider>
   )
 }
+
+export function NotFound() {
+  return (
+    <section className="not-found" aria-labelledby="not-found-title">
+      <h1 id="not-found-title">Page not found</h1>
+      <p>The page you requested does not exist.</p>
+      <a href="/" data-nav-link>Return home</a>
+    </section>
+  )
+}
+
+export { Layout }
 
 export default function App() {
   return (

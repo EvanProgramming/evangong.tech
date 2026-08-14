@@ -49,6 +49,10 @@ function normalizeArticle(file, source) {
   const slug = typeof data.slug === 'string' && data.slug.trim() ? data.slug.trim() : fallbackSlug
   const title = typeof data.title === 'string' && data.title.trim() ? data.title.trim() : slug
   const excerpt = typeof data.excerpt === 'string' ? data.excerpt.trim() : ''
+  const author = typeof data.author === 'string' && data.author.trim() ? data.author.trim() : 'Evan Gong'
+  const modified = typeof data.modified === 'string' ? data.modified : date
+  const imageAlt = typeof data.imageAlt === 'string' ? data.imageAlt.trim() : `${title} cover`
+  const keywords = Array.isArray(data.keywords) ? data.keywords.filter(Boolean).map(String) : tags
   const date = data.date instanceof Date
     ? data.date.toISOString().slice(0, 10)
     : typeof data.date === 'string' ? data.date : ''
@@ -59,6 +63,10 @@ function normalizeArticle(file, source) {
     slug,
     title,
     excerpt,
+    author,
+    modified,
+    imageAlt,
+    keywords,
     date,
     year: date.slice(0, 4) || 'Undated',
     tags,

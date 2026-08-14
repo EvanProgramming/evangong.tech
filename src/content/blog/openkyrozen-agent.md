@@ -3,12 +3,20 @@ slug: openkyrozen-agent
 title: Building an Agent That Learns From Its Work
 excerpt: OpenKyrozen is an experiment in making an AI agent improve through the work it already performs.
 date: 2026-08-01
+modified: 2026-08-14
+author: Evan Gong
 tags:
   - AI
   - Agents
   - Systems
 featured: true
 cover: /blog/openkyrozen/cover.webp
+imageAlt: OpenKyrozen autonomous AI agent learning from software development work
+keywords:
+  - OpenKyrozen
+  - autonomous AI agent
+  - agent memory
+  - software systems
 readingTime: 7
 ---
 
