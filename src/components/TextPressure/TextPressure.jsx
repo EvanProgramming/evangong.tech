@@ -52,6 +52,7 @@ const TextPressure = ({
   // Toggled by IntersectionObserver/visibilitychange so the per-frame
   // getBoundingClientRect-per-span loop stops while off-screen.
   const pausedRef = useRef(false);
+  const scheduleAnimationRef = useRef(null);
 
   const [fontSize, setFontSize] = useState(minFontSize);
   const [scaleY, setScaleY] = useState(1);
@@ -120,8 +121,11 @@ const TextPressure = ({
 
   useEffect(() => {
     let rafId;
+    const schedule = () => {
+      if (!rafId) rafId = requestAnimationFrame(animate);
+    };
     const animate = () => {
-      rafId = requestAnimationFrame(animate);
+      rafId = 0;
       if (pausedRef.current) return;
 
       mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
@@ -157,10 +161,15 @@ const TextPressure = ({
           }
         });
       }
+      schedule();
     };
 
-    animate();
-    return () => cancelAnimationFrame(rafId);
+    scheduleAnimationRef.current = schedule;
+    schedule();
+    return () => {
+      scheduleAnimationRef.current = null;
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [width, weight, italic, alpha]);
 
   // Pause the rAF loop while off-screen or the tab is hidden.
@@ -170,6 +179,7 @@ const TextPressure = ({
     let inView = true;
     const setPaused = () => {
       pausedRef.current = !(inView && !document.hidden);
+      if (!pausedRef.current) scheduleAnimationRef.current?.();
     };
     const io = new IntersectionObserver((entries) => {
       inView = entries[0].isIntersecting;

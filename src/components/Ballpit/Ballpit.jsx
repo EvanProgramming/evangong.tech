@@ -16,6 +16,8 @@ class _Three {
   render = this.#i; onBeforeRender = () => {}; onAfterRender = () => {}; onAfterResize = () => {};
   #s = false; #n = false; isDisposed = false; #o; #r; #a;
   #c = new e(); #h = { elapsed: 0, delta: 0 }; #l;
+  resizeHandler = () => this.#f();
+  visibilityHandler = () => this.#v();
 
   constructor(e) {
     this.#e = { ...e }; this.#m(); this.#d(); this.#p(); this.resize(); this.#g();
@@ -32,17 +34,17 @@ class _Three {
   }
   #g() {
     if (!(this.#e.size instanceof Object)) {
-      window.addEventListener('resize', this.#f.bind(this));
+      window.addEventListener('resize', this.resizeHandler);
       if (this.#e.size === 'parent' && this.canvas.parentNode) {
-        this.#r = new ResizeObserver(this.#f.bind(this));
+        this.#r = new ResizeObserver(this.resizeHandler);
         this.#r.observe(this.canvas.parentNode);
       }
     }
     this.#o = new IntersectionObserver(this.#u.bind(this), { root: null, rootMargin: '0px', threshold: 0 });
     this.#o.observe(this.canvas);
-    document.addEventListener('visibilitychange', this.#v.bind(this));
+    document.addEventListener('visibilitychange', this.visibilityHandler);
   }
-  #y() { window.removeEventListener('resize', this.#f.bind(this)); this.#r?.disconnect(); this.#o?.disconnect(); document.removeEventListener('visibilitychange', this.#v.bind(this)); }
+  #y() { window.removeEventListener('resize', this.resizeHandler); this.#r?.disconnect(); this.#o?.disconnect(); document.removeEventListener('visibilitychange', this.visibilityHandler); if (this.#a) clearTimeout(this.#a); }
   #u(e) { this.#s = e[0].isIntersecting; if (this.#s) this.#w(); else this.#z(); }
   #v() { if (this.#s) { if (document.hidden) this.#z(); else this.#w(); } }
   #f() { if (this.#a) clearTimeout(this.#a); this.#a = setTimeout(this.resize.bind(this), 100); }

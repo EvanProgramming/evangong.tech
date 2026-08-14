@@ -482,8 +482,11 @@ export default function MetallicPaint({
 
     canvas.addEventListener('mousemove', handleMouseMove);
 
+    const schedule = () => {
+      if (!rafRef.current) rafRef.current = requestAnimationFrame(render);
+    };
     const render = time => {
-      rafRef.current = requestAnimationFrame(render);
+      rafRef.current = null;
       if (pausedRef.current) return;
 
       const delta = time - lastTimeRef.current;
@@ -499,15 +502,17 @@ export default function MetallicPaint({
 
       gl.uniform1f(u.u_time, animTimeRef.current);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      schedule();
     };
 
     lastTimeRef.current = performance.now();
-    rafRef.current = requestAnimationFrame(render);
+    schedule();
 
     // Pause the render loop while off-screen or the tab is hidden.
     let inView = true;
     const setPaused = () => {
       pausedRef.current = !(inView && !document.hidden);
+      if (!pausedRef.current) schedule();
     };
     const io = new IntersectionObserver((entries) => {
       inView = entries[0].isIntersecting;
