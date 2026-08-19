@@ -116,6 +116,10 @@ describe('galleryData', () => {
         expect(img.width).toBeGreaterThan(0)
         expect(img.height).toBeGreaterThan(0)
         expect(img.sizes).toContain('vw')
+        expect(img).toHaveProperty('exif')
+        if (img.exif !== null) {
+          expect(typeof img.exif).toBe('object')
+        }
       })
     })
 
