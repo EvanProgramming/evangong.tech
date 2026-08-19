@@ -80,8 +80,8 @@ function formatNumber(n, digits = 1) {
   return String(parseFloat(fixed));
 }
 
-function renderExifRows(exif) {
-  const rows = [
+function getExifRows(exif) {
+  return [
     { label: 'Camera', value: formatCamera(exif) },
     { label: 'Lens', value: exif?.LensModel?.trim() },
     { label: 'Date', value: formatDate(exif?.DateTimeOriginal) },
@@ -90,7 +90,10 @@ function renderExifRows(exif) {
     { label: 'Shutter', value: formatExposureTime(exif?.ExposureTime) },
     { label: 'ISO', value: exif?.ISO != null ? String(Number(exif.ISO)) : '' }
   ].filter(r => r.value);
+}
 
+function renderExifRows(exif) {
+  const rows = getExifRows(exif);
   if (rows.length === 0) return '<div class="dg-exif-empty">No EXIF data available</div>';
 
   return rows
@@ -98,9 +101,12 @@ function renderExifRows(exif) {
     .join('');
 }
 
-async function loadExifPanel(rawSrc, overlay) {
+async function loadExifPanel(rawSrc, overlay, seededExif = null) {
   try {
-    const exif = await exifr.parse(rawSrc, { gps: false, icc: false, xmp: false });
+    let exif = seededExif;
+    if (!getExifRows(exif).length) {
+      exif = await exifr.parse(rawSrc, { gps: false, icc: false, xmp: false });
+    }
     if (!exif) return;
     const panel = document.createElement('div');
     panel.className = 'dg-exif-panel';
@@ -143,7 +149,8 @@ function buildItems(pool, seg) {
       alt: image.alt || '',
       width: image.width,
       height: image.height,
-      sizes: image.sizes
+      sizes: image.sizes,
+      exif: image.exif || null
     };
   });
 
@@ -168,7 +175,8 @@ function buildItems(pool, seg) {
     alt: usedImages[i].alt,
     width: usedImages[i].width,
     height: usedImages[i].height,
-    sizes: usedImages[i].sizes
+    sizes: usedImages[i].sizes,
+    exif: usedImages[i].exif
   }));
 }
 
@@ -577,6 +585,14 @@ export default function DomeGallery({
       overlay.style.transformOrigin = 'top left';
       overlay.style.transition = `transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease`;
       const rawSrc = parent.dataset.src || el.querySelector('img')?.src || '';
+      let seededExif = null;
+      if (parent.dataset.exif) {
+        try {
+          seededExif = JSON.parse(parent.dataset.exif);
+        } catch {
+          seededExif = null;
+        }
+      }
       const imgWrap = document.createElement('div');
       imgWrap.className = 'enlarge__image-wrap';
       const img = document.createElement('img');
@@ -645,7 +661,7 @@ export default function DomeGallery({
             overlay.removeEventListener('transitionend', cleanupSecond);
             overlay.style.transition = prevTransition;
             overlay.classList.add('enlarge--ready');
-            loadExifPanel(rawSrc, overlay);
+            loadExifPanel(rawSrc, overlay, seededExif);
           };
           overlay.addEventListener('transitionend', cleanupSecond, { once: true });
         };
@@ -710,6 +726,7 @@ export default function DomeGallery({
                 key={`${it.x},${it.y},${i}`}
                 className="item"
                 data-src={it.src}
+                data-exif={it.exif ? JSON.stringify(it.exif) : undefined}
                 data-offset-x={it.x}
                 data-offset-y={it.y}
                 data-size-x={it.sizeX}

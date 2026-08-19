@@ -2,6 +2,7 @@ import crypto from 'node:crypto'
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
+import exifr from 'exifr'
 import sharp from 'sharp'
 
 const ROOT = process.cwd()
@@ -18,6 +19,7 @@ const BACKUP_BASE = process.env.PHOTO_ORIGINAL_BACKUP
   ? path.resolve(process.env.PHOTO_ORIGINAL_BACKUP)
   : path.join(os.homedir(), 'Documents', 'evangong.tech-originals')
 const BACKUP_MARKER = '.photo-originals.json'
+const PUBLIC_EXIF_FIELDS = ['Make', 'Model', 'LensModel', 'DateTimeOriginal', 'FocalLength', 'FNumber', 'ExposureTime', 'ISO']
 
 function usage() {
   console.log(`Usage: npm run images:protect -- --check|--apply
@@ -110,6 +112,27 @@ function outputFormat(repoPath) {
   if (extension === '.webp') return 'webp'
   if (extension === '.png') return 'png'
   return 'jpeg'
+}
+
+function normalizeExifValue(value) {
+  if (value == null) return null
+  if (value instanceof Date) return value.toISOString()
+  if (typeof value === 'string') {
+    const trimmed = value.trim()
+    return trimmed || null
+  }
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null
+  return null
+}
+
+function pickPublicExif(exif) {
+  if (!exif || typeof exif !== 'object') return null
+  const picked = {}
+  for (const field of PUBLIC_EXIF_FIELDS) {
+    const normalized = normalizeExifValue(exif[field])
+    if (normalized != null) picked[field] = normalized
+  }
+  return Object.keys(picked).length ? picked : null
 }
 
 async function renderDerivative(sourcePath, repoPath) {
@@ -275,6 +298,8 @@ async function apply() {
     const relativePath = toRepoPath(repoFile)
     const sourcePath = path.join(backupDir, ...relativePath.split('/'))
     const sourceBuffer = await fs.readFile(sourcePath)
+    const sourceExif = await exifr.parse(sourceBuffer, { gps: false, icc: false, xmp: false }).catch(() => null)
+    const publicExif = pickPublicExif(sourceExif)
     const derivative = await renderDerivative(sourcePath, relativePath)
     const temporaryPath = `${repoFile}.protected.tmp`
 
@@ -291,6 +316,7 @@ async function apply() {
       width: metadata.width,
       height: metadata.height,
       format: metadata.format,
+      ...(publicExif ? { exif: publicExif } : {}),
     })
   }
 

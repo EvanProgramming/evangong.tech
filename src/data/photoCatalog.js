@@ -7,6 +7,29 @@ const CATEGORY_LABELS = {
   Miscellaneous: 'Miscellaneous'
 }
 
+function normalizeExif(exif) {
+  if (!exif || typeof exif !== 'object') return null
+
+  const normalized = {}
+  const allowedFields = ['Make', 'Model', 'LensModel', 'DateTimeOriginal', 'FocalLength', 'FNumber', 'ExposureTime', 'ISO']
+
+  for (const field of allowedFields) {
+    const value = exif[field]
+    if (value == null) continue
+    if (typeof value === 'string') {
+      const trimmed = value.trim()
+      if (trimmed) normalized[field] = trimmed
+      continue
+    }
+    if (typeof value === 'number' && Number.isFinite(value)) {
+      normalized[field] = value
+      continue
+    }
+  }
+
+  return Object.keys(normalized).length > 0 ? normalized : null
+}
+
 const publicPhotos = manifest.assets
   .filter(asset => asset.path.startsWith('public/Photography/'))
   .map(asset => {
@@ -19,7 +42,8 @@ const publicPhotos = manifest.assets
       category: category.toLowerCase(),
       width: asset.width,
       height: asset.height,
-      sizes: '(max-width: 640px) 46vw, (max-width: 1200px) 30vw, 420px'
+      sizes: '(max-width: 640px) 46vw, (max-width: 1200px) 30vw, 420px',
+      exif: normalizeExif(asset.exif)
     }
   })
   .sort((a, b) => a.src.localeCompare(b.src))
