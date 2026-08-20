@@ -300,6 +300,20 @@ function Layout() {
     return () => clearTimeout(t)
   }, [phase])
 
+  // Keep the blurred page stationary while route resources and visual effects
+  // settle. Lock both scrolling roots because browsers differ on which one
+  // owns document scrolling.
+  useEffect(() => {
+    const locked = phase !== 'idle'
+    document.documentElement.classList.toggle('page-transition-lock', locked)
+    document.body.classList.toggle('page-transition-lock', locked)
+
+    return () => {
+      document.documentElement.classList.remove('page-transition-lock')
+      document.body.classList.remove('page-transition-lock')
+    }
+  }, [phase])
+
   useClientSideNav(triggerTransition)
 
   return (
