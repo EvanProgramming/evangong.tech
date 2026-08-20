@@ -33,6 +33,11 @@
   will-change: backdrop-filter;
 }
 
+html.page-transition-lock,
+body.page-transition-lock {
+  overflow: hidden;
+}
+
 .page-transition__loading {
   position: absolute;
   inset: 0;
