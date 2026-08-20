@@ -38,34 +38,35 @@ const TRANSITION_MS = 1000
 // still lift the overlay rather than lock the user on a blurred frame.
 const IMAGE_LOAD_TIMEOUT = 8000
 
-// Wait for every non-lazy <img> inside `container` to finish loading, then
-// resolve after a double-rAF so the rendered frame is committed before the
-// blur lifts. This keeps the overlay fully blurred until the next page's
-// resources (HTML/CSS/JS are cached after first load; images are the variable
-// cost) are actually painted, matching the "don't reveal until rendered"
-// requirement. Lazy images are skipped so off-screen content can't block the
-// transition.
-function waitForImagesReady(container, timeout = IMAGE_LOAD_TIMEOUT) {
+function waitForImagesReady(container, timeout = IMAGE_LOAD_TIMEOUT, onProgress = () => {}) {
   return new Promise((resolve) => {
     const settle = () => requestAnimationFrame(() => requestAnimationFrame(resolve))
-    if (!container) return settle()
+    if (!container) {
+      onProgress(1)
+      return settle()
+    }
     const imgs = Array.from(container.querySelectorAll('img'))
-    const pending = imgs.filter((img) => {
-      if (img.loading === 'lazy') return false
-      return !img.complete || img.naturalWidth === 0
-    })
-    if (pending.length === 0) return settle()
+    if (imgs.length === 0) {
+      onProgress(1)
+      return settle()
+    }
 
-    let remaining = pending.length
+    let remaining = imgs.filter((img) => !img.complete || img.naturalWidth === 0).length
+    let completed = imgs.length - remaining
     let done = false
+    onProgress(completed / imgs.length)
     const finish = () => {
       if (done) return
       done = true
+      onProgress(1)
       settle()
     }
-    pending.forEach((img) => {
+    if (remaining === 0) return finish()
+    imgs.filter((img) => !img.complete || img.naturalWidth === 0).forEach((img) => {
       const onDone = () => {
         remaining -= 1
+        completed += 1
+        onProgress(completed / imgs.length)
         if (remaining === 0) finish()
       }
       img.addEventListener('load', onDone, { once: true })
@@ -73,6 +74,36 @@ function waitForImagesReady(container, timeout = IMAGE_LOAD_TIMEOUT) {
     })
     // Safety net: never let a stuck image block the reveal indefinitely.
     setTimeout(finish, timeout)
+  })
+}
+
+function waitForFrames(count = 3) {
+  return new Promise((resolve) => {
+    const next = () => {
+      if (count-- <= 0) return resolve()
+      requestAnimationFrame(next)
+    }
+    next()
+  })
+}
+
+function waitForPageReady(container, timeout = IMAGE_LOAD_TIMEOUT) {
+  return new Promise((resolve) => {
+    if (!container) return resolve()
+    const pending = () => container.querySelector('[data-page-ready="false"]')
+    if (!pending()) return resolve()
+
+    const observer = new MutationObserver(() => {
+      if (!pending()) {
+        observer.disconnect()
+        resolve()
+      }
+    })
+    observer.observe(container, { subtree: true, attributes: true, attributeFilter: ['data-page-ready'] })
+    setTimeout(() => {
+      observer.disconnect()
+      resolve()
+    }, timeout)
   })
 }
 
@@ -182,7 +213,8 @@ function Layout() {
   //   'reveal-prepare' → overlay held at full blur 50 (no transition) while
   //                      the new page's resources load; once ready → 'reveal'
   //   'reveal'         → blur 50→0 transition (new page fading in, 1s)
-  const [phase, setPhase] = useState('idle')
+  const [phase, setPhase] = useState('reveal-prepare')
+  const [loadProgress, setLoadProgress] = useState(0)
   const pendingNavRef = useRef(null)
   const mainRef = useRef(null)
   const { pathname } = useLocation()
@@ -192,6 +224,7 @@ function Layout() {
   // Start a transition: store the pending navigate fn and enter 'out' phase.
   // Ignores re-triggers while a transition is already in flight.
   const triggerTransition = useCallback((navigateFn) => {
+    setLoadProgress(0)
     setPhase((prev) => {
       if (prev !== 'idle') return prev
       pendingNavRef.current = navigateFn
@@ -222,11 +255,22 @@ function Layout() {
   useEffect(() => {
     if (phase !== 'reveal-prepare') return
     let cancelled = false
+    setLoadProgress(8)
     const raf1 = requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         if (cancelled) return
-        waitForImagesReady(mainRef.current).then(() => {
-          if (!cancelled) setPhase('reveal')
+        Promise.all([
+          waitForPageReady(mainRef.current),
+          waitForImagesReady(mainRef.current, IMAGE_LOAD_TIMEOUT, (progress) => {
+            if (!cancelled) setLoadProgress(8 + progress * 72)
+          }),
+          document.fonts?.ready || Promise.resolve(),
+          waitForFrames(),
+        ]).then(() => {
+          if (!cancelled) {
+            setLoadProgress(100)
+            setPhase('reveal')
+          }
         })
       })
     })
@@ -238,8 +282,8 @@ function Layout() {
 
   // Browser back/forward: pathname changed with no prior blur-out, so the
   // overlay is idle (blur 0). Snap it to blurry via 'reveal-prepare', which
-  // then waits for resources and reveals. First mount is skipped so the
-  // initial render is clean. Menu-driven nav (phase==='out' or
+  // then waits for resources and reveals. First mount already starts blurred.
+  // Menu-driven nav (phase==='out' or
   // 'reveal-prepare') is left untouched here.
   useEffect(() => {
     if (isFirstMount.current) {
@@ -319,7 +363,7 @@ function Layout() {
         </Routes>
       </main>
       {!isGalleryCategory && <Footer />}
-      <PageTransition phase={phase} />
+      <PageTransition phase={phase} progress={loadProgress} />
         </div>
     </NavContext.Provider>
   )

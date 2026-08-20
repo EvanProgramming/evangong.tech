@@ -596,11 +596,12 @@ class InfiniteGridMenu {
   scaleFactor = 1.0;
   movementActive = false;
 
-  constructor(canvas, items, onActiveItemChange, onMovementChange, onInit = null, scale = 1.0) {
+  constructor(canvas, items, onActiveItemChange, onMovementChange, onInit = null, onReady = null, scale = 1.0) {
     this.canvas = canvas;
     this.items = items || [];
     this.onActiveItemChange = onActiveItemChange || (() => {});
     this.onMovementChange = onMovementChange || (() => {});
+    this.onReady = onReady;
     this.scaleFactor = scale;
     this.camera.position[2] = 3 * scale;
     // Visibility-driven pause state + rAF handle. The official React Bits
@@ -739,6 +740,7 @@ class InfiniteGridMenu {
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.onload = () => resolve(img);
+            img.onerror = () => resolve(null);
             img.src = item.image;
           })
       )
@@ -746,12 +748,13 @@ class InfiniteGridMenu {
       images.forEach((img, i) => {
         const x = (i % this.atlasSize) * cellSize;
         const y = Math.floor(i / this.atlasSize) * cellSize;
-        ctx.drawImage(img, x, y, cellSize, cellSize);
+        if (img) ctx.drawImage(img, x, y, cellSize, cellSize);
       });
 
       gl.bindTexture(gl.TEXTURE_2D, this.tex);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvas);
       gl.generateMipmap(gl.TEXTURE_2D);
+      if (this.onReady) this.onReady();
     });
   }
 
@@ -942,7 +945,7 @@ const defaultItems = [
 // console.log()s internal routes. To wire the active item's link into the
 // site's client-side routing we accept an optional onNavigate(link) callback;
 // when absent the official console.log fallback is preserved verbatim.
-export default function InfiniteMenu({ items = [], scale = 1.0, onNavigate }) {
+export default function InfiniteMenu({ items = [], scale = 1.0, onNavigate, onReady }) {
   const canvasRef = useRef(null);
   const [activeItem, setActiveItem] = useState(null);
   const [isMoving, setIsMoving] = useState(false);
@@ -963,6 +966,7 @@ export default function InfiniteMenu({ items = [], scale = 1.0, onNavigate }) {
         handleActiveItem,
         setIsMoving,
         sk => sk.run(),
+        onReady,
         scale
       );
     }
@@ -999,7 +1003,7 @@ export default function InfiniteMenu({ items = [], scale = 1.0, onNavigate }) {
       document.removeEventListener('visibilitychange', onVisibility);
       if (sketch) sketch.dispose();
     };
-  }, [items, scale]);
+  }, [items, onReady, scale]);
 
   const handleButtonClick = () => {
     if (!activeItem?.link) return;

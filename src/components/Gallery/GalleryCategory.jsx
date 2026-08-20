@@ -18,7 +18,7 @@ export default function GalleryCategory() {
   const images = getCategoryImages(category)
 
   return (
-    <section className="gallery-dome-page" aria-label={`${cat.label} photo gallery`}>
+    <section className="gallery-dome-page" aria-label={`${cat.label} photo gallery`} data-wait-for-lazy-images>
       <header className="gallery-dome-heading">
         <h1>{cat.label} Photography</h1>
         <p>{cat.description}</p>

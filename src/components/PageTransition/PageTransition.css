@@ -33,6 +33,50 @@
   will-change: backdrop-filter;
 }
 
+.page-transition__loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 0.75rem;
+  color: var(--color-white, #fff);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.page-transition__icon {
+  width: 2rem;
+  height: 2rem;
+  margin: 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-dasharray: 42 15;
+  stroke-linecap: round;
+  stroke-width: 1.5;
+  animation: page-transition-loading 1s linear infinite;
+}
+
+.page-transition__progress {
+  width: min(12rem, 60vw);
+  height: 2px;
+  overflow: hidden;
+  margin: 0.25rem auto 0;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.page-transition__progress span {
+  display: block;
+  height: 100%;
+  background: currentColor;
+  transition: width 160ms ease-out;
+}
+
+@keyframes page-transition-loading {
+  to { transform: rotate(360deg); }
+}
+
 /* Blurry state: stronger blur radius (50px) for a more pronounced, fully
    unrecognizable effect. pointer-events:auto blocks interaction during the
    transition to prevent double-firing navigation. */
@@ -53,5 +97,9 @@
 @media (prefers-reduced-motion: reduce) {
   .page-transition {
     transition-duration: 1ms;
+  }
+
+  .page-transition__icon {
+    animation-duration: 1ms;
   }
 }

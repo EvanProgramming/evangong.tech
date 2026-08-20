@@ -1,4 +1,4 @@
-import { useEffect, useRef, useContext } from 'react'
+import { useEffect, useRef, useContext, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Lenis from 'lenis'
 import InfiniteMenu from '../InfiniteMenu/InfiniteMenu.jsx'
@@ -11,6 +11,8 @@ export default function Gallery() {
   const rafRef = useRef(null)
   const triggerTransition = useContext(NavContext)
   const navigate = useNavigate()
+  const [isReady, setIsReady] = useState(false)
+  const handleGalleryReady = useCallback(() => setIsReady(true), [])
 
   // Lenis — verbatim About/Projects pattern so the scroll feel is identical
   // across pages. Cleaned up on unmount to avoid duplicate rAF loops.
@@ -49,7 +51,7 @@ export default function Gallery() {
   }
 
   return (
-    <section className="gallery-page" aria-label="Photography gallery">
+    <section className="gallery-page" aria-label="Photography gallery" data-page-ready={String(isReady)}>
       <div className="gallery-title">
         <h1 className="gallery-heading">GALLERY</h1>
       </div>
@@ -78,7 +80,7 @@ export default function Gallery() {
 
       <div className="gallery-menu-section">
         <ErrorBoundary>
-          <InfiniteMenu items={infiniteMenuItems} scale={1.5} onNavigate={onNavigate} />
+          <InfiniteMenu items={infiniteMenuItems} scale={1.5} onNavigate={onNavigate} onReady={handleGalleryReady} />
         </ErrorBoundary>
       </div>
     </section>

@@ -19,7 +19,7 @@ import './PageTransition.css'
 // bookkeeping. We never apply `filter` to <main> directly — that would create a
 // new stacking context and break the fixed-positioned decor inside it (e.g.
 // About's .about-circular, StaggeredMenu layers).
-export default function PageTransition({ phase }) {
+export default function PageTransition({ phase, progress = 0 }) {
   // "blurry" states keep the overlay at blur 28px + dark tint.
   const isBlurry = phase === 'out' || phase === 'reveal-prepare'
   // reveal-prepare must snap to blur 28 with NO transition so the reveal phase
@@ -41,7 +41,26 @@ export default function PageTransition({ phase }) {
     <div
       className={className}
       style={{ backdropFilter: blur, WebkitBackdropFilter: blur }}
-      aria-hidden="true"
-    />
+      aria-hidden={!isBlurry}
+    >
+      {isBlurry && (
+        <div className="page-transition__loading" role="status" aria-live="polite">
+          <svg className="page-transition__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" />
+          </svg>
+          <span>Loading</span>
+          <div
+            className="page-transition__progress"
+            role="progressbar"
+            aria-label="Page loading progress"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow={Math.round(progress)}
+          >
+            <span style={{ width: `${progress}%` }} />
+          </div>
+        </div>
+      )}
+    </div>
   )
 }
