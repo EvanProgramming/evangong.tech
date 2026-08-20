@@ -3,10 +3,10 @@ import { getPublicRoutes, getSeoForPath, getStructuredData } from './seo.js'
 
 describe('SEO route manifest', () => {
   it('covers every public route family with canonical metadata', () => {
-    expect(getPublicRoutes()).toContain('/about')
-    expect(getPublicRoutes()).toContain('/gallery/paris')
-    expect(getPublicRoutes()).toContain('/blog/openkyrozen-agent')
-    expect(getSeoForPath('/projects').canonical).toBe('https://evangong.tech/projects')
+    expect(getPublicRoutes()).toContain('/about/')
+    expect(getPublicRoutes()).toContain('/gallery/paris/')
+    expect(getPublicRoutes()).toContain('/blog/openkyrozen-agent/')
+    expect(getSeoForPath('/projects').canonical).toBe('https://evangong.tech/projects/')
   })
 
   it('uses article frontmatter for blog metadata and Article JSON-LD', () => {

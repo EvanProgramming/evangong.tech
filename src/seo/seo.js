@@ -76,9 +76,13 @@ function normalizePath(pathname) {
   return pathname.replace(/\/+$/, '') || '/'
 }
 
+function canonicalPath(path) {
+  return path === '/' ? '/' : `${path}/`
+}
+
 export function getSeoForPath(pathname) {
   const path = normalizePath(pathname)
-  if (PAGE_META[path]) return { ...PAGE_META[path], path, canonical: `${SITE_URL}${path}` }
+  if (PAGE_META[path]) return { ...PAGE_META[path], path, canonical: `${SITE_URL}${canonicalPath(path)}` }
 
   const blogMatch = path.match(/^\/blog\/([^/]+)$/)
   if (blogMatch) {
@@ -89,7 +93,7 @@ export function getSeoForPath(pathname) {
       description: article.excerpt,
       h1: article.title,
       path,
-      canonical: `${SITE_URL}${path}`,
+      canonical: `${SITE_URL}${canonicalPath(path)}`,
       type: 'WebPage',
       image: `${SITE_URL}${article.cover}`,
       keywords: article.tags,
@@ -106,7 +110,7 @@ export function getSeoForPath(pathname) {
       description: category.description,
       h1: category.label,
       path,
-      canonical: `${SITE_URL}${path}`,
+      canonical: `${SITE_URL}${canonicalPath(path)}`,
       type: 'ImageGallery',
       keywords: ['Evan Gong photography', category.label]
     }
@@ -117,17 +121,17 @@ export function getSeoForPath(pathname) {
 
 export function getPublicRoutes() {
   return [
-    ...Object.keys(PAGE_META),
-    '/gallery/paris',
-    '/gallery/chaoshan',
-    '/gallery/beijing',
-    '/gallery/miscellaneous',
-    ...Object.keys(SEO_ARTICLES).map(slug => `/blog/${slug}`)
+    ...Object.keys(PAGE_META).map(canonicalPath),
+    '/gallery/paris/',
+    '/gallery/chaoshan/',
+    '/gallery/beijing/',
+    '/gallery/miscellaneous/',
+    ...Object.keys(SEO_ARTICLES).map(slug => `/blog/${slug}/`)
   ]
 }
 
 export function getStructuredData(seo) {
-  const pageId = `${SITE_URL}${seo.path}#webpage`
+  const pageId = `${seo.canonical}#webpage`
   const graph = [
     ...BASE_GRAPH,
     {
@@ -141,7 +145,7 @@ export function getStructuredData(seo) {
     },
     {
       '@type': 'BreadcrumbList',
-      '@id': `${SITE_URL}${seo.path}#breadcrumb`,
+      '@id': `${seo.canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
         ...(seo.path !== '/' ? [{ '@type': 'ListItem', position: 2, name: seo.h1, item: seo.canonical }] : [])
