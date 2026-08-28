@@ -124,4 +124,12 @@ describe('Awards', () => {
     expect(githubLink).not.toHaveAttribute('data-nav-link')
     expect(document.querySelector('a[href=""]')).not.toBeInTheDocument()
   })
+
+  it('points certificate proofs at the shipped certificate images', () => {
+    render(<Awards />)
+    expect(screen.getAllByRole('link', { name: 'View certificate', hidden: true }).map(link => link.getAttribute('href'))).toEqual([
+      '/awards/veritas-ai-certificate.jpg',
+      '/awards/igem-silver-medal-certificate.jpg',
+    ])
+  })
 })
