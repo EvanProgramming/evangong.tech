@@ -17,10 +17,10 @@ import beijingImg from '/Photography/Beijing/we-o_rd35vfjgdnyzud3fw-china-750439
 import miscImg from '/Photography/Miscellaneous/639F42E1-5B22-40AE-BDF9-3974A03E2073_1_105_c.jpeg'
 
 const flowingMenuItems = [
-  { link: '#', text: 'Paris, France', image: parisImg },
-  { link: '#', text: 'Chaoshan, China', image: chaoshanImg },
-  { link: '#', text: 'Beijing, China', image: beijingImg },
-  { link: '#', text: 'Miscellaneous', image: miscImg },
+  { link: '/gallery/paris', text: 'Paris, France', image: parisImg },
+  { link: '/gallery/chaoshan', text: 'Chaoshan, China', image: chaoshanImg },
+  { link: '/gallery/beijing', text: 'Beijing, China', image: beijingImg },
+  { link: '/gallery/miscellaneous', text: 'Miscellaneous', image: miscImg },
 ]
 
 // Pre-split the reveal text into .word spans so we can color keywords (#00f0ff)
@@ -80,7 +80,7 @@ const photographyLogos = [
 
 const aiLogos = [
   { src: si('anthropic'), alt: 'Claude', title: 'Claude', href: 'https://claude.ai' },
-  { node: txt('Openclaw'), title: 'Openclaw', href: '#' },
+  { node: txt('Openclaw'), title: 'Openclaw', href: 'https://openclaw.ai' },
   { src: si('openai'), alt: 'ChatGPT', title: 'ChatGPT', href: 'https://chat.openai.com' },
   { src: si('googlegemini'), alt: 'Gemini', title: 'Gemini', href: 'https://gemini.google.com' },
   { src: si('grok'), alt: 'Grok', title: 'Grok', href: 'https://x.ai' },

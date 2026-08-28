@@ -140,6 +140,7 @@ function MenuItem({ link, text, image, speed, textColor, marqueeBgColor, marquee
       <a
         className="menu__item-link"
         href={link}
+        data-nav-link
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={{ color: textColor }}

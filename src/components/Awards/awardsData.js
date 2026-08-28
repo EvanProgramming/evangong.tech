@@ -66,7 +66,7 @@ export const awards = [
     myRole: 'Participant · model training and evaluation',
     shortSummary:
       'Completed the 2026 Summer Cohort, building a practical foundation in machine learning and applying it through a guided model-training project.',
-    proofUrl: '/awards/veritas-ai-scholars-certificate.pdf',
+    proofUrl: '/awards/veritas-ai-certificate.jpg',
     proofLabel: 'View certificate',
     relatedProject: {
       label: 'Veritas AI Scholars',
@@ -160,7 +160,7 @@ export const awards = [
     myRole: 'Hardware team member',
     shortSummary:
       'Built hardware for SnaPFAS, an integrated system designed to detect, biodegrade, and safely process PFOA-contaminated water.',
-    proofUrl: '/awards/igem-2025-member-certificate.pdf',
+    proofUrl: '/awards/igem-silver-medal-certificate.jpg',
     proofLabel: 'View certificate',
     relatedProject: {
       label: 'BASIS-China team wiki',
