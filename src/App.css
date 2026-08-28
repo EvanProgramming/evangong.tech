@@ -193,6 +193,25 @@ main {
   max-width: 60ch;
 }
 
+.project-card__link {
+  align-self: flex-start;
+  color: currentColor;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.project-card__link:hover {
+  opacity: 0.65;
+  transform: translateY(-1px);
+}
+
+.project-card__link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
 .project-card__tag {
   flex-shrink: 0;
   align-self: flex-start;
